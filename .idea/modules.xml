@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/VirtualKiosk.iml" filepath="$PROJECT_DIR$/VirtualKiosk.iml" />
+      <module fileurl="file://$PROJECT_DIR$/unq-tip-backend.iml" filepath="$PROJECT_DIR$/unq-tip-backend.iml" />
     </modules>
   </component>
 </project>

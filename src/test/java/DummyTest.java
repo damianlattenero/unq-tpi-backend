@@ -1,5 +1,9 @@
-/**
- * Created by damian on 25/08/16.
- */
+import org.junit.Assert;
+import org.junit.Test;
+
 public class DummyTest {
+    @Test
+    public void dummyTest(){
+        Assert.assertTrue(true);
+    }
 }
