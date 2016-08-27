@@ -24,3 +24,7 @@ Sistema donde se gestionan los pedidos entre el Mostrador y la Cocina para un ne
 
 + Damián Lattenero
 + Cristian Marchionne
+
+## Tareas
+
+[Trello](https://trello.com/tip33)
