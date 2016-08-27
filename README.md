@@ -1,8 +1,8 @@
 
 # Vitual Kiosk - backend
 
-[![Build Status](https://travis-ci.org/marchionne-lattenero/unq-tip-backend.svg?branch=master)]
-(https://travis-ci.org/marchionne-lattenero/unq-tip-backend)
+[![Build Status](https://travis-ci.org/marchionne-lattenero/unq-tpi-backend.svg?branch=master)]
+(https://travis-ci.org/marchionne-lattenero/unq-tpi-backend)
 
 ## Introduccion:
 
