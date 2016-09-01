@@ -18,6 +18,8 @@ Proyecto TIP (Trabajo de Insercion Profesional) de la carrera "Tecnicatura en pr
 
 Sistema donde se gestionan los pedidos entre el Mostrador y la Cocina para un negocio de Gastronomia.
 
+## [Documento de visión y alcance](https://docs.google.com/document/d/11ltOdQpJIYP780u66CZWnH5IhheOQw1dFQctRVm2xk4/edit?usp=sharing)
+
 ## Profesores:
 
 * Fernando Dodino
