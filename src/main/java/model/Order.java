@@ -28,7 +28,7 @@ public class Order {
     @Column(name = "amount")
     private int amount;
 
-
+    @OneToOne(cascade = CascadeType.ALL)
     private OrderState state;
 
     public Order(Product product, User user) {
