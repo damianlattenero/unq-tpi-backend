@@ -11,19 +11,14 @@ public class Order {
     private OrderState state;
 
     public Order(Product product, User user) {
+        new Order(product, user, 1);
+    }
+
+    public Order(Product product, User user, int amount) {
         this.moment = DateTime.now();
         this.product = product;
         this.user = user;
         this.place = user.getPlace();
-        this.amount = 1;
-        this.state = new OrderStatePending(this);
-    }
-
-    public Order(Product product, User user, Place place, int amount) {
-        this.moment = DateTime.now();
-        this.product = product;
-        this.user = user;
-        this.place = place;
         this.amount = amount;
         this.state = new OrderStatePending(this);
     }
@@ -40,6 +35,9 @@ public class Order {
         this.state.cook();
     }
 
+    public void cancel() {
+        this.state.cancel();
+    }
 
     public boolean isCooked() {
         return this.state.isCooked();
