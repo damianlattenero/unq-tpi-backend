@@ -22,6 +22,14 @@ public class OrderStateTest {
     }
 
     @Test
+    public void newOrderMustBePending(){
+
+        assertTrue(order.isPending());
+        assertFalse(order.isCooked());
+        assertFalse(order.isCanceled());
+    }
+
+    @Test
     public void fromPendingToCooked(){
         order.cook();
 
@@ -43,7 +51,12 @@ public class OrderStateTest {
     public void fromCookToCanceled(){
         order.cook();
         order.cancel();
+    }
 
+    @Test(expected = InvalidTransitionException.class)
+    public void fromCanceledToCook(){
+        order.cancel();
+        order.cook();
     }
 
 
