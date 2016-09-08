@@ -1,32 +1,49 @@
+import exception.InvalidTransitionException;
 import model.Order;
 import model.Place;
 import model.Product;
 import model.User;
+import org.junit.After;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
-/**
- * Created by damian on 08/09/16.
- */
 public class OrderStateTest {
-    Product product1 = new Product();
-    User user = new User();
-
+    Product product1;
+    User user;
+    Order order;
+    @Before
+    public void before(){
+        product1 = new Product();
+        user = new User();
+        order = new Order(product1, user);
+    }
 
     @Test
     public void fromPendingToCooked(){
-        Order order = new Order(product1, user);
-
         order.cook();
 
-        Assert.assertTrue(order.isCooked());
-        Assert.assertFalse(order.isPending());
-        Assert.assertFalse(order.isCanceled());
+        assertTrue(order.isCooked());
+        assertFalse(order.isPending());
+        assertFalse(order.isCanceled());
+    }
+
+    @Test(expected = InvalidTransitionException.class)
+    public void fromCanceledToCanceled(){
+        order.cancel();
+        order.cancel();
+    }
+
+    @Test(expected = InvalidTransitionException.class)
+    public void fromCookedToCooked(){
+        order.cook();
+        order.cook();
     }
 
 
 
-}
 
+
+}
