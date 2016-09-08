@@ -36,3 +36,5 @@ hs_err_pid*
 # IntelliJ
 /out/
 target/
+unq-tip-backend.ipr
+unq-tip-backend.iws
