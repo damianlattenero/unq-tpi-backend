@@ -1,6 +1,6 @@
 package model;
 
-public class PendingOrderState extends OrderState {
+public class OrderStatePending extends OrderState {
     private Order order;
 
     @Override
@@ -20,11 +20,11 @@ public class PendingOrderState extends OrderState {
 
     @Override
     public void cook() {
-        this.order.setState(new CookedOrderState());
+        this.order.setState(new OrderStateCooked());
     }
 
     @Override
     public void cancel() {
-        this.order.setState(new CanceledOrderState());
+        this.order.setState(new OrderStateCanceled());
     }
 }

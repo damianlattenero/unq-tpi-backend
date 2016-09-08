@@ -2,7 +2,7 @@ package model;
 
 import exception.InvalidTransitionException;
 
-public class CookedOrderState extends OrderState{
+public class OrderStateCooked extends OrderState{
     @Override
     public boolean isPending() {
         return false;
