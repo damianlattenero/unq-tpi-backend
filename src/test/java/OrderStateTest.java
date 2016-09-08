@@ -30,6 +30,15 @@ public class OrderStateTest {
         assertFalse(order.isCanceled());
     }
 
+    @Test
+    public void fromPendingToCanceled(){
+        order.cancel();
+
+        assertTrue(order.isCanceled());
+        assertFalse(order.isPending());
+        assertFalse(order.isCooked());
+    }
+
     @Test(expected = InvalidTransitionException.class)
     public void fromCanceledToCanceled(){
         order.cancel();
