@@ -11,7 +11,7 @@ public class Order {
     private OrderState state;
 
     public Order(Product product, User user) {
-        new Order(product, user, 1);
+        this(product, user, 1);
     }
 
     public Order(Product product, User user, int amount) {
