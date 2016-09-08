@@ -1,7 +1,19 @@
 package model;
 
+import javax.persistence.*;
+
+@Entity
+@Table(name = "BaseEntity")
 public class BaseEntity {
+    @Id()
+    @GeneratedValue()
+    @Column(name = "BASE_ENTITY_ID")
+    private int id;
+
+    @Column(name = "name")
     protected String name;
+
+    @Column(name = "description")
     protected String description;
 
 
