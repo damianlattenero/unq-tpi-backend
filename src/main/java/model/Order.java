@@ -2,12 +2,33 @@ package model;
 
 import org.joda.time.DateTime;
 
+import javax.persistence.*;
+
+@Entity
+@Table(name="Order")
 public class Order {
+
+    @Id()
+    @GeneratedValue()
+    @Column(name = "ORDER_ID")
+    private int id;
+
+    @Column(name = "moment")
     private DateTime moment;
+
+    @ManyToOne
     private Product product;
+
+    @ManyToOne
     private User user;
+
+    @ManyToOne
     private Place place;
+
+    @Column(name = "amount")
     private int amount;
+
+
     private OrderState state;
 
     public Order(Product product, User user) {

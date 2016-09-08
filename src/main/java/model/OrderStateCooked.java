@@ -2,8 +2,14 @@ package model;
 
 import exception.InvalidTransitionException;
 
+import javax.persistence.Entity;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 
+@Entity
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public class OrderStateCooked extends OrderState{
+
     public OrderStateCooked(Order order) {
         super(order);
     }
