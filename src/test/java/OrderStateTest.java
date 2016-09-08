@@ -40,6 +40,14 @@ public class OrderStateTest {
     }
 
     @Test(expected = InvalidTransitionException.class)
+    public void fromCookToCanceled(){
+        order.cook();
+        order.cancel();
+
+    }
+
+
+    @Test(expected = InvalidTransitionException.class)
     public void fromCanceledToCanceled(){
         order.cancel();
         order.cancel();
