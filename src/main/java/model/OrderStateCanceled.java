@@ -3,6 +3,10 @@ package model;
 import exception.InvalidTransitionException;
 
 public class OrderStateCanceled extends OrderState {
+    public OrderStateCanceled(Order order) {
+        super(order);
+    }
+
     @Override
     public boolean isPending() {
         return false;

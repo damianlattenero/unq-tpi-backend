@@ -1,7 +1,11 @@
 package model;
 
 public class OrderStatePending extends OrderState {
-    private Order order;
+
+
+    public OrderStatePending(Order order) {
+        super(order);
+    }
 
     @Override
     public boolean isPending() {
@@ -20,11 +24,11 @@ public class OrderStatePending extends OrderState {
 
     @Override
     public void cook() {
-        this.order.setState(new OrderStateCooked());
+        this.order.setState(new OrderStateCooked(this.order));
     }
 
     @Override
     public void cancel() {
-        this.order.setState(new OrderStateCanceled());
+        this.order.setState(new OrderStateCanceled(this.order));
     }
 }

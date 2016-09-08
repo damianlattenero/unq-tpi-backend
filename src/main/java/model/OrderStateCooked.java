@@ -3,6 +3,10 @@ package model;
 import exception.InvalidTransitionException;
 
 public class OrderStateCooked extends OrderState{
+    public OrderStateCooked(Order order) {
+        super(order);
+    }
+
     @Override
     public boolean isPending() {
         return false;
