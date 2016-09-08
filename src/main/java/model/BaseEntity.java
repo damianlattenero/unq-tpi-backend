@@ -3,8 +3,8 @@ package model;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "BaseEntity")
-public class BaseEntity {
+@Inheritance(strategy=InheritanceType.TABLE_PER_CLASS)
+public abstract class BaseEntity {
     @Id()
     @GeneratedValue()
     @Column(name = "BASE_ENTITY_ID")
