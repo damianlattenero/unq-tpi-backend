@@ -2,6 +2,7 @@ package model;
 
 import exception.InvalidTransitionException;
 
+
 public class OrderStateCooked extends OrderState{
     public OrderStateCooked(Order order) {
         super(order);
