@@ -1,5 +1,7 @@
 package model;
 
+import org.joda.time.DateTime;
+
 import javax.persistence.*;
 
 @Entity
@@ -14,8 +16,12 @@ public abstract class OrderState {
     @Column(name = "order")
     protected Order order;
 
+    @Column(name = "moment")
+    private DateTime moment;
+
     public OrderState(Order order) {
         this.order = order;
+        this.moment = DateTime.now();
     }
 
     public abstract boolean isPending();
