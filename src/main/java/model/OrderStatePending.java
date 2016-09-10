@@ -10,6 +10,7 @@ public class OrderStatePending extends OrderState {
 
     public OrderStatePending(Order order) {
         super(order);
+        order.getProduct().addOrder(order);
     }
 
     @Override
