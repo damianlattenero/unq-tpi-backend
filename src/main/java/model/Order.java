@@ -36,6 +36,7 @@ public class Order {
     }
 
     public Order(Product product, User user, int amount) {
+        this();
         this.moment = DateTime.now();
         this.product = product;
         this.user = user;
@@ -70,5 +71,13 @@ public class Order {
 
     public boolean isCanceled() {
         return this.state.isCanceled();
+    }
+
+    public Product getProduct() {
+        return product;
+    }
+
+    public int getAmount() {
+        return amount;
     }
 }
