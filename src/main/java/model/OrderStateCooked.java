@@ -12,7 +12,6 @@ public class OrderStateCooked extends OrderState{
 
     public OrderStateCooked(Order order) {
         super(order);
-        order.getProduct().removeOrder(order);
     }
 
     @Override

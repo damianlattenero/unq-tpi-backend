@@ -35,9 +35,10 @@ public class Order {
         this(product, user, 1);
     }
 
-    public Order(Product product, User user, int amount) {
+    private Order(Product product, User user, int amount) {
         this();
         this.moment = DateTime.now();
+        product.setOrder(this);
         this.product = product;
         this.user = user;
         this.place = user.getPlace();

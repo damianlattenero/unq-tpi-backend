@@ -12,7 +12,6 @@ public class OrderStateCanceled extends OrderState {
 
     public OrderStateCanceled(Order order) {
         super(order);
-        order.getProduct().removeOrder(order);
     }
 
     @Override
