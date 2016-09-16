@@ -1,0 +1,57 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:jaxrs="http://cxf.apache.org/jaxrs"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:cxf="http://cxf.apache.org/core"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://cxf.apache.org/jaxrs
+       http://cxf.apache.org/schemas/jaxrs.xsd
+       http://cxf.apache.org/core
+       http://cxf.apache.org/schemas/core.xsd
+       http://www.springframework.org/schema/aop
+       http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
+
+    <!-- =========================== -->
+    <!-- =========JAXB / CXF ========= -->
+    <!-- =========================== -->
+
+    <import resource="classpath:META-INF/cxf/cxf.xml"/>
+    <import resource="classpath:META-INF/cxf/cxf-servlet.xml"/>
+
+    <bean id="jaxbProvider" class="org.apache.cxf.jaxrs.provider.JAXBElementProvider"/>
+
+    <bean id='jacksonProvider' class='org.codehaus.jackson.jaxrs.JacksonJaxbJsonProvider'/>
+
+
+    <bean id="cors-filter" class="org.apache.cxf.rs.security.cors.CrossOriginResourceSharingFilter"/>
+    <!-- =========================== -->
+    <!-- =========Servicios  ========= -->
+    <!-- =========================== -->
+
+    <jaxrs:server id="customerService" address="/">
+        <jaxrs:serviceBeans>
+            <!--controlers here-->
+        </jaxrs:serviceBeans>
+
+
+        <jaxrs:providers>
+            <ref bean="jaxbProvider"/>
+            <ref bean="jacksonProvider"/>
+            <ref bean="cors-filter" />
+        </jaxrs:providers>
+    </jaxrs:server>
+
+    <cxf:bus>
+        <cxf:features>
+            <cxf:logging/>
+        </cxf:features>
+    </cxf:bus>
+
+    <!-- ========= Aspectos - Log4J Login  ========= -->
+    <aop:aspectj-autoproxy />
+
+
+    <!--<bean id="loggerAspect" class="ar.edu.unq.tip.marchionne-lattenero.aspects.LoggerAspect"/>-->
+
+</beans>
