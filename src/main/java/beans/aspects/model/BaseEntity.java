@@ -1,4 +1,4 @@
-package model;
+package beans.aspects.model;
 
 import javax.persistence.*;
 
@@ -6,6 +6,7 @@ import javax.persistence.*;
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public abstract class BaseEntity {
 
+    private static final long serialVersionUID = 1L;
 
     @Id()
     @GeneratedValue()

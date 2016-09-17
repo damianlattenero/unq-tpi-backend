@@ -1,10 +1,10 @@
-package factories;
+package beans.aspects.factories;
 
-import model.Product;
+import beans.aspects.model.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-import repositories.ProductRepository;
+import beans.aspects.repositories.ProductRepository;
 
 @Component("productFactory")
 public class ProductFactory {

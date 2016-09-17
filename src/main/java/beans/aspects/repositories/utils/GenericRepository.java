@@ -1,4 +1,4 @@
-package repositories.utils;
+package beans.aspects.repositories.utils;
 
 import java.io.Serializable;
 import java.util.List;

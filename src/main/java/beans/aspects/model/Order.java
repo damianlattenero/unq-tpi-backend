@@ -1,4 +1,4 @@
-package model;
+package beans.aspects.model;
 
 import org.joda.time.DateTime;
 
@@ -8,6 +8,7 @@ import javax.persistence.*;
 @Table(name="Order")
 public class Order {
 
+
     @Id()
     @GeneratedValue()
     @Column(name = "ORDER_ID")
@@ -16,7 +17,7 @@ public class Order {
     @Column(name = "moment")
     private DateTime moment;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     private Product product;
 
     @ManyToOne

@@ -1,4 +1,4 @@
-package model;
+package beans.aspects.model;
 
 import javax.persistence.Entity;
 import javax.persistence.Inheritance;

@@ -1,11 +1,11 @@
-package service;
+package beans.aspects.service;
 
-import factories.ProductFactory;
-import model.Product;
+import beans.aspects.factories.ProductFactory;
+import beans.aspects.model.Product;
+import beans.aspects.repositories.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import repositories.ProductRepository;
 
 import java.util.List;
 
@@ -42,5 +42,6 @@ public class ProductService {
     public ProductRepository getProductRepository() {
         return productRepository;
     }
+
 }
 

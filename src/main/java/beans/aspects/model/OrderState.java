@@ -1,4 +1,4 @@
-package model;
+package beans.aspects.model;
 
 import org.joda.time.DateTime;
 
@@ -7,13 +7,15 @@ import javax.persistence.*;
 @Entity
 @Table(name = "OrderState")
 public abstract class OrderState {
+    private static final long serialVersionUID = 1L;
+
 
     @Id()
     @GeneratedValue()
     @Column(name = "ORDER_STATE_ID")
     private int id;
 
-    @Column(name = "order")
+    @ManyToOne
     protected Order order;
 
     @Column(name = "moment")

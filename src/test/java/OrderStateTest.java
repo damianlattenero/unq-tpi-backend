@@ -1,10 +1,7 @@
-import exception.InvalidTransitionException;
-import model.Order;
-import model.Place;
-import model.Product;
-import model.User;
-import org.junit.After;
-import org.junit.Assert;
+import beans.aspects.exception.InvalidTransitionException;
+import beans.aspects.model.Order;
+import beans.aspects.model.Product;
+import beans.aspects.model.User;
 import org.junit.Before;
 import org.junit.Test;
 

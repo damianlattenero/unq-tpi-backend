@@ -1,12 +1,14 @@
-package model;
+package beans.aspects.model;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "Product")
 public class Product extends BaseEntity {
+    private static final long serialVersionUID = 1L;
 
+
+    @OneToMany
     private Order order;
 
     public Product() {
