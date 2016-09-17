@@ -9,7 +9,7 @@ public class User {
 
     @Id()
     @GeneratedValue()
-    @Column(name = "BASE_ENTITY_ID")
+    @Column
     private int id;
 
     @ManyToOne

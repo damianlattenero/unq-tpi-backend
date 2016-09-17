@@ -10,7 +10,7 @@ public abstract class BaseEntity {
 
     @Id()
     @GeneratedValue()
-    @Column(name = "BASE_ENTITY_ID")
+    @Column
     private int id;
 
     @Column(name = "name")

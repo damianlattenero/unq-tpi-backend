@@ -8,9 +8,6 @@ public class Product extends BaseEntity {
     private static final long serialVersionUID = 1L;
 
 
-    @OneToMany
-    private Order order;
-
     public Product() {
     }
 
@@ -20,7 +17,4 @@ public class Product extends BaseEntity {
         this.description = description;
     }
 
-    public void setOrder(Order order) {
-        this.order = order;
-    }
 }

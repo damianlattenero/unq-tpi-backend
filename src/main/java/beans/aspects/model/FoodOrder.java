@@ -5,19 +5,19 @@ import org.joda.time.DateTime;
 import javax.persistence.*;
 
 @Entity
-@Table(name="Order")
-public class Order {
+@Table(name="FoodOrder")
+public class FoodOrder {
 
 
     @Id()
     @GeneratedValue()
-    @Column(name = "ORDER_ID")
+    @Column(name = "FoodOrder_ID")
     private int id;
 
     @Column(name = "moment")
     private DateTime moment;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     private Product product;
 
     @ManyToOne
@@ -32,14 +32,13 @@ public class Order {
     @OneToOne(cascade = CascadeType.ALL)
     private OrderState state;
 
-    public Order(Product product, User user) {
+    public FoodOrder(Product product, User user) {
         this(product, user, 1);
     }
 
-    private Order(Product product, User user, int amount) {
+    private FoodOrder(Product product, User user, int amount) {
         this();
         this.moment = DateTime.now();
-        product.setOrder(this);
         this.product = product;
         this.user = user;
         this.place = user.getPlace();
@@ -47,7 +46,7 @@ public class Order {
         this.state = new OrderStatePending(this);
     }
 
-    public Order() {
+    public FoodOrder() {
 
     }
 

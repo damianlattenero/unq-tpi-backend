@@ -76,9 +76,9 @@
     <option name="MAXIMUM_HEAP_SIZE" value="128"/> 
   </component>  
   <component name="ProjectRootManager" version="2" languageLevel="JDK_1_5" assert-keyword="true" jdk-15="true" project-jdk-name="1.8"/>  
-  <component name="ProjectModuleManager">
-    <modules>
+  <component name="ProjectModuleManager"> 
+    <modules> 
       <module filepath="$PROJECT_DIR$/unq-tip-backend.iml"/>
-    </modules>
-  </component>
+    </modules> 
+  </component> 
 </project>

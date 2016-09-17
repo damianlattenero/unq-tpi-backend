@@ -10,8 +10,8 @@ import javax.persistence.InheritanceType;
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public class OrderStateCanceled extends OrderState {
 
-    public OrderStateCanceled(Order order) {
-        super(order);
+    public OrderStateCanceled(FoodOrder foodOrder) {
+        super(foodOrder);
     }
 
     @Override

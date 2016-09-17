@@ -1,5 +1,5 @@
 import beans.aspects.exception.InvalidTransitionException;
-import beans.aspects.model.Order;
+import beans.aspects.model.FoodOrder;
 import beans.aspects.model.Product;
 import beans.aspects.model.User;
 import org.junit.Before;
@@ -7,66 +7,66 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-public class OrderStateTest {
+public class FoodOrderStateTest {
     Product product1;
     User user;
-    Order order;
+    FoodOrder foodOrder;
     @Before
     public void before(){
         product1 = new Product();
         user = new User();
-        order = new Order(product1, user);
+        foodOrder = new FoodOrder(product1, user);
     }
 
     @Test
     public void newOrderMustBePending(){
 
-        assertTrue(order.isPending());
-        assertFalse(order.isCooked());
-        assertFalse(order.isCanceled());
+        assertTrue(foodOrder.isPending());
+        assertFalse(foodOrder.isCooked());
+        assertFalse(foodOrder.isCanceled());
     }
 
     @Test
     public void fromPendingToCooked(){
-        order.cook();
+        foodOrder.cook();
 
-        assertTrue(order.isCooked());
-        assertFalse(order.isPending());
-        assertFalse(order.isCanceled());
+        assertTrue(foodOrder.isCooked());
+        assertFalse(foodOrder.isPending());
+        assertFalse(foodOrder.isCanceled());
     }
 
     @Test
     public void fromPendingToCanceled(){
-        order.cancel();
+        foodOrder.cancel();
 
-        assertTrue(order.isCanceled());
-        assertFalse(order.isPending());
-        assertFalse(order.isCooked());
+        assertTrue(foodOrder.isCanceled());
+        assertFalse(foodOrder.isPending());
+        assertFalse(foodOrder.isCooked());
     }
 
     @Test(expected = InvalidTransitionException.class)
     public void fromCookToCanceled(){
-        order.cook();
-        order.cancel();
+        foodOrder.cook();
+        foodOrder.cancel();
     }
 
     @Test(expected = InvalidTransitionException.class)
     public void fromCanceledToCook(){
-        order.cancel();
-        order.cook();
+        foodOrder.cancel();
+        foodOrder.cook();
     }
 
 
     @Test(expected = InvalidTransitionException.class)
     public void fromCanceledToCanceled(){
-        order.cancel();
-        order.cancel();
+        foodOrder.cancel();
+        foodOrder.cancel();
     }
 
     @Test(expected = InvalidTransitionException.class)
     public void fromCookedToCooked(){
-        order.cook();
-        order.cook();
+        foodOrder.cook();
+        foodOrder.cook();
     }
 
 

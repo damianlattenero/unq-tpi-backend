@@ -16,13 +16,13 @@ public abstract class OrderState {
     private int id;
 
     @ManyToOne
-    protected Order order;
+    protected FoodOrder foodOrder;
 
     @Column(name = "moment")
     private DateTime moment;
 
-    public OrderState(Order order) {
-        this.order = order;
+    public OrderState(FoodOrder foodOrder) {
+        this.foodOrder = foodOrder;
         this.moment = DateTime.now();
     }
 

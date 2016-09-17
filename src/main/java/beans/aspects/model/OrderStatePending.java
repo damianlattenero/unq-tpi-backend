@@ -8,8 +8,8 @@ import javax.persistence.InheritanceType;
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public class OrderStatePending extends OrderState {
 
-    public OrderStatePending(Order order) {
-        super(order);
+    public OrderStatePending(FoodOrder foodOrder) {
+        super(foodOrder);
     }
 
     @Override
@@ -29,11 +29,11 @@ public class OrderStatePending extends OrderState {
 
     @Override
     public void cook() {
-        this.order.setState(new OrderStateCooked(this.order));
+        this.foodOrder.setState(new OrderStateCooked(this.foodOrder));
     }
 
     @Override
     public void cancel() {
-        this.order.setState(new OrderStateCanceled(this.order));
+        this.foodOrder.setState(new OrderStateCanceled(this.foodOrder));
     }
 }

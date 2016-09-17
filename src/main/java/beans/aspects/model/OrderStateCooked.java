@@ -10,8 +10,8 @@ import javax.persistence.InheritanceType;
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public class OrderStateCooked extends OrderState{
 
-    public OrderStateCooked(Order order) {
-        super(order);
+    public OrderStateCooked(FoodOrder foodOrder) {
+        super(foodOrder);
     }
 
     @Override
@@ -34,7 +34,7 @@ public class OrderStateCooked extends OrderState{
         throw new InvalidTransitionException("Can't pass from Cooked to Cook.");
     }
 
-    //TODO:Think about the posibility for cancel a Cooked Order
+    //TODO:Think about the posibility for cancel a Cooked FoodOrder
     @Override
     public void cancel() {
         throw new InvalidTransitionException("Can't pass from Cooked to Cancel.");
