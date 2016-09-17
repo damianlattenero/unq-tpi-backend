@@ -34,7 +34,6 @@ public class ProductService {
         productRepository.delete(product);
     }
 
-
     public Product getProduct(String name) {
         return this.productFactory.getProductByName(name);
     }

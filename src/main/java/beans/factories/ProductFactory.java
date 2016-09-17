@@ -18,7 +18,6 @@ public class ProductFactory {
 
         this.productRepository.save(milanesaCompleta);
         this.productRepository.save(hamburguesaConQueso);
-
     }
 
     public Product getProductByName(String name){ return  this.productRepository.findByProductName(name);}
