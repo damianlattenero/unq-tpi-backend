@@ -1,4 +1,4 @@
-package beans.aspects.model;
+package beans.model;
 
 import org.joda.time.DateTime;
 

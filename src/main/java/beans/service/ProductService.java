@@ -1,8 +1,8 @@
-package beans.aspects.service;
+package beans.service;
 
-import beans.aspects.factories.ProductFactory;
-import beans.aspects.model.Product;
-import beans.aspects.repositories.ProductRepository;
+import beans.factories.ProductFactory;
+import beans.model.Product;
+import beans.repositories.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

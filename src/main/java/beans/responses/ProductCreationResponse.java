@@ -1,7 +1,7 @@
-package beans.aspects.responses;
+package beans.responses;
 
 
-import beans.aspects.model.Product;
+import beans.model.Product;
 
 public class ProductCreationResponse {
 

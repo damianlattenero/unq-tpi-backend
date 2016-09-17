@@ -1,13 +1,13 @@
-package beans.aspects.controllers;
+package beans.controllers;
 
 
-import beans.aspects.factories.ProductFactory;
-import beans.aspects.model.Product;
-import beans.aspects.request.ProductCreationBody;
-import beans.aspects.responses.ProductCreationResponse;
+import beans.factories.ProductFactory;
+import beans.model.Product;
+import beans.request.ProductCreationBody;
+import beans.responses.ProductCreationResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import beans.aspects.service.ProductService;
+import beans.service.ProductService;
 
 import javax.annotation.PostConstruct;
 import javax.ws.rs.*;
@@ -17,9 +17,7 @@ import java.util.List;
 @Controller("productController")
 public class ProductController {
 
-    @Autowired
     private ProductService productService;
-    @Autowired
     private ProductFactory productFactory;
 
     @GET

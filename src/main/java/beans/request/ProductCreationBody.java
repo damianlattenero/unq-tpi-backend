@@ -1,4 +1,4 @@
-package beans.aspects.request;
+package beans.request;
 
 /**
  * Created by damian on 17/09/16.

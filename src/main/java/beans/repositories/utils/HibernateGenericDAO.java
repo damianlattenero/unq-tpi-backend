@@ -1,4 +1,4 @@
-package beans.aspects.repositories.utils;
+package beans.repositories.utils;
 
 
 import org.hibernate.SessionFactory;

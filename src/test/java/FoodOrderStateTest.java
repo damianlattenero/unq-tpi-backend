@@ -1,7 +1,7 @@
-import beans.aspects.exception.InvalidTransitionException;
-import beans.aspects.model.FoodOrder;
-import beans.aspects.model.Product;
-import beans.aspects.model.User;
+import beans.exception.InvalidTransitionException;
+import beans.model.FoodOrder;
+import beans.model.Product;
+import beans.model.User;
 import org.junit.Before;
 import org.junit.Test;
 

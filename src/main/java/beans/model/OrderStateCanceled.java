@@ -1,6 +1,6 @@
-package beans.aspects.model;
+package beans.model;
 
-import beans.aspects.exception.InvalidTransitionException;
+import beans.exception.InvalidTransitionException;
 
 import javax.persistence.Entity;
 import javax.persistence.Inheritance;

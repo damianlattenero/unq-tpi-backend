@@ -1,11 +1,11 @@
-package beans.aspects.repositories;
+package beans.repositories;
 
-import beans.aspects.repositories.utils.HibernateGenericDAO;
-import beans.aspects.model.Product;
+import beans.repositories.utils.HibernateGenericDAO;
+import beans.model.Product;
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
-import beans.aspects.repositories.utils.GenericRepository;
+import beans.repositories.utils.GenericRepository;
 
 
 @Repository("productRepository")

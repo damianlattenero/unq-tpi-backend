@@ -1,10 +1,10 @@
-package beans.aspects.factories;
+package beans.factories;
 
-import beans.aspects.model.Product;
+import beans.model.Product;
+import beans.repositories.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-import beans.aspects.repositories.ProductRepository;
 
 @Component("productFactory")
 public class ProductFactory {
@@ -15,6 +15,10 @@ public class ProductFactory {
     public void createBasicProducts() {
         Product milanesaCompleta = new Product("milanesa", "completa");
         Product hamburguesaConQueso = new Product("hamburguesa", "con queso");
+
+        this.productRepository.save(milanesaCompleta);
+        this.productRepository.save(hamburguesaConQueso);
+
     }
 
     public Product getProductByName(String name){ return  this.productRepository.findByProductName(name);}
