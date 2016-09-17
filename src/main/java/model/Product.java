@@ -12,13 +12,8 @@ public class Product extends BaseEntity {
     public Product() {
     }
 
-    public Product(User user) {
+    public Product(String name, String description) {
         this();
-        order = new Order(this, user);
-    }
-
-    public Product(User user, String name, String description) {
-        this(user);
         this.name = name;
         this.description = description;
     }

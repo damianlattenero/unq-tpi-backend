@@ -3,8 +3,10 @@ package model;
 import javax.persistence.*;
 
 @Entity
-@Inheritance(strategy=InheritanceType.TABLE_PER_CLASS)
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public abstract class BaseEntity {
+
+
     @Id()
     @GeneratedValue()
     @Column(name = "BASE_ENTITY_ID")
@@ -45,5 +47,9 @@ public abstract class BaseEntity {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public int getId() {
+        return id;
     }
 }

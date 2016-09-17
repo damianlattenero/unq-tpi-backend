@@ -31,7 +31,7 @@
 
     <jaxrs:server id="customerService" address="/">
         <jaxrs:serviceBeans>
-            <!--controlers here-->
+            <ref bean="productController"/>
         </jaxrs:serviceBeans>
 
 
