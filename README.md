@@ -9,9 +9,18 @@
 
 [Trello](https://trello.com/tip33)
 
+## Requirements
+Deben ser instaladas las dependencias de maven del .pom del proyecto utilizando el comando:
+
+    $ mvn clean install idea:idea test
+    
+Luego correr Jetty:
+
+    $ mvn jetty:run
+
 ## Introduccion:
 
-Proyecto TIP (Trabajo de Insercion Profesional) de la carrera "Tecnicatura en programacion informatica" de la Universidad de Quilmes, Argentina.
+Proyecto TIP (Trabajo de Insercion Profesional) de la carrera "Tecnicatura en programación informatica" de la Universidad de Quilmes, Argentina.
 
 
 ## Overview
