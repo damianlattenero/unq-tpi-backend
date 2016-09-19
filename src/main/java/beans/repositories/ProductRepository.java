@@ -18,6 +18,8 @@ public class ProductRepository extends HibernateGenericDAO<Product> implements G
         return Product.class;
     }
 
+    public ProductRepository(){}
+
     public Product findByname(String name){
         Criteria criteria = getSession().createCriteria(Product.class);
         Product yourObject = (Product) criteria.add(Restrictions.eq("name", name)).uniqueResult();

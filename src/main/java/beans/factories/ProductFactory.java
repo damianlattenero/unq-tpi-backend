@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Component("productFactory")
 public class ProductFactory {
+
     @Autowired
     private ProductRepository productRepository;
 

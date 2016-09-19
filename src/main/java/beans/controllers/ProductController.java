@@ -8,13 +8,15 @@ import beans.responses.ProductCreationResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import beans.service.ProductService;
+import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
 import javax.ws.rs.*;
 import java.util.List;
 
 @Path("products")
-@Controller("productController")
+@Controller(value = "productController")
+@Service("productController")
 public class ProductController {
 
     private ProductService productService;

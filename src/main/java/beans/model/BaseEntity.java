@@ -1,10 +1,12 @@
 package beans.model;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-public abstract class BaseEntity {
+
+public abstract class BaseEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -50,6 +52,8 @@ public abstract class BaseEntity {
         this.description = description;
     }
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.TABLE)
     public int getId() {
         return id;
     }

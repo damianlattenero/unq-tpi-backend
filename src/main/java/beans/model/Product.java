@@ -5,8 +5,6 @@ import javax.persistence.*;
 @Entity
 @Table(name = "Product")
 public class Product extends BaseEntity {
-    private static final long serialVersionUID = 1L;
-
 
     public Product() {
     }

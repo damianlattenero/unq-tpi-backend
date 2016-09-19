@@ -17,7 +17,7 @@ import java.util.List;
  */
 public abstract class HibernateGenericDAO<T> extends HibernateDaoSupport implements GenericRepository<T>, Serializable {
 
-    private static final long serialVersionUID = 5058950102420892922L;
+    private static final long serialVersionUID = 5058950102420892911L;
 
     protected Class<T> persistentClass = this.getDomainClass();
 
@@ -26,7 +26,7 @@ public abstract class HibernateGenericDAO<T> extends HibernateDaoSupport impleme
         setSessionFactory(sessionFactory);
     }
 
-    protected HibernateGenericDAO() {
+    public HibernateGenericDAO() {
     }
 
     @Override
@@ -55,7 +55,7 @@ public abstract class HibernateGenericDAO<T> extends HibernateDaoSupport impleme
     @Override
     @SuppressWarnings("unchecked")
     public List<T> findByExample(final T exampleObject) {
-        return this.getHibernateTemplate().findByExample(exampleObject);
+        return (List<T>) this.getHibernateTemplate().findByExample(exampleObject);
 
     }
 

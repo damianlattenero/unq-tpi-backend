@@ -17,7 +17,7 @@ public class LoggerAspect {
     //  @After("execution(public * ar.edu.unq.desapp.grupoA.services.*.*(..)) && @annotation(Loggable)")
     //@After("execution(* *(..)) && @annotation(pablin)")
     //@After("execution (@Loggeable public * ar.edu.unq.desapp.grupoA.services.*.*(..))")
-    @After("execution(public * service.*.*(..))")
+    @After("execution(public * beans.service.*.*(..))")
     public void logAfter(JoinPoint pjp) {
         //public void logAfter(JoinPoint pjp, Loggable loggable) {
         log.info(pjp.getSignature().getName() + " called...TESTING");
