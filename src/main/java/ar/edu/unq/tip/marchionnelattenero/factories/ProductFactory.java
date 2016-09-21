@@ -18,8 +18,10 @@ public class ProductFactory {
     public void createBasicProducts() {
         Product mila = new Product("Mila", "Completa");
         Product hamburguesa = new Product("Hamburguesa", "Simple");
+        Product pebete = new Product("Pebete", "Sin Lechuga");
         this.productRepository.save(mila);
         this.productRepository.save(hamburguesa);
+        this.productRepository.save(pebete);
     }
 
     public Product getMila() {

@@ -36,9 +36,9 @@ public class ProductServiceTest extends AbstractServiceTest {
 
     @Test
     public void TestOneMoreProduct() {
-        assertEquals(3, this.productRepository.count());
-        this.productService.createProduct("Paty", "Super");
         assertEquals(4, this.productRepository.count());
+        this.productService.createProduct("Paty", "Super");
+        assertEquals(5, this.productRepository.count());
     }
 
     @Test
@@ -49,9 +49,9 @@ public class ProductServiceTest extends AbstractServiceTest {
 
     @Test
     public void DeleteProduct() {
-        assertEquals(3, this.productRepository.count());
+        assertEquals(4, this.productRepository.count());
         this.productService.deleteProduct(product);
-        assertEquals(2, this.productRepository.count());
+        assertEquals(3, this.productRepository.count());
     }
 
 

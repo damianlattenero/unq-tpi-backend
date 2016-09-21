@@ -29,7 +29,7 @@ public class ProductFactoryTest extends AbstractServiceTest {
 
     @Test
     public void testCountProductCreated() {
-        assertEquals(2, this.cantidad = repository.count());
+        assertEquals(3, this.cantidad = repository.count());
     }
 
     @Test
