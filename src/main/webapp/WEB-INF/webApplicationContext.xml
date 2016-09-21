@@ -31,15 +31,7 @@
 
     <jaxrs:server id="customerService" address="/">
         <jaxrs:serviceBeans>
-            <ref bean="loginController" />
-            <ref bean="travelController" />
             <ref bean="productController" />
-            <ref bean="messageController" />
-            <ref bean="vehicleController" />
-            <ref bean="oauthGoogleController" />
-            <ref bean="pointController" />
-            <ref bean="applicationController" />
-            <ref bean="applicationListController" />
         </jaxrs:serviceBeans>
 
 
