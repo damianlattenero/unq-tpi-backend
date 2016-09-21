@@ -16,24 +16,18 @@ public class ProductFactory {
 
     @Transactional
     public void createBasicProducts() {
-        Product voucher100 = new Product("Fuel Voucher 100", 50, 15000);
-        Product voucher200 = new Product("Fuel Voucher 200", 30, 28000);
-        Product oilChange = new Product("Oil Change", 20, 22000);
-        this.productRepository.save(voucher100);
-        this.productRepository.save(voucher200);
-        this.productRepository.save(oilChange);
+        Product mila = new Product("Mila", "Completa");
+        Product hamburguesa = new Product("Hamburguesa", "Simple");
+        this.productRepository.save(mila);
+        this.productRepository.save(hamburguesa);
     }
 
-    public Product getFuelVoucher100() {
-        return this.productRepository.findByname("Fuel Voucher 100");
+    public Product getMila() {
+        return this.productRepository.findByname("Mila");
     }
 
-    public Product getFuelVoucher200() {
-        return this.productRepository.findByname("Fuel Voucher 200");
-    }
-
-    public Product getOilChange() {
-        return this.productRepository.findByProductName("Oil Change");
+    public Product getHamburguesa() {
+        return this.productRepository.findByname("Hamburguesa");
     }
 
     public Product getProductByName(String name){ return  this.productRepository.findByProductName(name);}

@@ -18,8 +18,8 @@ public class ProductService {
     private ProductFactory productFactory;
 
     @Transactional
-    public Product createProduct(String name, int stock, int pointCost) {
-        Product product = new Product(name, stock, pointCost);
+    public Product createProduct(String name, String description) {
+        Product product = new Product(name, description);
         productRepository.save(product);
         return product;
     }
@@ -32,15 +32,6 @@ public class ProductService {
     public void deleteProduct(Product product) {
         productRepository.delete(product);
     }
-
-    @Transactional
-    public void reduceStock(Product product) {
-        productRepository.update(product);
-    }
-/*    @PostConstruct
-    public void loadData() {
-        this.productFactory.createBasicProducts();
-    }*/
 
     public Product getProduct(String name) {
         return this.productFactory.getProductByName(name);

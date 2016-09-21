@@ -32,7 +32,7 @@ public class ProductController {
     @Consumes("application/json")
     @Produces("application/json")
     public ProductCreationResponse create(ProductCreationBody productBody) {
-        Product product = this.productService.createProduct(productBody.getName(), productBody.getStock(), productBody.getPointCost());
+        Product product = this.productService.createProduct(productBody.getName(), productBody.getDescription());
         return ProductCreationResponse.build(product);
     }
 

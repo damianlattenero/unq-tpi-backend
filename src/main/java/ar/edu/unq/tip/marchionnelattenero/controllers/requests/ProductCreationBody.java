@@ -2,32 +2,22 @@ package ar.edu.unq.tip.marchionnelattenero.controllers.requests;
 
 public class ProductCreationBody {
     private String name;
-    private int stock;
-    private int pointCost;
-
-    public void setPointCost(int pointCost) {
-        this.pointCost = pointCost;
-    }
-
-    public void setStock(int stock) {
-        this.stock = stock;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
+    private String description;
 
 
     public String getName() {
         return name;
     }
 
-    public int getPointCost() {
-        return pointCost;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public int getStock() {
-        return stock;
+    public String getDescription() {
+        return description;
     }
 
+    public void setDescription(String description) {
+        this.description = description;
+    }
 }

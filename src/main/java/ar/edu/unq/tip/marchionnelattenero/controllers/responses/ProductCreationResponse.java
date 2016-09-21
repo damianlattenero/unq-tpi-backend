@@ -6,21 +6,22 @@ import ar.edu.unq.tip.marchionnelattenero.models.Product;
 public class ProductCreationResponse {
 
     private String name;
-    private int stock;
-    private int pointCost;
+
+
+
+    private String description;
     private Integer id;
 
 
-    public ProductCreationResponse(String name, int stock, int pointCost, Integer id) {
+    public ProductCreationResponse(String name, String description, Integer id) {
         this.setName(name);
-        this.setStock(stock);
-        this.setPointCost(pointCost);
+        this.setDescription(description);
         this.setId(id);
     }
 
 
     public static ProductCreationResponse build(Product product) {
-        return new ProductCreationResponse(product.getName(), product.getStock(), product.getPointCost(),product.getId());
+        return new ProductCreationResponse(product.getName(), product.getDescription(), product.getId());
     }
 
     public Integer getId() {
@@ -31,14 +32,6 @@ public class ProductCreationResponse {
         this.id = id;
     }
 
-    public int getPointCost() {
-        return pointCost;
-    }
-
-    public void setPointCost(int pointCost) {
-        this.pointCost = pointCost;
-    }
-
     public String getName() {
         return name;
     }
@@ -47,13 +40,11 @@ public class ProductCreationResponse {
         this.name = name;
     }
 
-    public int getStock() {
-        return stock;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
-    public void setStock(int stock) {
-        this.stock = stock;
+    public String getDescription() {
+        return description;
     }
-
-
 }
