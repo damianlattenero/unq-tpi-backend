@@ -3,8 +3,8 @@
         "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
         "http://java.sun.com/dtd/web-app_2_3.dtd" >
 <web-app>
-    <display-name>Name</display-name>
-    <description>Name</description>
+    <display-name>Web Subi que te llevo Application</display-name>
+    <description>Web Subi que te llevo Application</description>
 
     <context-param>
         <param-name>contextConfigLocation</param-name>
@@ -12,7 +12,7 @@
             classpath*:config/BeanLocations.xml,
             classpath*:database/DataSource.xml,
             classpath*:database/Hibernate.xml,
-            WEB-INF/webApplicationContext.xml
+            /WEB-INF/webApplicationContext.xml
         </param-value>
     </context-param>
 
@@ -21,6 +21,7 @@
             org.springframework.web.context.ContextLoaderListener
         </listener-class>
     </listener>
+
 
     <servlet>
         <servlet-name>CXFServlet</servlet-name>
