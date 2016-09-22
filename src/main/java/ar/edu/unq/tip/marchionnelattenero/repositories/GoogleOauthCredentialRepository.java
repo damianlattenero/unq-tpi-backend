@@ -1,6 +1,7 @@
 package ar.edu.unq.tip.marchionnelattenero.repositories;
 
 
+import ar.edu.unq.tip.marchionnelattenero.models.FoodOrder;
 import ar.edu.unq.tip.marchionnelattenero.models.oauth.GoogleOauthCredential;
 import ar.edu.unq.tip.marchionnelattenero.repositories.utils.GenericRepository;
 import ar.edu.unq.tip.marchionnelattenero.repositories.utils.HibernateGenericDAO;

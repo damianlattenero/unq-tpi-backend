@@ -1,14 +1,12 @@
 package ar.edu.unq.tip.marchionnelattenero.repositories;
 
+import ar.edu.unq.tip.marchionnelattenero.models.FoodOrder;
 import ar.edu.unq.tip.marchionnelattenero.models.Product;
 import ar.edu.unq.tip.marchionnelattenero.repositories.utils.GenericRepository;
 import ar.edu.unq.tip.marchionnelattenero.repositories.utils.HibernateGenericDAO;
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
-import java.util.List;
-
-import static org.apache.click.extras.hibernate.SessionContext.getSession;
 
 @Repository("productRepository")
 public class ProductRepository extends HibernateGenericDAO<Product> implements GenericRepository<Product> {

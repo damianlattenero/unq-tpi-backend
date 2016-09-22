@@ -1,24 +1,26 @@
 package ar.edu.unq.tip.marchionnelattenero.controllers.responses;
 
 
-import ar.edu.unq.tip.marchionnelattenero.models.Product;
+import ar.edu.unq.tip.marchionnelattenero.models.FoodOrder;
 
-public class ProductCreationResponse {
+public class FoodOrderCreationResponse {
 
     private String name;
     private String description;
+    private int amount;
     private Integer id;
 
 
-    public ProductCreationResponse(String name, String description, Integer id) {
+    public FoodOrderCreationResponse(String name, String description, int amount, int id) {
         this.setName(name);
         this.setDescription(description);
+        this.setAmount(amount);
         this.setId(id);
     }
 
 
-    public static ProductCreationResponse build(Product product) {
-        return new ProductCreationResponse(product.getName(), product.getDescription(), product.getId());
+    public static FoodOrderCreationResponse build(FoodOrder foodOrder) {
+        return new FoodOrderCreationResponse(foodOrder.getProduct().getName(), foodOrder.getProduct().getDescription(), foodOrder.getAmount(), foodOrder.getId());
     }
 
     public Integer getId() {
@@ -43,5 +45,14 @@ public class ProductCreationResponse {
 
     public String getDescription() {
         return description;
+    }
+
+
+    public int getAmount() {
+        return amount;
+    }
+
+    public void setAmount(int amount) {
+        this.amount = amount;
     }
 }

@@ -1,5 +1,6 @@
 package ar.edu.unq.tip.marchionnelattenero.repositories.utils;
 
+import ar.edu.unq.tip.marchionnelattenero.models.FoodOrder;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Projections;
 import org.springframework.beans.factory.annotation.Autowired;
