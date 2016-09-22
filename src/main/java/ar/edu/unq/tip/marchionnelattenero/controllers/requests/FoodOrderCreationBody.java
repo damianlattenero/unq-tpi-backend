@@ -2,24 +2,23 @@ package ar.edu.unq.tip.marchionnelattenero.controllers.requests;
 
 import ar.edu.unq.tip.marchionnelattenero.models.Product;
 
-public class FoodOrderCreationBody {
-    private String productName;
-    private String productDescription;
+public class FoodOrderCreationBody{
+    private int idProduct;
+    private int amount;
 
-    public String getProductName() {
-        return productName;
+    public int getIdProduct() {
+        return idProduct;
     }
 
-    public void setProductName(String productName) {
-        this.productName = productName;
+    public void setIdProduct(int idProduct) {
+        this.idProduct = idProduct;
     }
 
-    public String getProductDescription() {
-        return productDescription;
+    public int getAmount() {
+        return amount;
     }
 
-    public void setProductDescription(String productDescription) {
-        this.productDescription = productDescription;
+    public void setAmount(int amount) {
+        this.amount = amount;
     }
-
 }

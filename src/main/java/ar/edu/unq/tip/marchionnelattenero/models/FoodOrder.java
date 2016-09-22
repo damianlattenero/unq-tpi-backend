@@ -43,7 +43,7 @@ public class FoodOrder {
         this(product, 1);
     }
 
-    private FoodOrder(Product product, int amount) {
+    public FoodOrder(Product product, int amount) {
         this();
         this.moment = DateTime.now();
         this.product = product;

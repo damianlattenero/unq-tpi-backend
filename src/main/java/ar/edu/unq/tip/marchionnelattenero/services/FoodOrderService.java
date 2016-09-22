@@ -20,8 +20,8 @@ public class FoodOrderService {
     private FoodOrderFactory foodOrderFactory;
 
     @Transactional
-    public FoodOrder createFoodOrder(Product product) {
-        FoodOrder foodOrder = new FoodOrder(product);
+    public FoodOrder createFoodOrder(Product product, int amount) {
+        FoodOrder foodOrder = new FoodOrder(product, amount);
         foodOrderRepository.save(foodOrder);
         return foodOrder;
     }

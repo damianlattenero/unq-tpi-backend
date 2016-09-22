@@ -5,54 +5,27 @@ import ar.edu.unq.tip.marchionnelattenero.models.FoodOrder;
 
 public class FoodOrderCreationResponse {
 
-    private String name;
-    private String description;
-    private int amount;
-    private Integer id;
+    //TODO PENSAR BIEN QUE RESPONDE, POR AHORA LA CANTIDAD DE PRODS  PENDIENTES
+    private int productsPending;
 
+    public FoodOrderCreationResponse(int productsPending) {
 
-    public FoodOrderCreationResponse(String name, String description, int amount, int id) {
-        this.setName(name);
-        this.setDescription(description);
-        this.setAmount(amount);
-        this.setId(id);
+        this.setProductsPending(productsPending);
+
     }
 
 
     public static FoodOrderCreationResponse build(FoodOrder foodOrder) {
-        return new FoodOrderCreationResponse(foodOrder.getProduct().getName(), foodOrder.getProduct().getDescription(), foodOrder.getAmount(), foodOrder.getId());
+        //TODO: ACTUALIZAR LA CANTIDAD DEL MAPA
+        return new FoodOrderCreationResponse(foodOrder.getAmount());
     }
 
-    public Integer getId() {
-        return id;
+    public int getProductsPending() {
+        return productsPending;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setProductsPending(int productsPending) {
+        this.productsPending = productsPending;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-
-    public int getAmount() {
-        return amount;
-    }
-
-    public void setAmount(int amount) {
-        this.amount = amount;
-    }
 }

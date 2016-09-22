@@ -6,6 +6,8 @@ import ar.edu.unq.tip.marchionnelattenero.controllers.responses.FoodOrderCreatio
 import ar.edu.unq.tip.marchionnelattenero.factories.FoodOrderFactory;
 import ar.edu.unq.tip.marchionnelattenero.models.FoodOrder;
 import ar.edu.unq.tip.marchionnelattenero.models.Product;
+import ar.edu.unq.tip.marchionnelattenero.repositories.FoodOrderRepository;
+import ar.edu.unq.tip.marchionnelattenero.repositories.ProductRepository;
 import ar.edu.unq.tip.marchionnelattenero.services.FoodOrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,6 +22,11 @@ public class FoodOrderController {
 
     private FoodOrderService foodOrderService;
     private FoodOrderFactory foodOrderFactory;
+    @Autowired
+    private ProductRepository productRepository;
+    //TODO create FoodOrderAdding
+    @Autowired
+    private FoodOrderRepository foodOrderRepository;
 
     @GET
     @Path("all")
@@ -33,8 +40,9 @@ public class FoodOrderController {
     @Consumes("application/json")
     @Produces("application/json")
     public FoodOrderCreationResponse create(FoodOrderCreationBody foodOrderBody) {
-        Product product = new Product(foodOrderBody.getProductName(), foodOrderBody.getProductDescription());
-        FoodOrder foodOrder = this.foodOrderService.createFoodOrder(product);
+        Product p = productRepository.findById(foodOrderBody.getIdProduct());
+        FoodOrder foodOrder = this.foodOrderService.createFoodOrder(p, foodOrderBody.getAmount());
+        this.foodOrderRepository.save(foodOrder);
         return FoodOrderCreationResponse.build(foodOrder);
     }
 
