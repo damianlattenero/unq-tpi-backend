@@ -3,7 +3,6 @@ package ar.edu.unq.tip.marchionnelattenero.controllers;
 
 import ar.edu.unq.tip.marchionnelattenero.controllers.requests.FoodOrderCreationBody;
 import ar.edu.unq.tip.marchionnelattenero.controllers.responses.FoodOrderCreationResponse;
-import ar.edu.unq.tip.marchionnelattenero.controllers.responses.FoodOrderResponse;
 import ar.edu.unq.tip.marchionnelattenero.models.FoodOrder;
 import ar.edu.unq.tip.marchionnelattenero.services.FoodOrderService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +21,7 @@ public class FoodOrderController {
     @GET
     @Path("all")
     @Produces("application/json")
-    public List<FoodOrderResponse> getAll() {
+    public List<FoodOrderCreationResponse> getAll() {
         return this.foodOrderService.findAll();
     }
 
@@ -30,7 +29,7 @@ public class FoodOrderController {
     @Path("create")
     @Consumes("application/json")
     @Produces("application/json")
-    public FoodOrderResponse create(FoodOrderCreationBody foodOrderBody) {
+    public FoodOrderCreationResponse create(FoodOrderCreationBody foodOrderBody) {
         FoodOrder foodOrder = this.foodOrderService.createFoodOrder(foodOrderBody.getIdProduct(), foodOrderBody.getAmount());
         return FoodOrderCreationResponse.build(foodOrder);
     }

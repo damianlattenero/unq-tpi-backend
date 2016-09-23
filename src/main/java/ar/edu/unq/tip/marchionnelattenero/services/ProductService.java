@@ -1,5 +1,6 @@
 package ar.edu.unq.tip.marchionnelattenero.services;
 
+import ar.edu.unq.tip.marchionnelattenero.controllers.responses.ProductCreationResponse;
 import ar.edu.unq.tip.marchionnelattenero.factories.ProductFactory;
 import ar.edu.unq.tip.marchionnelattenero.models.Product;
 import ar.edu.unq.tip.marchionnelattenero.repositories.ProductRepository;
@@ -7,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service("productService")
@@ -24,8 +26,16 @@ public class ProductService {
         return product;
     }
     @Transactional
-    public List<Product> findAll() {
-        return this.getProductRepository().findAll();
+    public List<ProductCreationResponse> findAll() {
+
+        List<ProductCreationResponse> prods = new ArrayList<>();
+
+        for(Product f : productRepository.findAll()){
+            prods.add((new ProductCreationResponse(f.getName(),f.getDescription(),f.getId())));
+        }
+
+        return prods;
+
     }
 
     @Transactional

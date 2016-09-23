@@ -1,11 +1,9 @@
 package ar.edu.unq.tip.marchionnelattenero.services;
 
 import ar.edu.unq.tip.marchionnelattenero.controllers.responses.FoodOrderCreationResponse;
-import ar.edu.unq.tip.marchionnelattenero.controllers.responses.FoodOrderResponse;
 import ar.edu.unq.tip.marchionnelattenero.factories.FoodOrderFactory;
 import ar.edu.unq.tip.marchionnelattenero.models.FoodOrder;
 import ar.edu.unq.tip.marchionnelattenero.models.Product;
-import ar.edu.unq.tip.marchionnelattenero.repositories.FoodOrderRepository;
 import ar.edu.unq.tip.marchionnelattenero.repositories.FoodOrderRepository;
 import ar.edu.unq.tip.marchionnelattenero.repositories.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,12 +32,12 @@ public class FoodOrderService {
         return foodOrder;
     }
     @Transactional
-    public List<FoodOrderResponse> findAll() {
+    public List<FoodOrderCreationResponse> findAll() {
 
-        List<FoodOrderResponse> orders = new ArrayList<>();
+        List<FoodOrderCreationResponse> orders = new ArrayList<>();
 
         for(FoodOrder f : foodOrderRepository.findAll()){
-            orders.add((new FoodOrderResponse(f.getProduct().getName(),f.getAmount(),f.getId())));
+            orders.add(FoodOrderCreationResponse.build(f));
         }
 
         return orders;

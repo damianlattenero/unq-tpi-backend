@@ -23,7 +23,7 @@ public class ProductController {
     @GET
     @Path("all")
     @Produces("application/json")
-    public List<Product> getAll() {
+    public List<ProductCreationResponse> getAll() {
         return this.getProductService().findAll();
     }
 
