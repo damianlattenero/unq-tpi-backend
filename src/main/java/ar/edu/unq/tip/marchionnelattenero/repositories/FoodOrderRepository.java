@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 public class FoodOrderRepository extends HibernateGenericDAO<FoodOrder> implements GenericRepository<FoodOrder> {
 
 
-    private static final long serialVersionUID = -4036325633305672220L;
+    private static final long serialVersionUID = -4036325633305673330L;
 
     @Override
     protected Class<FoodOrder> getDomainClass() {

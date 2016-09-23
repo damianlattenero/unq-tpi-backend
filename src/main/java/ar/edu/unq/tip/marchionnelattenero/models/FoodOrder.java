@@ -3,6 +3,7 @@ package ar.edu.unq.tip.marchionnelattenero.models;
 import org.joda.time.DateTime;
 
 import javax.persistence.*;
+import java.sql.Date;
 
 @Entity
 @Table(name = "FoodOrder")
@@ -15,7 +16,7 @@ public class FoodOrder {
     private int id;
 
     @Column(name = "moment")
-    private DateTime moment;
+    private Date moment;
 
     @ManyToOne
     private Product product;
@@ -45,7 +46,7 @@ public class FoodOrder {
 
     public FoodOrder(Product product, int amount) {
         this();
-        this.moment = DateTime.now();
+        this.moment = new Date(DateTime.now().toInstant().getMillis());
         this.product = product;
         this.amount = amount;
     }
