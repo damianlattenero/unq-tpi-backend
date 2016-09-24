@@ -45,7 +45,6 @@ public class FoodOrder {
     }
 
     public FoodOrder(Product product, int amount) {
-        this();
         this.moment = new Date(DateTime.now().toInstant().getMillis());
         this.product = product;
         this.amount = amount;

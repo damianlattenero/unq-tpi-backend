@@ -22,7 +22,8 @@ public class FoodOrderController {
     @Path("all")
     @Produces("application/json")
     public List<FoodOrderCreationResponse> getAll() {
-        return this.foodOrderService.findAll();
+        return FoodOrderCreationResponse.buildMany(this.foodOrderService.findAll());
+
     }
 
     @POST

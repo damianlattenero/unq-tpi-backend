@@ -3,6 +3,9 @@ package ar.edu.unq.tip.marchionnelattenero.controllers.responses;
 
 import ar.edu.unq.tip.marchionnelattenero.models.FoodOrder;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 public class FoodOrderCreationResponse {
     private int id;
     private int productAmount;
@@ -21,11 +24,21 @@ public class FoodOrderCreationResponse {
 
     }
 
-
     public static FoodOrderCreationResponse build(FoodOrder foodOrder) {
         //TODO: ACTUALIZAR LA CANTIDAD DEL MAPA
-        return new FoodOrderCreationResponse(foodOrder.getProduct().getName(), foodOrder.getProduct().getDescription(), foodOrder.getAmount(), foodOrder.getId());
+        return new FoodOrderCreationResponse(
+                foodOrder.getProduct().getName(),
+                foodOrder.getProduct().getDescription(),
+                foodOrder.getAmount(),
+                foodOrder.getId()
+        );
     }
+
+    public static List<FoodOrderCreationResponse> buildMany(List<FoodOrder> applicationRequests) {
+        return applicationRequests.stream().map(FoodOrderCreationResponse::build).collect(Collectors.toList());
+    }
+
+
 
     public int getId() {
         return id;

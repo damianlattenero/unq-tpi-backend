@@ -33,16 +33,8 @@ public class FoodOrderService {
     }
 
     @Transactional
-    public List<FoodOrderCreationResponse> findAll() {
-
-        List<FoodOrderCreationResponse> orders = new ArrayList<>();
-
-        for(FoodOrder f : foodOrderRepository.findAll()){
-            FoodOrderCreationResponse fo = FoodOrderCreationResponse.build(f);
-            orders.add(fo);
-        }
-
-        return orders;
+    public List<FoodOrder> findAll() {
+        return this.getFoodOrderRepository().findAll();
     }
 
     @Transactional
