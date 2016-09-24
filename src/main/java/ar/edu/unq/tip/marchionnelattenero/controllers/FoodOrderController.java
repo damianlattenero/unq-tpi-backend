@@ -30,7 +30,7 @@ public class FoodOrderController {
     @Consumes("application/json")
     @Produces("application/json")
     public FoodOrderCreationResponse create(FoodOrderCreationBody foodOrderBody) {
-        FoodOrder foodOrder = this.foodOrderService.createFoodOrder(foodOrderBody.getIdProduct(), foodOrderBody.getAmount());
+        FoodOrder foodOrder = this.foodOrderService.createFoodOrder(foodOrderBody.getProductId(), foodOrderBody.getProductAmount());
         return FoodOrderCreationResponse.build(foodOrder);
     }
 

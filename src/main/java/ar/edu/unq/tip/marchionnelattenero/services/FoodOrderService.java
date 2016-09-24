@@ -31,13 +31,15 @@ public class FoodOrderService {
         this.foodOrderRepository.save(foodOrder);
         return foodOrder;
     }
+
     @Transactional
     public List<FoodOrderCreationResponse> findAll() {
 
         List<FoodOrderCreationResponse> orders = new ArrayList<>();
 
         for(FoodOrder f : foodOrderRepository.findAll()){
-            orders.add(FoodOrderCreationResponse.build(f));
+            FoodOrderCreationResponse fo = FoodOrderCreationResponse.build(f);
+            orders.add(fo);
         }
 
         return orders;

@@ -1,24 +1,22 @@
 package ar.edu.unq.tip.marchionnelattenero.controllers.requests;
 
-import ar.edu.unq.tip.marchionnelattenero.models.Product;
-
 public class FoodOrderCreationBody{
-    private int idProduct;
-    private int amount;
+    private int productId;
+    private int productAmount;
 
-    public int getIdProduct() {
-        return idProduct;
+    public int getProductId() {
+        return productId;
     }
 
-    public void setIdProduct(int idProduct) {
-        this.idProduct = idProduct;
+    public void setProductId(int productId) {
+        this.productId = productId;
     }
 
-    public int getAmount() {
-        return amount;
+    public int getProductAmount() {
+        return productAmount;
     }
 
-    public void setAmount(int amount) {
-        this.amount = amount;
+    public void setProductAmount(int productAmount) {
+        this.productAmount = productAmount;
     }
 }
