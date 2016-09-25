@@ -23,7 +23,6 @@ public class FoodOrderController {
     @Produces("application/json")
     public List<FoodOrderCreationResponse> getAll() {
         return FoodOrderCreationResponse.buildMany(this.foodOrderService.findAll());
-
     }
 
     @POST
@@ -38,9 +37,8 @@ public class FoodOrderController {
     @GET
     @Path("{id}")
     @Produces("application/json")
-    public FoodOrder findFoodOrdersByID(@PathParam("id") Integer id) {
-        FoodOrder foodOrderFound = this.foodOrderService.getFoodOrder(id);
-        return foodOrderFound;
+    public FoodOrderCreationResponse findFoodOrdersByID(@PathParam("id") Integer id) {
+        return FoodOrderCreationResponse.build(foodOrderService.getFoodOrder(id));
     }
 
 
