@@ -38,7 +38,7 @@ public class FoodOrderController {
     @Path("{id}")
     @Produces("application/json")
     public FoodOrderCreationResponse findFoodOrdersByID(@PathParam("id") Integer id) {
-        return FoodOrderCreationResponse.build(foodOrderService.getFoodOrder(id));
+        return FoodOrderCreationResponse.build(foodOrderService.findById(id));
     }
 
 

@@ -16,4 +16,6 @@ public class FoodOrderRepository extends HibernateGenericDAO<FoodOrder> implemen
         return FoodOrder.class;
     }
 
+
+
 }

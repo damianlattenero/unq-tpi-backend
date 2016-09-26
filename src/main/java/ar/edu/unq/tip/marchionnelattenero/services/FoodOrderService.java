@@ -42,11 +42,11 @@ public class FoodOrderService {
         foodOrderRepository.delete(foodOrder);
     }
 
-    public FoodOrder getFoodOrder(Integer id) {
-        return this.foodOrderFactory.getFoodOrderById(id);
-    }
-
     public FoodOrderRepository getFoodOrderRepository() {
         return foodOrderRepository;
+    }
+
+    public FoodOrder findById(Integer id) {
+        return this.foodOrderRepository.findById(id);
     }
 }

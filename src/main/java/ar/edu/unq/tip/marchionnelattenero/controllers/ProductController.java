@@ -39,9 +39,9 @@ public class ProductController {
     @GET
     @Path("{id}")
     @Produces("application/json")
-    public Product findProductsByID(@PathParam("id") Integer id) {
+    public ProductCreationResponse findProductsByID(@PathParam("id") Integer id) {
         Product productFound = this.getProductFactory().getProductByID(id);
-        return productFound;
+        return ProductCreationResponse.build(productFound);
     }
 
     @PostConstruct
