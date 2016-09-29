@@ -61,4 +61,9 @@ public class FoodOrder {
     public int getId() {
         return id;
     }
+
+
+    public Date getMoment() {
+        return moment;
+    }
 }

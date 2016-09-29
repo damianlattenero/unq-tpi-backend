@@ -2,25 +2,32 @@ package ar.edu.unq.tip.marchionnelattenero.controllers.responses;
 
 
 import ar.edu.unq.tip.marchionnelattenero.models.FoodOrder;
+import org.joda.time.DateTime;
 
+import java.sql.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class FoodOrderCreationResponse {
     private int id;
     private int productAmount;
+    //TODO Pensar si enviar en vez de Date los milisecs para que se vea hora
+    private Date moment;
     private String productDescription;
     private String productName;
+
+
 
     //TODO PENSAR BIEN QUE RESPONDE, POR AHORA LA CANTIDAD DE PRODS  PENDIENTES
 
 
-    public FoodOrderCreationResponse(String name, String description, int productAmount, int id) {
+    public FoodOrderCreationResponse(String name, String description, int productAmount, int id, Date moment) {
 
         this.productName = name;
         this.productDescription = description;
         this.productAmount = productAmount;
         this.id = id;
+        this.moment = moment;
 
     }
 
@@ -30,7 +37,8 @@ public class FoodOrderCreationResponse {
                 foodOrder.getProduct().getName(),
                 foodOrder.getProduct().getDescription(),
                 foodOrder.getAmount(),
-                foodOrder.getId()
+                foodOrder.getId(),
+                foodOrder.getMoment()
         );
     }
 
@@ -38,6 +46,14 @@ public class FoodOrderCreationResponse {
         return applicationRequests.stream().map(FoodOrderCreationResponse::build).collect(Collectors.toList());
     }
 
+
+    public Date getMoment() {
+        return moment;
+    }
+
+    public void setMoment(Date moment) {
+        this.moment = moment;
+    }
 
 
     public int getId() {
