@@ -2,7 +2,6 @@ package ar.edu.unq.tip.marchionnelattenero.controllers.responses;
 
 
 import ar.edu.unq.tip.marchionnelattenero.models.FoodOrder;
-import org.joda.time.DateTime;
 
 import java.sql.Date;
 import java.util.List;
@@ -15,7 +14,6 @@ public class FoodOrderCreationResponse {
     private Date moment;
     private String productDescription;
     private String productName;
-
 
 
     //TODO PENSAR BIEN QUE RESPONDE, POR AHORA LA CANTIDAD DE PRODS  PENDIENTES
