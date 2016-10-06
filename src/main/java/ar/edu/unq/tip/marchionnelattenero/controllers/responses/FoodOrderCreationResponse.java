@@ -11,7 +11,7 @@ public class FoodOrderCreationResponse {
     private int id;
     private int productAmount;
     //TODO Pensar si enviar en vez de Date los milisecs para que se vea hora
-    private Date moment;
+    private long moment;
     private String productDescription;
     private String productName;
 
@@ -19,7 +19,7 @@ public class FoodOrderCreationResponse {
     //TODO PENSAR BIEN QUE RESPONDE, POR AHORA LA CANTIDAD DE PRODS  PENDIENTES
 
 
-    public FoodOrderCreationResponse(String name, String description, int productAmount, int id, Date moment) {
+    public FoodOrderCreationResponse(String name, String description, int productAmount, int id, long moment) {
 
         this.productName = name;
         this.productDescription = description;
@@ -36,7 +36,7 @@ public class FoodOrderCreationResponse {
                 foodOrder.getProduct().getDescription(),
                 foodOrder.getAmount(),
                 foodOrder.getId(),
-                foodOrder.getMoment()
+                foodOrder.getMoment().getTime()
         );
     }
 
@@ -45,11 +45,11 @@ public class FoodOrderCreationResponse {
     }
 
 
-    public Date getMoment() {
+    public long getMoment() {
         return moment;
     }
 
-    public void setMoment(Date moment) {
+    public void setMoment(long moment) {
         this.moment = moment;
     }
 

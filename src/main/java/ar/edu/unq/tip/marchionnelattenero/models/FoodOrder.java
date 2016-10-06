@@ -2,6 +2,7 @@ package ar.edu.unq.tip.marchionnelattenero.models;
 
 import org.joda.time.DateTime;
 
+import java.sql.Timestamp;
 import javax.persistence.*;
 import java.sql.Date;
 
@@ -16,7 +17,7 @@ public class FoodOrder {
     private int id;
 
     @Column(name = "moment")
-    private Date moment;
+    private Timestamp moment;
 
     @ManyToOne
     private Product product;
@@ -45,7 +46,7 @@ public class FoodOrder {
     }
 
     public FoodOrder(Product product, int amount) {
-        this.moment = new Date(DateTime.now().toInstant().getMillis());
+        this.moment = new Timestamp(DateTime.now().getMillis());
         this.product = product;
         this.amount = amount;
     }
@@ -63,7 +64,7 @@ public class FoodOrder {
     }
 
 
-    public Date getMoment() {
+    public Timestamp getMoment() {
         return moment;
     }
 }
