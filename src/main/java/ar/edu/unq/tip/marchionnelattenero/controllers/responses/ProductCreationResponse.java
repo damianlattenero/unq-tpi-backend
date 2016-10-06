@@ -1,6 +1,7 @@
 package ar.edu.unq.tip.marchionnelattenero.controllers.responses;
 
 
+import ar.edu.unq.tip.marchionnelattenero.models.Cache;
 import ar.edu.unq.tip.marchionnelattenero.models.Product;
 
 public class ProductCreationResponse {
@@ -8,12 +9,14 @@ public class ProductCreationResponse {
     private String name;
     private String description;
     private Integer id;
+    private Integer pending;
 
 
     public ProductCreationResponse(String name, String description, Integer id) {
         this.setName(name);
         this.setDescription(description);
         this.setId(id);
+        this.setPending(Cache.getInstance().getPending(this.getId()));
     }
 
 
@@ -44,4 +47,8 @@ public class ProductCreationResponse {
     public String getDescription() {
         return description;
     }
+
+    public Integer getPending() { return pending; }
+
+    public void setPending(Integer pending) { this.pending = pending; }
 }

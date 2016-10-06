@@ -2,6 +2,7 @@ package ar.edu.unq.tip.marchionnelattenero.services;
 
 import ar.edu.unq.tip.marchionnelattenero.controllers.responses.FoodOrderCreationResponse;
 import ar.edu.unq.tip.marchionnelattenero.factories.FoodOrderFactory;
+import ar.edu.unq.tip.marchionnelattenero.models.Cache;
 import ar.edu.unq.tip.marchionnelattenero.models.FoodOrder;
 import ar.edu.unq.tip.marchionnelattenero.models.Product;
 import ar.edu.unq.tip.marchionnelattenero.repositories.FoodOrderRepository;
@@ -29,6 +30,8 @@ public class FoodOrderService {
         Product p = productRepository.findById(idProduct);
         FoodOrder foodOrder = new FoodOrder(p,amount);
         this.foodOrderRepository.save(foodOrder);
+
+        Cache.getInstance().addFoodOrder(foodOrder);
         return foodOrder;
     }
 
