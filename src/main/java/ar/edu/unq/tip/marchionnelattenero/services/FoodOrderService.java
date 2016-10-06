@@ -1,6 +1,5 @@
 package ar.edu.unq.tip.marchionnelattenero.services;
 
-import ar.edu.unq.tip.marchionnelattenero.controllers.responses.FoodOrderCreationResponse;
 import ar.edu.unq.tip.marchionnelattenero.factories.FoodOrderFactory;
 import ar.edu.unq.tip.marchionnelattenero.models.Cache;
 import ar.edu.unq.tip.marchionnelattenero.models.FoodOrder;
@@ -11,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service("foodOrderService")

@@ -4,6 +4,8 @@ import ar.edu.unq.tip.marchionnelattenero.repositories.FoodOrderRepository;
 import ar.edu.unq.tip.marchionnelattenero.repositories.ProductRepository;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.stereotype.Controller;
 
 import java.sql.Timestamp;
 import java.util.HashMap;
@@ -29,9 +31,13 @@ public class Cache {
 
     public Cache(Timestamp moment) {
         productsPending = new HashMap<Integer, Integer>();
-        initialize(moment);
+        productsPending.put(1, 1);
+        productsPending.put(2, 2);
+        productsPending.put(3, 5);
+//        initialize(moment);
     }
 
+    //TODO arreglar como jetty carga los componentes por primera vez
     private void initialize(Timestamp moment) {
         //Create a Map with All the Products
         for (Product product : this.productRepository.findAll()) {
@@ -57,6 +63,6 @@ public class Cache {
     }
 
     public Integer getPending(Integer idProduct) {
-        return productsPending.get(idProduct);
+        return (productsPending.containsKey(idProduct)) ? productsPending.get(idProduct) : 0;
     }
 }
