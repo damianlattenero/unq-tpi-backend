@@ -9,11 +9,6 @@
 
 # [Trello](https://trello.com/tip33)
 
-<<<<<<< HEAD
-## Introduccion:
-
-Proyecto TIP (Trabajo de Insercion Profesional) de la carrera "Tecnicatura en programacion informatica" de la Universidad de Quilmes, Argentina.
-=======
 ## Requirements
 Deben ser instaladas las dependencias de maven del .pom del proyecto utilizando el comando:
 
@@ -26,7 +21,6 @@ Luego correr Jetty:
 ## Introducción:
 
 Proyecto TIP (Trabajo de Inserción Profesional) de la carrera "Tecnicatura en programación informática" de la Universidad de Quilmes, Argentina.
->>>>>>> origin/master
 
 
 ## Overview
@@ -51,5 +45,3 @@ Sistema donde se gestionan los pedidos entre el Mostrador y la Cocina para un ne
 + Java
 
 ## Tareas
-
-
