@@ -3,6 +3,7 @@ package ar.edu.unq.tip.marchionnelattenero.controllers.responses;
 
 import ar.edu.unq.tip.marchionnelattenero.models.Cache;
 import ar.edu.unq.tip.marchionnelattenero.models.FoodOrder;
+import ar.edu.unq.tip.marchionnelattenero.models.Product;
 
 import java.sql.Date;
 import java.util.List;
@@ -14,7 +15,6 @@ public class FoodOrderCreationResponse {
     private long moment;
     private String productDescription;
     private String productName;
-
     private int productPending;
 
     public FoodOrderCreationResponse(String name, String description, int productAmount, int id, long moment) {
@@ -81,21 +81,4 @@ public class FoodOrderCreationResponse {
 
 
 
-    public FoodOrderCreationResponse(int productPending) {
-        this.productPending = productPending;
-    }
-
-    public static FoodOrderCreationResponse updateFoodOrder(FoodOrder foodOrder) {
-        return new FoodOrderCreationResponse(
-                Cache.getInstance().getPending(foodOrder.getProduct().getId())
-        );
-    }
-
-    public int getProductPending() {
-        return productPending;
-    }
-
-    public void setProductPending(int productPending) {
-        this.productPending = productPending;
-    }
 }
