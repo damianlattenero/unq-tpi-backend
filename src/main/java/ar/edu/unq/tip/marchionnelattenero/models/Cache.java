@@ -31,10 +31,10 @@ public class Cache {
 
     public Cache(Timestamp moment) {
         productsPending = new HashMap<Integer, Integer>();
-/*        productsPending.put(1, 1);
+        productsPending.put(1, 1);
         productsPending.put(2, 2);
-        productsPending.put(3, 5);*/
-        initialize(moment);
+        productsPending.put(3, 5);
+//        initialize(moment);
     }
 
     //TODO arreglar como jetty carga los componentes por primera vez
