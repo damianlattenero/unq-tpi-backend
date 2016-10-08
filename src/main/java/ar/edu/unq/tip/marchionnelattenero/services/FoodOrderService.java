@@ -28,8 +28,6 @@ public class FoodOrderService {
         Product p = productRepository.findById(idProduct);
         FoodOrder foodOrder = new FoodOrder(p,amount);
         this.foodOrderRepository.save(foodOrder);
-
-        Cache.getInstance().addFoodOrder(foodOrder);
         return foodOrder;
     }
 

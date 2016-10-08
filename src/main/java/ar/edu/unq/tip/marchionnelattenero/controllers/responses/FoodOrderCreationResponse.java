@@ -15,7 +15,6 @@ public class FoodOrderCreationResponse {
     private long moment;
     private String productDescription;
     private String productName;
-    private int productPending;
 
     public FoodOrderCreationResponse(String name, String description, int productAmount, int id, long moment) {
         this.productName = name;

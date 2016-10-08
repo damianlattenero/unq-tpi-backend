@@ -1,5 +1,6 @@
 package ar.edu.unq.tip.marchionnelattenero.repositories;
 
+import ar.edu.unq.tip.marchionnelattenero.models.Cache;
 import ar.edu.unq.tip.marchionnelattenero.models.FoodOrder;
 import ar.edu.unq.tip.marchionnelattenero.models.Product;
 import ar.edu.unq.tip.marchionnelattenero.repositories.utils.GenericRepository;
@@ -28,6 +29,12 @@ public class ProductRepository extends HibernateGenericDAO<Product> implements G
         Criteria cr = this.getSession().createCriteria(this.getDomainClass());
         cr.add(Restrictions.eq("name", name));
         return (Product) cr.uniqueResult();
+    }
+
+    @Override
+    public void save(Product product){
+        super.save(product);
+        Cache.getInstance().addNewProduct(product.getId());
     }
 
 }

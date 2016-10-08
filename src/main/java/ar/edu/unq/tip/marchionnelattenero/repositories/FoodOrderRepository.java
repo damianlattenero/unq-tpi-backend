@@ -1,5 +1,6 @@
 package ar.edu.unq.tip.marchionnelattenero.repositories;
 
+import ar.edu.unq.tip.marchionnelattenero.models.Cache;
 import ar.edu.unq.tip.marchionnelattenero.models.FoodOrder;
 import ar.edu.unq.tip.marchionnelattenero.models.Product;
 import ar.edu.unq.tip.marchionnelattenero.repositories.utils.GenericRepository;
@@ -36,6 +37,12 @@ public class FoodOrderRepository extends HibernateGenericDAO<FoodOrder> implemen
         criteria.add(Restrictions.eq("product", product));
         criteria.add(Restrictions.ge("moment", moment));
         return (List<FoodOrder>) criteria.list();
+    }
+
+    @Override
+    public void save(FoodOrder foodOrder){
+        super.save(foodOrder);
+        Cache.getInstance().addFoodOrder(foodOrder);
     }
 
 }

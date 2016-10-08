@@ -4,58 +4,42 @@ import ar.edu.unq.tip.marchionnelattenero.repositories.FoodOrderRepository;
 import ar.edu.unq.tip.marchionnelattenero.repositories.ProductRepository;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
-import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicReference;
 
+@Service
 public class Cache {
+    private Map<Integer, Integer> productsPending;
+    private static AtomicReference<Cache> INSTANCE = new AtomicReference<Cache>();
 
-    private static Cache instance = null;
+    public Cache(){
+
+        productsPending = new HashMap<Integer, Integer>();
+
+        final Cache previous = INSTANCE.getAndSet(this);
+        if (previous != null)
+            throw new IllegalStateException("Second singleton " + this + " created after " + previous);
+    }
+
+    public static Cache getInstance() {
+        return INSTANCE.get();
+    }
+
+
+    private static volatile Cache instance = null;
+
 
     @Autowired
     private ProductRepository productRepository;
     @Autowired
     private FoodOrderRepository foodOrderRepository;
 
-    private Map<Integer, Integer> productsPending;
 
-    public static Cache getInstance() {
-        if (instance == null) {
-            instance = new Cache(new Timestamp(DateTime.now().getMillis()));
-        }
-        return instance;
-    }
-
-    public Cache(Timestamp moment) {
-        productsPending = new HashMap<Integer, Integer>();
-        productsPending.put(1, 1);
-        productsPending.put(2, 2);
-        productsPending.put(3, 5);
-//        initialize(moment);
-    }
-
-    //TODO arreglar como jetty carga los componentes por primera vez
-    private void initialize(Timestamp moment) {
-        //Create a Map with All the Products
-        for (Product product : this.productRepository.findAll()) {
-            productsPending.put(product.getId(), findProductsFor(product, moment));
-        }
-    }
-
-    private int findProductsFor(Product product, Timestamp moment) {
-        int amount = 0;
-
-        for (FoodOrder foodOrder : this.foodOrderRepository.findProductsAfterMoment(product, moment)) {
-            amount += foodOrder.getAmount();
-        }
-
-        return amount;
-    }
-
-    public void addFoodOrder(FoodOrder foodOrder){
+    public void addFoodOrder(FoodOrder foodOrder) {
         int idProduct = foodOrder.getProduct().getId();
         int count = productsPending.get(idProduct);
 
@@ -63,6 +47,10 @@ public class Cache {
     }
 
     public Integer getPending(Integer idProduct) {
-        return (productsPending.containsKey(idProduct)) ? productsPending.get(idProduct) : 0;
+       return  (productsPending.get(idProduct));
+    }
+
+    public void addNewProduct(int id) {
+        this.productsPending.put(id, 0);
     }
 }
