@@ -1,4 +1,4 @@
-package ar.edu.unq.tip.ml.models.oauth;
+package ar.edu.unq.tip.marchionnelattenero.models.oauth;
 
 import javax.persistence.*;
 

@@ -55,6 +55,6 @@
     <aop:aspectj-autoproxy />
 
 
-    <bean id="loggerAspect" class="ar.edu.unq.tip.ml.aspects.LoggerAspect"/>
+    <bean id="loggerAspect" class="ar.edu.unq.tip.marchionnelattenero.aspects.LoggerAspect"/>
 
 </beans>

@@ -26,7 +26,7 @@ http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
             </props>
         </property>
 
-        <property name="packagesToScan" value="ar.edu.unq.tip.ml.models"/>
+        <property name="packagesToScan" value="ar.edu.unq.tip.marchionnelattenero.models"/>
 
     </bean>
 

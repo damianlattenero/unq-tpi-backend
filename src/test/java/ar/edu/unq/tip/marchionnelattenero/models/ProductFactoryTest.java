@@ -1,9 +1,8 @@
 package ar.edu.unq.tip.marchionnelattenero.models;
 
-import ar.edu.unq.tip.ml.factories.ProductFactory;
-import ar.edu.unq.tip.ml.models.Product;
-import ar.edu.unq.tip.ml.repositories.ProductRepository;
-import ar.edu.unq.tip.ml.services.AbstractServiceTest;
+import ar.edu.unq.tip.marchionnelattenero.factories.ProductFactory;
+import ar.edu.unq.tip.marchionnelattenero.repositories.ProductRepository;
+import ar.edu.unq.tip.marchionnelattenero.services.AbstractServiceTest;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,4 +1,4 @@
-package ar.edu.unq.tip.ml.models;
+package ar.edu.unq.tip.marchionnelattenero.models;
 
 import org.joda.time.DateTime;
 
