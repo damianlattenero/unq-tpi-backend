@@ -5,6 +5,7 @@ import ar.edu.unq.tip.marchionnelattenero.controllers.requests.ProductCreationBo
 import ar.edu.unq.tip.marchionnelattenero.controllers.responses.ProductCreationResponse;
 import ar.edu.unq.tip.marchionnelattenero.factories.ProductFactory;
 import ar.edu.unq.tip.marchionnelattenero.models.Product;
+import ar.edu.unq.tip.marchionnelattenero.repositories.ProductRepository;
 import ar.edu.unq.tip.marchionnelattenero.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -19,12 +20,14 @@ public class ProductController {
 
     private ProductService productService;
     private ProductFactory productFactory;
+    @Autowired
+    private ProductRepository productRepository;
 
     @GET
     @Path("all")
     @Produces("application/json")
     public List<ProductCreationResponse> getAll() {
-        return this.getProductService().findAll();
+        return ProductCreationResponse.buildMany(this.productRepository.findAll());
     }
 
     @POST

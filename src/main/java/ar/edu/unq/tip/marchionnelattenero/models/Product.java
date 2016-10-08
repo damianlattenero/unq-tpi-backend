@@ -12,7 +12,7 @@ public class Product{
 
     @Id()
     @GeneratedValue()
-    @Column
+    @Column(name = "Product_ID")
     private int id;
     @Column(name = "description")
     private String description;

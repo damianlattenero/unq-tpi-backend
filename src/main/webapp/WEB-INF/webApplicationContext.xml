@@ -45,7 +45,6 @@
         </jaxrs:providers>
     </jaxrs:server>
 
-
     <cxf:bus>
         <cxf:features>
             <cxf:logging/>

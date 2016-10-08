@@ -1,0 +1,1 @@
+INSERT INTO Product (name, description) VALUES ('Panchini', 'Con papas');

@@ -1,5 +1,9 @@
 package ar.edu.unq.tip.marchionnelattenero.models;
 
+import ar.edu.unq.tip.marchionnelattenero.factories.ProductFactory;
+import ar.edu.unq.tip.marchionnelattenero.repositories.ProductRepository;
+import ar.edu.unq.tip.marchionnelattenero.services.ProductService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -11,6 +15,9 @@ public class Cache {
     private Map<Integer, Integer> productsPending;
     private static AtomicReference<Cache> INSTANCE = new AtomicReference<Cache>();
     private static volatile Cache instance = null;
+    @Autowired
+    private ProductRepository productRepository;
+
 
     public Cache() {
 
@@ -19,6 +26,13 @@ public class Cache {
         final Cache previous = INSTANCE.getAndSet(this);
         if (previous != null)
             throw new IllegalStateException("Second singleton " + this + " created after " + previous);
+//        this.update();
+    }
+
+    public void update() {
+        for(Product p :this.productRepository.findAll()){
+            Cache.getInstance().productsPending.putIfAbsent(p.getId(), 0);
+        }
     }
 
     public static Cache getInstance() {
@@ -27,13 +41,16 @@ public class Cache {
 
     public void addFoodOrder(FoodOrder foodOrder) {
         int idProduct = foodOrder.getProduct().getId();
-        int count = productsPending.get(idProduct);
+        int count = this.getPending(idProduct);
 
-        productsPending.replace(idProduct, count + foodOrder.getAmount());
+        if (productsPending.containsKey(idProduct))
+            productsPending.replace(idProduct, count + foodOrder.getAmount());
+        else
+            productsPending.put(idProduct, count + foodOrder.getAmount());
     }
 
     public Integer getPending(Integer idProduct) {
-        return (productsPending.get(idProduct));
+        return (productsPending.containsKey(idProduct)) ? productsPending.get(idProduct) : 0;
     }
 
     public void addNewProduct(int id) {

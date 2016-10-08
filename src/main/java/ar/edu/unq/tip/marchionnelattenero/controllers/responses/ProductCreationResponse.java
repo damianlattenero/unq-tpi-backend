@@ -4,6 +4,9 @@ package ar.edu.unq.tip.marchionnelattenero.controllers.responses;
 import ar.edu.unq.tip.marchionnelattenero.models.Cache;
 import ar.edu.unq.tip.marchionnelattenero.models.Product;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 public class ProductCreationResponse {
 
     private String name;
@@ -51,4 +54,8 @@ public class ProductCreationResponse {
     public Integer getPending() { return pending; }
 
     public void setPending(Integer pending) { this.pending = pending; }
+
+    public static List<ProductCreationResponse> buildMany(List<Product> all) {
+        return all.stream().map(ProductCreationResponse::build).collect(Collectors.toList());
+    }
 }

@@ -25,18 +25,6 @@ public class ProductService {
         productRepository.save(product);
         return product;
     }
-    @Transactional
-    public List<ProductCreationResponse> findAll() {
-
-        List<ProductCreationResponse> prods = new ArrayList<>();
-
-        for(Product f : productRepository.findAll()){
-            prods.add((new ProductCreationResponse(f.getName(),f.getDescription(),f.getId())));
-        }
-
-        return prods;
-
-    }
 
     @Transactional
     public void deleteProduct(Product product) {
