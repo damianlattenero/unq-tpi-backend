@@ -15,6 +15,6 @@
     <!-- Database Configuration -->
 
     <!-- Auto scan the components -->
-    <context:component-scan base-package="ar.edu.unq.tip.marchionnelattenero"/>
+    <context:component-scan base-package="ar.*"/>
 
 </beans>
