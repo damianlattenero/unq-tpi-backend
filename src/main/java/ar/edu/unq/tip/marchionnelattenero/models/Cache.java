@@ -13,9 +13,6 @@ public class Cache {
     private Map<Integer, Integer> productsPending;
     private static AtomicReference<Cache> INSTANCE = new AtomicReference<Cache>();
     private static volatile Cache instance = null;
-    @Autowired
-    private ProductRepository productRepository;
-
 
     public Cache() {
 
@@ -24,13 +21,6 @@ public class Cache {
         final Cache previous = INSTANCE.getAndSet(this);
         if (previous != null)
             throw new IllegalStateException("Second singleton " + this + " created after " + previous);
-//        this.update();
-    }
-
-    public void update() {
-        for(Product p :this.productRepository.findAll()){
-            Cache.getInstance().productsPending.putIfAbsent(p.getId(), 0);
-        }
     }
 
     public static Cache getInstance() {
