@@ -30,10 +30,4 @@ public class ProductRepository extends HibernateGenericDAO<Product> implements G
         return (Product) cr.uniqueResult();
     }
 
-    @Override
-    public void save(Product product) {
-        super.save(product);
-//        Cache.getInstance().addNewProduct(product.getId());
-    }
-
 }
