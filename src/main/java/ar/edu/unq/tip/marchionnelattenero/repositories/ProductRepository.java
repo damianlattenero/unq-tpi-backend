@@ -33,7 +33,7 @@ public class ProductRepository extends HibernateGenericDAO<Product> implements G
     @Override
     public void save(Product product) {
         super.save(product);
-        Cache.getInstance().addNewProduct(product.getId());
+//        Cache.getInstance().addNewProduct(product.getId());
     }
 
 }
