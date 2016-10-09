@@ -1,9 +1,9 @@
 package ar.edu.unq.tip.marchionnelattenero.controllers;
 
 
+import ar.edu.unq.tip.marchionnelattenero.controllers.requests.ProductCreationBody;
 import ar.edu.unq.tip.marchionnelattenero.controllers.responses.ProductCreationResponse;
 import ar.edu.unq.tip.marchionnelattenero.factories.ProductFactory;
-import ar.edu.unq.tip.marchionnelattenero.controllers.requests.ProductCreationBody;
 import ar.edu.unq.tip.marchionnelattenero.models.Product;
 import ar.edu.unq.tip.marchionnelattenero.repositories.ProductRepository;
 import ar.edu.unq.tip.marchionnelattenero.services.ProductService;

@@ -23,15 +23,13 @@ public class FoodOrderRepository extends HibernateGenericDAO<FoodOrder> implemen
         return FoodOrder.class;
     }
 
-    public List<FoodOrder> findAfterMoment(Timestamp moment)
-    {
+    public List<FoodOrder> findAfterMoment(Timestamp moment) {
         Criteria criteria = this.getSession().createCriteria(this.getDomainClass());
         criteria.add(Restrictions.ge("moment", moment));
         return (List<FoodOrder>) criteria.list();
     }
 
-    public List<FoodOrder> findProductsAfterMoment(Product product, Timestamp moment)
-    {
+    public List<FoodOrder> findProductsAfterMoment(Product product, Timestamp moment) {
         Criteria criteria = this.getSession().createCriteria(this.getDomainClass());
         criteria.add(Restrictions.eq("product", product));
         criteria.add(Restrictions.ge("moment", moment));
@@ -39,7 +37,7 @@ public class FoodOrderRepository extends HibernateGenericDAO<FoodOrder> implemen
     }
 
     @Override
-    public void save(FoodOrder foodOrder){
+    public void save(FoodOrder foodOrder) {
         super.save(foodOrder);
         Cache.getInstance().addFoodOrder(foodOrder);
     }

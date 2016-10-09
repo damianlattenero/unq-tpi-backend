@@ -25,7 +25,7 @@ public class FoodOrderService {
     @Transactional
     public FoodOrder createFoodOrder(int idProduct, int amount) {
         Product p = productRepository.findById(idProduct);
-        FoodOrder foodOrder = new FoodOrder(p,amount);
+        FoodOrder foodOrder = new FoodOrder(p, amount);
         this.foodOrderRepository.save(foodOrder);
         return foodOrder;
     }

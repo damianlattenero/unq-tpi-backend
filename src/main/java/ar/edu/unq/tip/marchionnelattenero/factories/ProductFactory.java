@@ -30,7 +30,11 @@ public class ProductFactory {
         return this.productRepository.findByname("Hamburguesa");
     }
 
-    public Product getProductByName(String name){ return  this.productRepository.findByProductName(name);}
+    public Product getProductByName(String name) {
+        return this.productRepository.findByProductName(name);
+    }
 
-    public Product getProductByID(Integer id){return this.productRepository.findById(id);}
+    public Product getProductByID(Integer id) {
+        return this.productRepository.findById(id);
+    }
 }

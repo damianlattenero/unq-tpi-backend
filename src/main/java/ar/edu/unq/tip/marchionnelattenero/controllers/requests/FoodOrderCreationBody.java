@@ -1,6 +1,6 @@
 package ar.edu.unq.tip.marchionnelattenero.controllers.requests;
 
-public class FoodOrderCreationBody{
+public class FoodOrderCreationBody {
     private int productId;
     private int productAmount;
 

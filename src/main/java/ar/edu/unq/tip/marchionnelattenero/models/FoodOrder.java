@@ -2,8 +2,8 @@ package ar.edu.unq.tip.marchionnelattenero.models;
 
 import org.joda.time.DateTime;
 
-import java.sql.Timestamp;
 import javax.persistence.*;
+import java.sql.Timestamp;
 
 @Entity
 @Table(name = "FoodOrder")
@@ -38,7 +38,8 @@ public class FoodOrder {
             private OrderState state;
 
     */
-    public FoodOrder() {}
+    public FoodOrder() {
+    }
 
     public FoodOrder(Product product) {
         this(product, 1);

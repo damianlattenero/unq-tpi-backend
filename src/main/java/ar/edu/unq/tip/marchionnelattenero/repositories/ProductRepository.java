@@ -18,7 +18,7 @@ public class ProductRepository extends HibernateGenericDAO<Product> implements G
         return Product.class;
     }
 
-    public Product findByname(String name){
+    public Product findByname(String name) {
         Criteria criteria = getSession().createCriteria(Product.class);
         Product yourObject = (Product) criteria.add(Restrictions.eq("name", name)).uniqueResult();
         return yourObject;
@@ -31,7 +31,7 @@ public class ProductRepository extends HibernateGenericDAO<Product> implements G
     }
 
     @Override
-    public void save(Product product){
+    public void save(Product product) {
         super.save(product);
         Cache.getInstance().addNewProduct(product.getId());
     }

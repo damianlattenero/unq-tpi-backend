@@ -5,9 +5,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "Product")
-public class Product{
-
-
+public class Product {
 
 
     @Id()
@@ -18,7 +16,6 @@ public class Product{
     private String description;
     @Column(name = "name")
     private String name;
-
 
 
     public Product(String name, String description) {
