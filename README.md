@@ -43,5 +43,3 @@ Sistema donde se gestionan los pedidos entre el Mostrador y la Cocina para un ne
 + Spring
 + Hibernate
 + Java
-
-## Tareas
