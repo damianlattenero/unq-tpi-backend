@@ -12,7 +12,7 @@
 ## Requirements
 Deben ser instaladas las dependencias de maven del .pom del proyecto utilizando el comando:
 
-    $ mvn clean install idea:idea test
+    $ mvn clean install compile test
     
 Luego correr Jetty:
 
