@@ -6,10 +6,14 @@ import ar.edu.unq.tip.marchionnelattenero.controllers.responses.FoodOrderCreatio
 import ar.edu.unq.tip.marchionnelattenero.controllers.responses.ProductPendingResponse;
 import ar.edu.unq.tip.marchionnelattenero.models.FoodOrder;
 import ar.edu.unq.tip.marchionnelattenero.services.FoodOrderService;
+import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormatter;
+import org.joda.time.format.ISODateTimeFormat;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 import javax.ws.rs.*;
+import java.sql.Timestamp;
 import java.util.List;
 
 @Path("foodOrders")
@@ -31,7 +35,7 @@ public class FoodOrderController {
     @Consumes("application/json")
     @Produces("application/json")
     public ProductPendingResponse create(FoodOrderCreationBody foodOrderBody) {
-        FoodOrder foodOrder = this.foodOrderService.createFoodOrder(foodOrderBody.getProductId(), foodOrderBody.getProductAmount());
+        FoodOrder foodOrder = this.foodOrderService.createFoodOrder(foodOrderBody.getProductId(), foodOrderBody.getProductAmount(), foodOrderBody.getUser());
         return ProductPendingResponse.build(foodOrder.getProduct());
     }
 
@@ -41,6 +45,25 @@ public class FoodOrderController {
     public FoodOrderCreationResponse findFoodOrdersByID(@PathParam("id") Integer id) {
         return FoodOrderCreationResponse.build(foodOrderService.findById(id));
     }
+
+    @GET
+    @Path("{day}")
+    @Produces("application/json")
+    public List<FoodOrderCreationResponse> findFoodOrdersByID(@PathParam("day") String day) {
+        DateTimeFormatter formatter = ISODateTimeFormat.dateTimeParser();
+        //DateTimeFormatter.forPattern("yyyy-MM-dd");
+        Timestamp timestamp = new Timestamp(DateTime.parse(day, formatter).getMillis());
+        return FoodOrderCreationResponse.buildMany(foodOrderService.findByDay(timestamp));
+    }
+
+/*
+    @GET
+    @Path("{days}")
+    @Produces("application/json")
+    public List<Timestamp>  findFoodOrdersByID(@PathParam("days") Integer count) {
+        return (foodOrderService.findAllDays(count));
+    }
+*/
 
 
 }

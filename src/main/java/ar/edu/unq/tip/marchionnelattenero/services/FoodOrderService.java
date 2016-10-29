@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 @Service("foodOrderService")
@@ -23,9 +24,10 @@ public class FoodOrderService {
     private ProductRepository productRepository;
 
     @Transactional
-    public FoodOrder createFoodOrder(int idProduct, int amount) {
+    public FoodOrder createFoodOrder(int idProduct, int amount, String user) {
         Product p = productRepository.findById(idProduct);
-        FoodOrder foodOrder = new FoodOrder(p, amount);
+        //TODO: Ir a buscar el Usuarios a la Base
+        FoodOrder foodOrder = new FoodOrder(p, amount, user);
         this.foodOrderRepository.save(foodOrder);
         return foodOrder;
     }

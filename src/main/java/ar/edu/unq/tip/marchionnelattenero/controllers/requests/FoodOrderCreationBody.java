@@ -3,6 +3,7 @@ package ar.edu.unq.tip.marchionnelattenero.controllers.requests;
 public class FoodOrderCreationBody {
     private int productId;
     private int productAmount;
+    private String user;
 
     public int getProductId() {
         return productId;
@@ -18,5 +19,13 @@ public class FoodOrderCreationBody {
 
     public void setProductAmount(int productAmount) {
         this.productAmount = productAmount;
+    }
+
+    public String getUser() {
+        return user;
+    }
+
+    public void setUser(String user) {
+        this.user = user;
     }
 }

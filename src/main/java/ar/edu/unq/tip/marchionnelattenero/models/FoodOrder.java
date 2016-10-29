@@ -24,31 +24,28 @@ public class FoodOrder {
     @Column(name = "amount")
     private int amount;
 
+    @Column(name = "user")
+    private String user;
+
     /*
-
-        @ManyToOne
-        private User user;
-
         @ManyToOne
         private Place place;
 
-
-
-            @OneToOne(cascade = CascadeType.ALL)
-            private OrderState state;
-
+        @OneToOne(cascade = CascadeType.ALL)
+        private OrderState state;
     */
     public FoodOrder() {
     }
 
-    public FoodOrder(Product product) {
-        this(product, 1);
+    public FoodOrder(Product product, String user) {
+        this(product, 1, user);
     }
 
-    public FoodOrder(Product product, int amount) {
+    public FoodOrder(Product product, int amount, String user) {
         this.moment = new Timestamp(DateTime.now().getMillis());
         this.product = product;
         this.amount = amount;
+        this.user = user;
     }
 
     public Product getProduct() {
@@ -63,6 +60,9 @@ public class FoodOrder {
         return id;
     }
 
+    public String getUser() {
+        return user;
+    }
 
     public Timestamp getMoment() {
         return moment;
