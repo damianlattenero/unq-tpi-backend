@@ -49,4 +49,12 @@ public class FoodOrderService {
     public FoodOrder findById(Integer id) {
         return this.foodOrderRepository.findById(id);
     }
+
+    public List<FoodOrder> findByDay(Timestamp day) {
+        return this.foodOrderRepository.findByDay(day);
+    }
+
+    public List<Timestamp> findAllDays(int count) {
+        return this.foodOrderRepository.findAllDays(count);
+    }
 }
