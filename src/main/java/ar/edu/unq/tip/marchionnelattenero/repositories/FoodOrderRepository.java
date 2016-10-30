@@ -2,6 +2,7 @@ package ar.edu.unq.tip.marchionnelattenero.repositories;
 
 import ar.edu.unq.tip.marchionnelattenero.models.Cache;
 import ar.edu.unq.tip.marchionnelattenero.models.FoodOrder;
+import ar.edu.unq.tip.marchionnelattenero.models.FoodOrderState;
 import ar.edu.unq.tip.marchionnelattenero.models.Product;
 import ar.edu.unq.tip.marchionnelattenero.repositories.utils.GenericRepository;
 import ar.edu.unq.tip.marchionnelattenero.repositories.utils.HibernateGenericDAO;
@@ -19,7 +20,7 @@ import java.util.List;
 public class FoodOrderRepository extends HibernateGenericDAO<FoodOrder> implements GenericRepository<FoodOrder> {
 
 
-    private static final long serialVersionUID = -4036325643305673330L;
+    private static final long serialVersionUID = 1L;
 
     @Override
     protected Class<FoodOrder> getDomainClass() {
@@ -51,7 +52,22 @@ public class FoodOrderRepository extends HibernateGenericDAO<FoodOrder> implemen
         return (List<FoodOrder>) criteria.list();
     }
 
-    public List<Timestamp> findAllDays(int count) {
+    public List<FoodOrder> findByDayForArchived(Timestamp moment) {
+        Criteria criteria = this.getSession().createCriteria(this.getDomainClass());
+
+        criteria.setProjection(Projections.projectionList()
+                .add(Projections.groupProperty("moment"))
+                .add(Projections.groupProperty("product"))
+                .add(Projections.groupProperty("state"))
+                .add(Projections.sum("amount"))
+        );
+
+        criteria.add(Restrictions.eq("archived", false));
+        criteria.add(Restrictions.eq("moment", moment));
+        return (List<FoodOrder>) criteria.list();
+    }
+
+    public List<Timestamp> findAllDaysNotArchived(int count) {
         Timestamp moment = new Timestamp(DateTime.now().getMillis());
 
         Criteria criteria = this.getSession().createCriteria(this.getDomainClass());
@@ -59,7 +75,27 @@ public class FoodOrderRepository extends HibernateGenericDAO<FoodOrder> implemen
             criteria.setMaxResults(count);
         criteria.setProjection(Projections.distinct(Projections.property("moment")));
         criteria.add(Restrictions.le("moment", moment));
+        criteria.add(Restrictions.eq("archived", false));
         criteria.addOrder(Order.desc("moment"));
         return (List<Timestamp>) criteria.list();
+    }
+
+    public void setArchived(Timestamp moment, Product product, FoodOrderState state) {
+        Criteria criteria = this.getSession().createCriteria(this.getDomainClass());
+        criteria.add(Restrictions.eq("archived", false));
+        criteria.add(Restrictions.eq("moment", moment));
+        criteria.add(Restrictions.eq("product", product));
+        criteria.add(Restrictions.eq("state", state));
+        List<FoodOrder> foodOrders = criteria.list();
+
+        if (foodOrders.size() > 0) {
+//            Transaction t = this.getSession().beginTransaction();
+            for (FoodOrder foodOrder : foodOrders) {
+                foodOrder.setArchived();
+                this.update(foodOrder);
+//                this.getSession().update(foodOrder);
+            }
+//            t.commit();
+        }
     }
 }

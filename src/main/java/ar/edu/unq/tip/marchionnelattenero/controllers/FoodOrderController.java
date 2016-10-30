@@ -5,6 +5,7 @@ import ar.edu.unq.tip.marchionnelattenero.controllers.requests.FoodOrderCreation
 import ar.edu.unq.tip.marchionnelattenero.controllers.responses.FoodOrderCreationResponse;
 import ar.edu.unq.tip.marchionnelattenero.controllers.responses.ProductPendingResponse;
 import ar.edu.unq.tip.marchionnelattenero.models.FoodOrder;
+import ar.edu.unq.tip.marchionnelattenero.models.FoodOrderState;
 import ar.edu.unq.tip.marchionnelattenero.services.FoodOrderService;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormatter;
@@ -35,16 +36,54 @@ public class FoodOrderController {
     @Consumes("application/json")
     @Produces("application/json")
     public ProductPendingResponse create(FoodOrderCreationBody foodOrderBody) {
-        FoodOrder foodOrder = this.foodOrderService.createFoodOrder(foodOrderBody.getProductId(), foodOrderBody.getProductAmount(), foodOrderBody.getUser());
+        FoodOrder foodOrder = this.foodOrderService.createFoodOrder(foodOrderBody.getProductId(), foodOrderBody.getProductAmount(), foodOrderBody.getUser(), foodOrderBody.getState());
         return ProductPendingResponse.build(foodOrder.getProduct());
     }
 
+    @POST
+    @Path("order")
+    @Consumes("application/json")
+    @Produces("application/json")
+    public ProductPendingResponse order(FoodOrderCreationBody foodOrderBody) {
+        FoodOrder foodOrder = this.foodOrderService.createFoodOrder(foodOrderBody.getProductId(), 1, foodOrderBody.getUser(), FoodOrderState.ORDER.toString());
+        return ProductPendingResponse.build(foodOrder.getProduct());
+    }
+
+    @POST
+    @Path("cancelorder")
+    @Consumes("application/json")
+    @Produces("application/json")
+    public ProductPendingResponse cancelOrder(FoodOrderCreationBody foodOrderBody) {
+        FoodOrder foodOrder = this.foodOrderService.createFoodOrder(foodOrderBody.getProductId(), -1, foodOrderBody.getUser(), FoodOrderState.CANCELORDER.toString());
+        return ProductPendingResponse.build(foodOrder.getProduct());
+    }
+
+    @POST
+    @Path("cooked")
+    @Consumes("application/json")
+    @Produces("application/json")
+    public ProductPendingResponse cooked(FoodOrderCreationBody foodOrderBody) {
+        FoodOrder foodOrder = this.foodOrderService.createFoodOrder(foodOrderBody.getProductId(), -1, foodOrderBody.getUser(), FoodOrderState.COOKED.toString());
+        return ProductPendingResponse.build(foodOrder.getProduct());
+    }
+
+    @POST
+    @Path("cancelcooked")
+    @Consumes("application/json")
+    @Produces("application/json")
+    public ProductPendingResponse cancelCooked(FoodOrderCreationBody foodOrderBody) {
+        FoodOrder foodOrder = this.foodOrderService.createFoodOrder(foodOrderBody.getProductId(), 1, foodOrderBody.getUser(), FoodOrderState.CANCELCOOKED.toString());
+        return ProductPendingResponse.build(foodOrder.getProduct());
+    }
+
+/*
     @GET
     @Path("{id}")
     @Produces("application/json")
     public FoodOrderCreationResponse findFoodOrdersByID(@PathParam("id") Integer id) {
         return FoodOrderCreationResponse.build(foodOrderService.findById(id));
     }
+*/
 
     @GET
     @Path("{day}")
