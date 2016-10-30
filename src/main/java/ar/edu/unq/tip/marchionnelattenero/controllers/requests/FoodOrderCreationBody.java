@@ -4,6 +4,7 @@ public class FoodOrderCreationBody {
     private int productId;
     private int productAmount;
     private String user;
+    private String state;
 
     public int getProductId() {
         return productId;
@@ -27,5 +28,13 @@ public class FoodOrderCreationBody {
 
     public void setUser(String user) {
         this.user = user;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
     }
 }
