@@ -23,7 +23,7 @@ public class FoodOrder {
     @Column(name = "amount")
     private int amount;
 
-    @Column(name = "user")
+    @Column(name = "USER_ID")
     private String user;
 
     @Enumerated(EnumType.STRING)
@@ -40,15 +40,15 @@ public class FoodOrder {
     public FoodOrder() {
     }
 
-    public FoodOrder(Product product, String user) {
-        this(product, "ORDER", 1, "Juan");
+    public FoodOrder(Product product, String state, String user) {
+        this(product, state, 1, user);
     }
 
 
     public FoodOrder(Product product, String state, int amount, String user) {
         this.moment = new Timestamp(DateTime.now().getMillis());
         this.product = product;
-        this.state = FoodOrderState.valueOf("ORDER");
+        this.state = FoodOrderState.valueOf(state);
         this.amount = amount;
         this.user = user;
         this.archived = false;

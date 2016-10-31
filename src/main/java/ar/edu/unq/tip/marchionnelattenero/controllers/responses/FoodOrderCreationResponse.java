@@ -13,14 +13,16 @@ public class FoodOrderCreationResponse {
     private String productDescription;
     private String productName;
     private String user;
+    private String state;
 
-    public FoodOrderCreationResponse(int id, long moment, String name, String description, int productAmount, String user) {
+    public FoodOrderCreationResponse(int id, long moment, String name, String description, int productAmount, String user, String state) {
         this.id = id;
         this.moment = moment;
         this.productName = name;
         this.productDescription = description;
         this.productAmount = productAmount;
         this.user = user;
+        this.state = state;
     }
 
     public static FoodOrderCreationResponse build(FoodOrder foodOrder) {
@@ -30,7 +32,8 @@ public class FoodOrderCreationResponse {
                 foodOrder.getProduct().getName(),
                 foodOrder.getProduct().getDescription(),
                 foodOrder.getAmount(),
-                foodOrder.getUser()
+                foodOrder.getUser(),
+                foodOrder.getState().toString()
         );
     }
 
@@ -84,5 +87,13 @@ public class FoodOrderCreationResponse {
 
     public void setUser(String user) {
         this.user = user;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
     }
 }
