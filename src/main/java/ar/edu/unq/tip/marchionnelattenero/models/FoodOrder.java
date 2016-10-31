@@ -41,13 +41,14 @@ public class FoodOrder {
     }
 
     public FoodOrder(Product product, String user) {
-        this(product, FoodOrderState.ORDER.toString(), 1, user);
+        this(product, "ORDER", 1, "Juan");
     }
+
 
     public FoodOrder(Product product, String state, int amount, String user) {
         this.moment = new Timestamp(DateTime.now().getMillis());
         this.product = product;
-        this.state = FoodOrderState.valueOf(state);
+        this.state = FoodOrderState.valueOf("ORDER");
         this.amount = amount;
         this.user = user;
         this.archived = false;

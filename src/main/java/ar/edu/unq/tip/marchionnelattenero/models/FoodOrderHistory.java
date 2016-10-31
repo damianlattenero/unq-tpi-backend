@@ -2,6 +2,8 @@ package ar.edu.unq.tip.marchionnelattenero.models;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "FoodOrderHistory")
@@ -16,8 +18,8 @@ public class FoodOrderHistory {
     @Column(name = "moment")
     private Timestamp moment;
 
-    @ManyToOne
-    private Product product;
+    @OneToMany
+    private Set<Product> products;
 
     @Column(name = "amount")
     private int amount;
@@ -34,7 +36,8 @@ public class FoodOrderHistory {
 
     public FoodOrderHistory(Timestamp moment, Product product, FoodOrderState state, int amount) {
         this.moment = moment;
-        this.product = product;
+        this.products = new HashSet<>();
+        this.products.add(product);
         this.state = state;
         this.amount = amount;
     }
@@ -43,8 +46,8 @@ public class FoodOrderHistory {
         return id;
     }
 
-    public Product getProduct() {
-        return product;
+    public Set<Product> getProduct() {
+        return products;
     }
 
     public FoodOrderState getState() {

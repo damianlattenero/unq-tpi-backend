@@ -16,6 +16,8 @@ public class Product {
     private String description;
     @Column(name = "name")
     private String name;
+    @ManyToOne
+    private FoodOrderHistory foodOrderHistory;
 
 
     public Product(String name, String description) {
@@ -46,4 +48,11 @@ public class Product {
     public Product() {
     }
 
+    public FoodOrderHistory getFoodOrderHistory() {
+        return foodOrderHistory;
+    }
+
+    public void setFoodOrderHistory(FoodOrderHistory foodOrderHistory) {
+        this.foodOrderHistory = foodOrderHistory;
+    }
 }
