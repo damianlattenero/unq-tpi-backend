@@ -54,7 +54,7 @@ public class FoodOrderRepository extends HibernateGenericDAO<FoodOrder> implemen
 
     public List<FoodOrder> findByDayForArchived(Timestamp moment) {
         Criteria criteria = this.getSession().createCriteria(this.getDomainClass());
-
+        //TODO: Formatear moment as yyyyMMdd
         criteria.setProjection(Projections.projectionList()
                 .add(Projections.groupProperty("moment"))
                 .add(Projections.groupProperty("product"))

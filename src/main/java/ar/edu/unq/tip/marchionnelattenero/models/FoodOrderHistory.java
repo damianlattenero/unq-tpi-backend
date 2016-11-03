@@ -18,8 +18,8 @@ public class FoodOrderHistory {
     @Column(name = "moment")
     private Timestamp moment;
 
-    @OneToMany
-    private Set<Product> products;
+    @ManyToOne
+    private Product product;
 
     @Column(name = "amount")
     private int amount;
@@ -36,8 +36,7 @@ public class FoodOrderHistory {
 
     public FoodOrderHistory(Timestamp moment, Product product, FoodOrderState state, int amount) {
         this.moment = moment;
-        this.products = new HashSet<>();
-        this.products.add(product);
+        this.product = product;
         this.state = state;
         this.amount = amount;
     }
@@ -46,8 +45,8 @@ public class FoodOrderHistory {
         return id;
     }
 
-    public Set<Product> getProduct() {
-        return products;
+    public Product getProduct() {
+        return product;
     }
 
     public FoodOrderState getState() {
