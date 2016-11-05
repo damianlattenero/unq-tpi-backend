@@ -2,8 +2,6 @@ package ar.edu.unq.tip.marchionnelattenero.models;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
-import java.util.HashSet;
-import java.util.Set;
 
 @Entity
 @Table(name = "FoodOrderHistory")
@@ -30,10 +28,6 @@ public class FoodOrderHistory {
     public FoodOrderHistory() {
     }
 
-    public FoodOrderHistory(Timestamp moment, Product product, String state, int amount) {
-        this(moment, product, FoodOrderState.valueOf(state), amount);
-    }
-
     public FoodOrderHistory(Timestamp moment, Product product, FoodOrderState state, int amount) {
         this.moment = moment;
         this.product = product;
@@ -55,6 +49,14 @@ public class FoodOrderHistory {
 
     public int getAmount() {
         return amount;
+    }
+
+    public void setAmount(int amount) {
+        this.amount = amount;
+    }
+
+    public void addAmount(int amount) {
+        this.setAmount(this.amount + amount);
     }
 
     public Timestamp getMoment() {
