@@ -14,9 +14,12 @@ import org.joda.time.DateTime;
 import org.springframework.stereotype.Repository;
 
 import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 
-@Repository("foodRepository")
+import static ar.edu.unq.tip.marchionnelattenero.repositories.utils.CriteriaHelper.addRestrictionForDay;
+
+@Repository("foodOrderRepository")
 public class FoodOrderRepository extends HibernateGenericDAO<FoodOrder> implements GenericRepository<FoodOrder> {
 
 
@@ -52,21 +55,6 @@ public class FoodOrderRepository extends HibernateGenericDAO<FoodOrder> implemen
         return (List<FoodOrder>) criteria.list();
     }
 
-    public List<FoodOrder> findByDayForArchived(Timestamp moment) {
-        Criteria criteria = this.getSession().createCriteria(this.getDomainClass());
-        //TODO: Formatear moment as yyyyMMdd
-        criteria.setProjection(Projections.projectionList()
-                .add(Projections.groupProperty("moment"))
-                .add(Projections.groupProperty("product"))
-                .add(Projections.groupProperty("state"))
-                .add(Projections.sum("amount"))
-        );
-
-        criteria.add(Restrictions.eq("archived", false));
-        criteria.add(Restrictions.eq("moment", moment));
-        return (List<FoodOrder>) criteria.list();
-    }
-
     public List<Timestamp> findAllDaysNotArchived(int count) {
         Timestamp moment = new Timestamp(DateTime.now().getMillis());
 
@@ -80,10 +68,25 @@ public class FoodOrderRepository extends HibernateGenericDAO<FoodOrder> implemen
         return (List<Timestamp>) criteria.list();
     }
 
-    public void setArchived(Timestamp moment, Product product, FoodOrderState state) {
+    public List<FoodOrder> findByDayForArchived(Date dateClosure) {
         Criteria criteria = this.getSession().createCriteria(this.getDomainClass());
+        criteria.setProjection(Projections.projectionList()
+//                .add(Projections.groupProperty("moment"))
+                .add(Projections.groupProperty("product"))
+                .add(Projections.groupProperty("state"))
+                .add(Projections.sum("amount"))
+        );
+
         criteria.add(Restrictions.eq("archived", false));
-        criteria.add(Restrictions.eq("moment", moment));
+        addRestrictionForDay(criteria, "moment", dateClosure);
+        return (List<FoodOrder>) criteria.list();
+    }
+
+    public void setArchived(Date dateClosure, Product product, FoodOrderState state) {
+        Criteria criteria = this.getSession().createCriteria(this.getDomainClass());
+
+        criteria.add(Restrictions.eq("archived", false));
+        addRestrictionForDay(criteria, "moment", dateClosure);
         criteria.add(Restrictions.eq("product", product));
         criteria.add(Restrictions.eq("state", state));
         List<FoodOrder> foodOrders = criteria.list();
