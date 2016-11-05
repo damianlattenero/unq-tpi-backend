@@ -49,6 +49,12 @@ public class FoodOrderRepository extends HibernateGenericDAO<FoodOrder> implemen
         Cache.getInstance().addFoodOrder(foodOrder);
     }
 
+    @Override
+    public void update(FoodOrder foodOrder) {
+        super.update(foodOrder);
+        Cache.getInstance().addFoodOrder(foodOrder);
+    }
+
     public List<FoodOrder> findByDay(Timestamp moment) {
         Criteria criteria = this.getSession().createCriteria(this.getDomainClass());
         criteria.add(Restrictions.eq("moment", moment));

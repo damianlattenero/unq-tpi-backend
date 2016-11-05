@@ -33,7 +33,7 @@ public class FoodOrderClosureController {
     @Path("generateClosure")
     @Consumes("application/json")
     @Produces("application/json")
-    public List<FoodOrderHistoryCreationResponse> create(FoodOrderClosureBody foodOrderClosureBody) {
+    public List<FoodOrderHistoryCreationResponse> generateClosure(FoodOrderClosureBody foodOrderClosureBody) {
         this.foodOrderClosureService.generateFoodOrderClosure(foodOrderClosureBody.getMomentClosure(), foodOrderClosureBody.getUser());
         return FoodOrderHistoryCreationResponse.buildMany(this.foodOrderHistoryService.findByDay(foodOrderClosureBody.getMomentClosure()));
     }

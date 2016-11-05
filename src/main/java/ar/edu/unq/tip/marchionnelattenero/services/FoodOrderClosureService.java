@@ -28,21 +28,23 @@ public class FoodOrderClosureService {
     private FoodOrderRepository foodOrderRepository;
 
     @Transactional
-    private void archiveFoodOrders(Date dateClosure) {
+    private int archiveFoodOrders(Date dateClosure) {
         List<FoodOrder> foodOrders = this.getFoodOrderRepository().findByDayForArchived(dateClosure);
 
         for (FoodOrder foodOrder : foodOrders) {
             this.getFoodOrderHistoryService().addToHistory(dateClosure, foodOrder.getProduct(), foodOrder.getState(), foodOrder.getAmount());
             this.getFoodOrderRepository().setArchived(dateClosure, foodOrder.getProduct(), foodOrder.getState());
         }
+
+        return foodOrders.size();
     }
 
     @Transactional
     public void generateFoodOrderClosure(long momentClosure, String user) {
         Date dateClosure = DateHelper.getDateWithoutTime(momentClosure);
 
+        int cantHistories = this.archiveFoodOrders(dateClosure);
         FoodOrderClosure foodOrderClosure = new FoodOrderClosure(dateClosure, user);
-        this.archiveFoodOrders(dateClosure);
         this.getFoodOrderClosureRepository().save(foodOrderClosure);
     }
 

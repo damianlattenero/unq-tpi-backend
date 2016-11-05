@@ -27,12 +27,17 @@ public class Cache {
 
     public void addFoodOrder(FoodOrder foodOrder) {
         int idProduct = foodOrder.getProduct().getId();
-        int count = this.getPending(idProduct);
+        int countCache = this.getPending(idProduct);
+        int totalCount = calculate(countCache, foodOrder);
 
         if (productsPending.containsKey(idProduct))
-            productsPending.replace(idProduct, count + foodOrder.getAmount());
+            productsPending.replace(idProduct, totalCount);
         else
-            productsPending.put(idProduct, count + foodOrder.getAmount());
+            productsPending.put(idProduct, totalCount);
+    }
+
+    private int calculate(int countCache, FoodOrder foodOrder) {
+        return (!foodOrder.getArchived()) ? (countCache + foodOrder.getAmount()) : (countCache - foodOrder.getAmount());
     }
 
     public Integer getPending(Integer idProduct) {
