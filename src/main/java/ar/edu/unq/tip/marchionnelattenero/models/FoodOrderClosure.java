@@ -4,6 +4,7 @@ import org.joda.time.DateTime;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.Date;
 
 @Entity
 @Table(name = "FoodOrderClosure")
@@ -27,9 +28,9 @@ public class FoodOrderClosure {
     public FoodOrderClosure() {
     }
 
-    public FoodOrderClosure(Timestamp momentClosure, String user) {
+    public FoodOrderClosure(Date momentClosure, String user) {
         this.moment = new Timestamp(DateTime.now().getMillis());;
-        this.momentClosure = momentClosure;
+        this.momentClosure = new Timestamp(momentClosure.getTime());
         this.user = user;
     }
 

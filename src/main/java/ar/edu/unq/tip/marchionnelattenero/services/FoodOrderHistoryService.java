@@ -53,4 +53,9 @@ public class FoodOrderHistoryService {
         }
 
     }
+
+    public List<FoodOrderHistory> findByDay(long momentClosure) {
+        Date date = new Date(momentClosure);
+        return this.getFoodOrderHistoryRepository().findByDay(date);
+    }
 }

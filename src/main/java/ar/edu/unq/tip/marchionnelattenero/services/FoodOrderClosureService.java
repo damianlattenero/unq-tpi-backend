@@ -38,10 +38,10 @@ public class FoodOrderClosureService {
     }
 
     @Transactional
-    public void generateFoodOrderClosure(Timestamp momentClosure, String user) {
+    public void generateFoodOrderClosure(long momentClosure, String user) {
         Date dateClosure = DateHelper.getDateWithoutTime(momentClosure);
 
-        FoodOrderClosure foodOrderClosure = new FoodOrderClosure(momentClosure, user);
+        FoodOrderClosure foodOrderClosure = new FoodOrderClosure(dateClosure, user);
         this.archiveFoodOrders(dateClosure);
         this.getFoodOrderClosureRepository().save(foodOrderClosure);
     }

@@ -5,6 +5,10 @@ import java.util.Date;
 
 public class DateHelper {
 
+    public static Date getDateWithoutTime(long datetime) {
+        return getDateWithoutTime(new Date(datetime));
+    }
+
     public static Date getDateWithoutTime(Date date) {
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);
