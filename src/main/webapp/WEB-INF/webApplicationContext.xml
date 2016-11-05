@@ -35,6 +35,8 @@
         <jaxrs:serviceBeans>
             <ref bean="productController" />
             <ref bean="foodOrderController" />
+            <ref bean="foodOrderHistoryController" />
+            <ref bean="foodOrderClosureController" />
         </jaxrs:serviceBeans>
 
 
