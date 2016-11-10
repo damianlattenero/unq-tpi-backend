@@ -26,7 +26,7 @@ public class FoodOrderHistoryRepository extends HibernateGenericDAO<FoodOrderHis
 
     public List<FoodOrderHistory> findBy(Date dateClosure, Product product, FoodOrderState state) {
         Criteria criteria = this.getSession().createCriteria(this.getDomainClass());
-        addRestrictionForDay(criteria, "moment", dateClosure);
+        //addRestrictionForDay(criteria, "moment", dateClosure);
         criteria.add(Restrictions.eq("product", product));
         criteria.add(Restrictions.eq("state", state));
         return (List<FoodOrderHistory>) criteria.list();
@@ -34,7 +34,7 @@ public class FoodOrderHistoryRepository extends HibernateGenericDAO<FoodOrderHis
 
     public List<FoodOrderHistory> findByDay(Date date) {
         Criteria criteria = this.getSession().createCriteria(this.getDomainClass());
-        addRestrictionForDay(criteria, "moment", date);
+        //addRestrictionForDay(criteria, "moment", date);
         return (List<FoodOrderHistory>) criteria.list();
     }
 }

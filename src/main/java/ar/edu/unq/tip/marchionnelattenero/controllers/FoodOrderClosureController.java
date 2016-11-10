@@ -38,4 +38,13 @@ public class FoodOrderClosureController {
         return FoodOrderHistoryCreationResponse.buildMany(this.foodOrderHistoryService.findByDay(foodOrderClosureBody.getMomentClosure()));
     }
 
+    @POST
+    @Path("generateClosureToday")
+    @Consumes("application/json")
+    @Produces("application/json")
+    public List<FoodOrderHistoryCreationResponse> generateClosureToday(String user) {
+        long dateClosure = this.foodOrderClosureService.generateFoodOrderClosure(user);
+        return FoodOrderHistoryCreationResponse.buildMany(this.foodOrderHistoryService.findByDay(dateClosure));
+    }
+
 }

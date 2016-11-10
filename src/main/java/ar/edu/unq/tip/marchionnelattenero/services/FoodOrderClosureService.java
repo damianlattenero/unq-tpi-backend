@@ -8,6 +8,7 @@ import ar.edu.unq.tip.marchionnelattenero.repositories.FoodOrderHistoryRepositor
 import ar.edu.unq.tip.marchionnelattenero.repositories.FoodOrderRepository;
 import ar.edu.unq.tip.marchionnelattenero.repositories.ProductRepository;
 import ar.edu.unq.tip.marchionnelattenero.models.utils.DateHelper;
+import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,12 +32,23 @@ public class FoodOrderClosureService {
     private int archiveFoodOrders(Date dateClosure) {
         List<FoodOrder> foodOrders = this.getFoodOrderRepository().findByDayForArchived(dateClosure);
 
-        for (FoodOrder foodOrder : foodOrders) {
-            this.getFoodOrderHistoryService().addToHistory(dateClosure, foodOrder.getProduct(), foodOrder.getState(), foodOrder.getAmount());
-            this.getFoodOrderRepository().setArchived(dateClosure, foodOrder.getProduct(), foodOrder.getState());
+        System.err.println("foodOrders: " + foodOrders);
+        if (foodOrders.size() > 0) {
+            for (FoodOrder foodOrder : foodOrders) {
+                this.getFoodOrderHistoryService().addToHistory(dateClosure, foodOrder.getProduct(), foodOrder.getState(), foodOrder.getAmount());
+                //this.getFoodOrderRepository().setArchived(dateClosure, foodOrder.getProduct(), foodOrder.getState());
+                foodOrder.setArchived();
+                this.getFoodOrderRepository().update(foodOrder);
+            }
         }
-
         return foodOrders.size();
+    }
+
+    @Transactional
+    public long generateFoodOrderClosure(String user) {
+        long dateClosure = DateTime.now().getMillis();
+        this.generateFoodOrderClosure(dateClosure, user);
+        return dateClosure;
     }
 
     @Transactional
@@ -44,6 +56,7 @@ public class FoodOrderClosureService {
         Date dateClosure = DateHelper.getDateWithoutTime(momentClosure);
 
         int cantHistories = this.archiveFoodOrders(dateClosure);
+        System.err.println("cantHistories: " + cantHistories);
         FoodOrderClosure foodOrderClosure = new FoodOrderClosure(dateClosure, user);
         this.getFoodOrderClosureRepository().save(foodOrderClosure);
     }
