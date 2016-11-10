@@ -12,7 +12,7 @@
 ## Requirements
 Deben ser instaladas las dependencias de maven del .pom del proyecto utilizando el comando:
 
-    $ mvn clean install idea:idea test
+    $ mvn clean install compile test
     
 Luego correr Jetty:
 
@@ -26,8 +26,6 @@ Proyecto TIP (Trabajo de Inserción Profesional) de la carrera "Tecnicatura en p
 ## Overview
 
 Sistema donde se gestionan los pedidos entre el Mostrador y la Cocina para un negocio de Gastronomía.
-
-## [Documento de visión y alcance](https://docs.google.com/document/d/11ltOdQpJIYP780u66CZWnH5IhheOQw1dFQctRVm2xk4/edit?usp=sharing)
 
 ## Profesores:
 
@@ -44,4 +42,12 @@ Sistema donde se gestionan los pedidos entre el Mostrador y la Cocina para un ne
 + Hibernate
 + Java
 
-## Tareas
+## Documentación
+
+### [Documento de visión y alcance](https://drive.google.com/open?id=11ltOdQpJIYP780u66CZWnH5IhheOQw1dFQctRVm2xk4)
+
+### [Entrega 0](https://drive.google.com/open?id=1BzRSa5731Dir4DRP1xUye1iSX5kruP79yQ-SDVvS1aw)
+
+### [Entrega 1](https://drive.google.com/open?id=1U7aW0AQleWplZhHXCy91HwV-h29_dfC8Bn6xLS8c_t8)
+
+
