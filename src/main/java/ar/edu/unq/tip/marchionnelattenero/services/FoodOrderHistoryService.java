@@ -4,7 +4,6 @@ import ar.edu.unq.tip.marchionnelattenero.models.FoodOrderHistory;
 import ar.edu.unq.tip.marchionnelattenero.models.FoodOrderState;
 import ar.edu.unq.tip.marchionnelattenero.models.Product;
 import ar.edu.unq.tip.marchionnelattenero.repositories.FoodOrderHistoryRepository;
-import ar.edu.unq.tip.marchionnelattenero.repositories.FoodOrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -57,5 +56,11 @@ public class FoodOrderHistoryService {
     public List<FoodOrderHistory> findByDay(long momentClosure) {
         Date date = new Date(momentClosure);
         return this.getFoodOrderHistoryRepository().findByDay(date);
+    }
+
+    public List<FoodOrderHistory> findByDayFromTo(long from, long to) {
+        Date dateFrom = new Date(from);
+        Date dateTo = new Date(to);
+        return this.getFoodOrderHistoryRepository().findByDayFromTo(dateFrom, dateTo);
     }
 }

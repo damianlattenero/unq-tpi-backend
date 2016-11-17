@@ -28,7 +28,7 @@ public class FoodOrderClosure {
     public FoodOrderClosure() {
     }
 
-    public FoodOrderClosure(Date momentClosure, String user) {
+    public FoodOrderClosure(String user, Date momentClosure) {
         this.moment = new Timestamp(DateTime.now().getMillis());;
         this.momentClosure = new Timestamp(momentClosure.getTime());
         this.user = user;
