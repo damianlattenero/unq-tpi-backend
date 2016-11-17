@@ -1,42 +1,152 @@
 package ar.edu.unq.tip.marchionnelattenero.controllers.responses;
 
 
-import ar.edu.unq.tip.marchionnelattenero.models.FoodOrder;
 import ar.edu.unq.tip.marchionnelattenero.models.FoodOrderHistory;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class FoodOrderHistoryCreationResponse {
-    private int id;
-    private int productAmount;
     private long moment;
     private String productDescription;
     private String productName;
-    private String state;
+    private int countOrder;
+    private int countCancelOrder;
+    private int countCooked;
+    private int countCancelCooked;
+    //Totals
+    private int countDiff;
+    private int countTotalCancel;
+    private int countTotalStock;
 
-    public FoodOrderHistoryCreationResponse(int id, long moment, String name, String description, int productAmount, String state) {
-        this.id = id;
+    public FoodOrderHistoryCreationResponse(long moment, String name, String description) {
         this.moment = moment;
         this.productName = name;
         this.productDescription = description;
-        this.productAmount = productAmount;
-        this.state = state;
+        this.countOrder = 0;
+        this.countCancelOrder= 0;
+        this.countCooked = 0;
+        this.countCancelCooked = 0;
+        this.countDiff = 0;
+        this.countTotalCancel = 0;
+        this.countTotalStock = 0;
     }
 
-    public static FoodOrderHistoryCreationResponse build(FoodOrderHistory foodOrderHistory) {
-        return new FoodOrderHistoryCreationResponse(
-                foodOrderHistory.getId(),
+    public static FoodOrderHistoryCreationResponse separateByState(FoodOrderHistory foodOrderHistory) {
+        FoodOrderHistoryCreationResponse f = new FoodOrderHistoryCreationResponse(
                 foodOrderHistory.getMoment().getTime(),
                 foodOrderHistory.getProduct().getName(),
-                foodOrderHistory.getProduct().getDescription(),
-                foodOrderHistory.getAmount(),
-                foodOrderHistory.getState().toString()
+                foodOrderHistory.getProduct().getDescription()
         );
+
+        switch (foodOrderHistory.getState())
+        {
+            case ORDER:
+                f.setCountOrder(foodOrderHistory.getAmount());
+                break;
+
+            case CANCELORDER:
+                f.setCountCancelOrder(foodOrderHistory.getAmount());
+                break;
+
+            case COOKED:
+                f.setCountCooked(foodOrderHistory.getAmount());
+                break;
+
+            case CANCELCOOKED:
+                f.setCountCancelCooked(foodOrderHistory.getAmount());
+                break;
+
+            default:
+                break;
+        }
+
+        f.calculateTotals();
+
+        return f;
     }
 
     public static List<FoodOrderHistoryCreationResponse> buildMany(List<FoodOrderHistory> applicationRequests) {
-        return applicationRequests.stream().map(FoodOrderHistoryCreationResponse::build).collect(Collectors.toList());
+        List<FoodOrderHistoryCreationResponse> listSeparatedStates = applicationRequests.stream().map(FoodOrderHistoryCreationResponse::separateByState).collect(Collectors.toList());
+        List<FoodOrderHistoryCreationResponse> listAgrupated = new ArrayList<FoodOrderHistoryCreationResponse>();
+
+        boolean isAgrupated;
+
+        for (FoodOrderHistoryCreationResponse foodOrderHistorySeparatedState : listSeparatedStates) {
+            isAgrupated = false;
+            for (FoodOrderHistoryCreationResponse foodOrderHistoryAgruped : listAgrupated) {
+                if(foodOrderHistorySeparatedState.equals(foodOrderHistoryAgruped))
+                {
+                    foodOrderHistoryAgruped.addCounters(foodOrderHistorySeparatedState);
+                    isAgrupated = true;
+                    break;
+                }
+            }
+
+            if (!isAgrupated)
+            {
+                listAgrupated.add(foodOrderHistorySeparatedState);
+            }
+        }
+
+        return listAgrupated;
+    }
+
+    private void addCounters(FoodOrderHistoryCreationResponse foodOrderHistory) {
+        this.countOrder += foodOrderHistory.getCountOrder();
+        this.countCancelOrder += foodOrderHistory.getCountCancelOrder();
+        this.countCooked += foodOrderHistory.getCountCooked();
+        this.countCancelCooked += foodOrderHistory.getCountCancelCooked();
+        this.calculateTotals(foodOrderHistory);
+    }
+
+    //Totals
+    private void calculateTotals() {
+        this.countDiff = this.getDiff();
+        this.countTotalCancel = this.getTotalCancel();
+        this.countTotalStock = this.getTotalStock();
+    }
+
+    private void calculateTotals(FoodOrderHistoryCreationResponse foodOrderHistory) {
+        this.countDiff += foodOrderHistory.getDiff();
+        this.countTotalCancel += foodOrderHistory.getTotalCancel();
+        this.countTotalStock += foodOrderHistory.getTotalStock();
+    }
+
+    private int getDiff() {
+        return Math.abs(this.countOrder + this.countCancelOrder) - Math.abs(this.countCooked + this.countCancelCooked);
+    }
+
+    private int getTotalCancel() {
+        return Math.abs(this.countCancelOrder) + Math.abs(this.countCancelOrder);
+    }
+
+    private int getTotalStock() {
+        return Math.abs(this.countCooked);
+    }
+
+    @Override
+    public String toString() {
+        return "{\n"
+//                + "  Id: '" + this.getId() + "'\n"
+                + ", Moment: '" + this.getMoment() + "'\n"
+                + ", Product: '" + this.getProductName() + "'\n"
+                + ", CountOrder: '" + this.getCountOrder() + "'\n"
+                + ", CountCancelOrder: '" + this.getCountCancelOrder() + "'\n"
+                + ", CountCooked: '" + this.getCountCooked() + "'\n"
+                + ", CountCancelOrder: '" + this.getCountCancelCooked() + "'\n"
+                + ", CountDiff: '" + this.getCountDiff() + "'\n"
+                + ", CountTotalCancel: '" + this.getCountTotalCancel() + "'\n"
+                + ", CountTotalStock: '" + this.getCountTotalStock() + "'\n"
+                + "}\n";
+    }
+
+    //TODO: ProductId
+    @Override
+    public boolean equals(Object obj) {
+        FoodOrderHistoryCreationResponse f = (FoodOrderHistoryCreationResponse) obj;
+        return (this.moment == f.getMoment()) && this.productName.equals(f.getProductName());
     }
 
     public long getMoment() {
@@ -47,20 +157,12 @@ public class FoodOrderHistoryCreationResponse {
         this.moment = moment;
     }
 
-    public int getId() {
-        return id;
+    public String getProductName() {
+        return productName;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public int getProductAmount() {
-        return productAmount;
-    }
-
-    public void setProductAmount(int productAmount) {
-        this.productAmount = productAmount;
+    public void setProductName(String productName) {
+        this.productName = productName;
     }
 
     public String getProductDescription() {
@@ -71,19 +173,59 @@ public class FoodOrderHistoryCreationResponse {
         this.productDescription = productDescription;
     }
 
-    public String getProductName() {
-        return productName;
+    public int getCountOrder() {
+        return countOrder;
     }
 
-    public void setProductName(String productName) {
-        this.productName = productName;
+    public void setCountOrder(int countOrder) {
+        this.countOrder = countOrder;
     }
 
-    public String getState() {
-        return state;
+    public int getCountCancelOrder() {
+        return countCancelOrder;
     }
 
-    public void setState(String state) {
-        this.state = state;
+    public void setCountCancelOrder(int countCancelOrder) {
+        this.countCancelOrder = countCancelOrder;
+    }
+
+    public int getCountCooked() {
+        return countCooked;
+    }
+
+    public void setCountCooked(int countCooked) {
+        this.countCooked = countCooked;
+    }
+
+    public int getCountCancelCooked() {
+        return countCancelCooked;
+    }
+
+    public void setCountCancelCooked(int countCancelCooked) {
+        this.countCancelCooked = countCancelCooked;
+    }
+
+    public int getCountDiff() {
+        return countDiff;
+    }
+
+    public void setCountDiff(int countDiff) {
+        this.countDiff = countDiff;
+    }
+
+    public int getCountTotalCancel() {
+        return countTotalCancel;
+    }
+
+    public void setCountTotalCancel(int countTotalCancel) {
+        this.countTotalCancel = countTotalCancel;
+    }
+
+    public int getCountTotalStock() {
+        return countTotalStock;
+    }
+
+    public void setCountTotalStock(int countTotalStock) {
+        this.countTotalStock = countTotalStock;
     }
 }

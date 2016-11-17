@@ -2,18 +2,14 @@ package ar.edu.unq.tip.marchionnelattenero.services;
 
 import ar.edu.unq.tip.marchionnelattenero.models.FoodOrder;
 import ar.edu.unq.tip.marchionnelattenero.models.FoodOrderClosure;
-import ar.edu.unq.tip.marchionnelattenero.models.FoodOrderHistory;
 import ar.edu.unq.tip.marchionnelattenero.repositories.FoodOrderClosureRepository;
-import ar.edu.unq.tip.marchionnelattenero.repositories.FoodOrderHistoryRepository;
 import ar.edu.unq.tip.marchionnelattenero.repositories.FoodOrderRepository;
-import ar.edu.unq.tip.marchionnelattenero.repositories.ProductRepository;
 import ar.edu.unq.tip.marchionnelattenero.models.utils.DateHelper;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 
@@ -36,7 +32,6 @@ public class FoodOrderClosureService {
         if (foodOrders.size() > 0) {
             for (FoodOrder foodOrder : foodOrders) {
                 this.getFoodOrderHistoryService().addToHistory(dateClosure, foodOrder.getProduct(), foodOrder.getState(), foodOrder.getAmount());
-                //this.getFoodOrderRepository().setArchived(dateClosure, foodOrder.getProduct(), foodOrder.getState());
                 foodOrder.setArchived();
                 this.getFoodOrderRepository().update(foodOrder);
             }
@@ -47,17 +42,27 @@ public class FoodOrderClosureService {
     @Transactional
     public long generateFoodOrderClosure(String user) {
         long dateClosure = DateTime.now().getMillis();
-        this.generateFoodOrderClosure(dateClosure, user);
+        this.generateFoodOrderClosure(user, dateClosure, dateClosure);
         return dateClosure;
     }
 
     @Transactional
-    public void generateFoodOrderClosure(long momentClosure, String user) {
-        Date dateClosure = DateHelper.getDateWithoutTime(momentClosure);
+    public void generateFoodOrderClosure(String user, long from, long to) {
+        Date dateFrom = DateHelper.getDateWithoutTime(from);
+        Date dateTo = DateHelper.getDateWithoutTime(to);
 
-        int cantHistories = this.archiveFoodOrders(dateClosure);
-        System.err.println("cantHistories: " + cantHistories);
-        FoodOrderClosure foodOrderClosure = new FoodOrderClosure(dateClosure, user);
+        System.err.println("DayFrom: '" + dateFrom + "'");
+        System.err.println("DayTo: '" + dateTo + "'");
+
+        Date dateClosure = dateFrom;
+        while (dateClosure.compareTo(dateTo) <= 0) {
+            System.err.println("DayClosure: '" + dateClosure + "'");
+            int cantHistories = this.archiveFoodOrders(dateClosure);
+            System.err.println("cantHistories: " + cantHistories + ".");
+            dateClosure = DateHelper.getTomorrowDate(dateClosure);
+        }
+
+        FoodOrderClosure foodOrderClosure = new FoodOrderClosure(user, dateClosure);
         this.getFoodOrderClosureRepository().save(foodOrderClosure);
     }
 

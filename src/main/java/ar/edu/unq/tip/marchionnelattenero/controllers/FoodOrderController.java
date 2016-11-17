@@ -81,7 +81,7 @@ public class FoodOrderController {
     @Path("{id}")
     @Produces("application/json")
     public FoodOrderCreationResponse findFoodOrdersByID(@PathParam("id") Integer id) {
-        return FoodOrderCreationResponse.build(foodOrderService.findById(id));
+        return FoodOrderCreationResponse.separateByState(foodOrderService.findById(id));
     }
 */
 

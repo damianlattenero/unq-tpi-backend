@@ -34,8 +34,9 @@ public class FoodOrderClosureController {
     @Consumes("application/json")
     @Produces("application/json")
     public List<FoodOrderHistoryCreationResponse> generateClosure(FoodOrderClosureBody foodOrderClosureBody) {
-        this.foodOrderClosureService.generateFoodOrderClosure(foodOrderClosureBody.getMomentClosure(), foodOrderClosureBody.getUser());
-        return FoodOrderHistoryCreationResponse.buildMany(this.foodOrderHistoryService.findByDay(foodOrderClosureBody.getMomentClosure()));
+        System.err.println("FoodOrderClosureBody: '" + foodOrderClosureBody.toString() + "'");
+        this.foodOrderClosureService.generateFoodOrderClosure(foodOrderClosureBody.getUser(), foodOrderClosureBody.getFrom(),foodOrderClosureBody.getTo());
+        return FoodOrderHistoryCreationResponse.buildMany(this.foodOrderHistoryService.findByDayFromTo(foodOrderClosureBody.getFrom(), foodOrderClosureBody.getTo()));
     }
 
     @POST
