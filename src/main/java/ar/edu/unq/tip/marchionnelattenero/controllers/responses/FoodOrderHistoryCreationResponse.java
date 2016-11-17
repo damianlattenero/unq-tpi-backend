@@ -9,8 +9,9 @@ import java.util.stream.Collectors;
 
 public class FoodOrderHistoryCreationResponse {
     private long moment;
-    private String productDescription;
+    private int productId;
     private String productName;
+    private String productDescription;
     private int countOrder;
     private int countCancelOrder;
     private int countCooked;
@@ -20,8 +21,9 @@ public class FoodOrderHistoryCreationResponse {
     private int countTotalCancel;
     private int countTotalStock;
 
-    public FoodOrderHistoryCreationResponse(long moment, String name, String description) {
+    public FoodOrderHistoryCreationResponse(long moment, int productId, String name, String description) {
         this.moment = moment;
+        this.productId = productId;
         this.productName = name;
         this.productDescription = description;
         this.countOrder = 0;
@@ -36,6 +38,7 @@ public class FoodOrderHistoryCreationResponse {
     public static FoodOrderHistoryCreationResponse separateByState(FoodOrderHistory foodOrderHistory) {
         FoodOrderHistoryCreationResponse f = new FoodOrderHistoryCreationResponse(
                 foodOrderHistory.getMoment().getTime(),
+                foodOrderHistory.getProduct().getId(),
                 foodOrderHistory.getProduct().getName(),
                 foodOrderHistory.getProduct().getDescription()
         );
@@ -98,7 +101,7 @@ public class FoodOrderHistoryCreationResponse {
         this.countCancelOrder += foodOrderHistory.getCountCancelOrder();
         this.countCooked += foodOrderHistory.getCountCooked();
         this.countCancelCooked += foodOrderHistory.getCountCancelCooked();
-        this.calculateTotals(foodOrderHistory);
+        this.calculateTotals();
     }
 
     //Totals
@@ -106,12 +109,6 @@ public class FoodOrderHistoryCreationResponse {
         this.countDiff = this.getDiff();
         this.countTotalCancel = this.getTotalCancel();
         this.countTotalStock = this.getTotalStock();
-    }
-
-    private void calculateTotals(FoodOrderHistoryCreationResponse foodOrderHistory) {
-        this.countDiff += foodOrderHistory.getDiff();
-        this.countTotalCancel += foodOrderHistory.getTotalCancel();
-        this.countTotalStock += foodOrderHistory.getTotalStock();
     }
 
     private int getDiff() {
@@ -129,8 +126,8 @@ public class FoodOrderHistoryCreationResponse {
     @Override
     public String toString() {
         return "{\n"
-//                + "  Id: '" + this.getId() + "'\n"
-                + ", Moment: '" + this.getMoment() + "'\n"
+                + "  Moment: '" + this.getMoment() + "'\n"
+                + ", ProductId: '" + this.getProductId() + "'\n"
                 + ", Product: '" + this.getProductName() + "'\n"
                 + ", CountOrder: '" + this.getCountOrder() + "'\n"
                 + ", CountCancelOrder: '" + this.getCountCancelOrder() + "'\n"
@@ -142,11 +139,10 @@ public class FoodOrderHistoryCreationResponse {
                 + "}\n";
     }
 
-    //TODO: ProductId
     @Override
     public boolean equals(Object obj) {
         FoodOrderHistoryCreationResponse f = (FoodOrderHistoryCreationResponse) obj;
-        return (this.moment == f.getMoment()) && this.productName.equals(f.getProductName());
+        return (this.moment == f.getMoment()) && (this.productId == f.getProductId());
     }
 
     public long getMoment() {
@@ -155,6 +151,14 @@ public class FoodOrderHistoryCreationResponse {
 
     public void setMoment(long moment) {
         this.moment = moment;
+    }
+
+    public int getProductId() {
+        return productId;
+    }
+
+    public void setProductId(int productId) {
+        this.productId = productId;
     }
 
     public String getProductName() {
