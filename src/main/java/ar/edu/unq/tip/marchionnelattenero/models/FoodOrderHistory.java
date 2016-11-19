@@ -2,6 +2,9 @@ package ar.edu.unq.tip.marchionnelattenero.models;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.Date;
+import java.util.EnumMap;
+import java.util.Map;
 
 @Entity
 @Table(name = "FoodOrderHistory")
@@ -19,20 +22,40 @@ public class FoodOrderHistory {
     @ManyToOne
     private Product product;
 
-    @Column(name = "amount")
-    private int amount;
+    /*
+    @MapKeyColumn(name = "state")
+    @Column(name="amount")
+     */
+//    @OneToMany(cascade = CascadeType.ALL)
+//    @MapKeyEnumerated(EnumType.STRING)
+/*
+    @MapKey(name = "state")
+    @MapKeyEnumerated(EnumType.STRING)
+    @OneToMany(mappedBy = "FoodOrderHistory", cascade = CascadeType.ALL)
+*/
+    //@OneToMany(mappedBy = "foodOrderHistory", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    //@MapKeyColumn(name = "state", insertable = false, updatable = false)
 
-    @Enumerated(EnumType.STRING)
-    private FoodOrderState state;
+/*
+    @OneToMany(mappedBy = "foodOrderHistory", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @MapKeyEnumerated(EnumType.STRING)
+    @MapKeyColumn(name = "states")
+     */
+    @OneToMany//(cascade={CascadeType.ALL,CascadeType.PERSIST})
+    @MapKeyEnumerated(EnumType.STRING)
+    private EnumMap<FoodOrderState, Integer> amounts;
 
     public FoodOrderHistory() {
     }
 
-    public FoodOrderHistory(Timestamp moment, Product product, FoodOrderState state, int amount) {
+    public FoodOrderHistory(Date date, Product product) {
+        new FoodOrderHistory(new Timestamp(date.getTime()), product);
+    }
+
+    public FoodOrderHistory(Timestamp moment, Product product) {
         this.moment = moment;
         this.product = product;
-        this.state = state;
-        this.amount = amount;
+        this.amounts = new EnumMap<>(FoodOrderState.class);
     }
 
     public int getId() {
@@ -43,24 +66,21 @@ public class FoodOrderHistory {
         return product;
     }
 
-    public FoodOrderState getState() {
-        return state;
-    }
-
-    public int getAmount() {
-        return amount;
-    }
-
-    public void setAmount(int amount) {
-        this.amount = amount;
-    }
-
-    public void addAmount(int amount) {
-        this.setAmount(this.amount + amount);
-    }
-
     public Timestamp getMoment() {
         return moment;
+    }
+
+    public EnumMap<FoodOrderState, Integer> getAmounts() {
+        return amounts;
+    }
+
+    public void addAmount(FoodOrderState state, int amount) {
+        int count = this.getAmount(state);
+        this.amounts.put(state, count + amount);
+    }
+
+    public Integer getAmount(FoodOrderState state) {
+        return this.amounts.getOrDefault(state, 0);
     }
 
 }

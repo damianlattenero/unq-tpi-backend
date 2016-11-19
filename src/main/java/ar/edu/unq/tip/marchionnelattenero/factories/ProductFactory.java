@@ -23,15 +23,15 @@ public class ProductFactory {
     }
 
     public Product getMila() {
-        return this.productRepository.findByname("Mila");
+        return this.productRepository.findByName("Mila");
     }
 
     public Product getHamburguesa() {
-        return this.productRepository.findByname("Hamburguesa");
+        return this.productRepository.findByName("Hamburguesa");
     }
 
     public Product getProductByName(String name) {
-        return this.productRepository.findByProductName(name);
+        return this.productRepository.findByName(name);
     }
 
     public Product getProductByID(Integer id) {

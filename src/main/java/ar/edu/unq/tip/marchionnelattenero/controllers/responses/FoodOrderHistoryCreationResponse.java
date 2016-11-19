@@ -2,8 +2,11 @@ package ar.edu.unq.tip.marchionnelattenero.controllers.responses;
 
 
 import ar.edu.unq.tip.marchionnelattenero.models.FoodOrderHistory;
+import ar.edu.unq.tip.marchionnelattenero.models.FoodOrderState;
+import ar.edu.unq.tip.marchionnelattenero.models.Product;
 
 import java.util.ArrayList;
+import java.util.EnumMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -21,52 +24,30 @@ public class FoodOrderHistoryCreationResponse {
     private int countTotalCancel;
     private int countTotalStock;
 
-    public FoodOrderHistoryCreationResponse(long moment, int productId, String name, String description) {
+    public FoodOrderHistoryCreationResponse(long moment, Product product, EnumMap<FoodOrderState, Integer> amounts) {
         this.moment = moment;
-        this.productId = productId;
-        this.productName = name;
-        this.productDescription = description;
+        this.productId = product.getId();
+        this.productName = product.getName();
+        this.productDescription = product.getDescription();
         this.countOrder = 0;
-        this.countCancelOrder= 0;
+        this.countCancelOrder = 0;
         this.countCooked = 0;
         this.countCancelCooked = 0;
         this.countDiff = 0;
         this.countTotalCancel = 0;
         this.countTotalStock = 0;
+
+        amounts.forEach((k, v) -> setCounter(k, v));
+
+        this.calculateTotals();
     }
 
     public static FoodOrderHistoryCreationResponse separateByState(FoodOrderHistory foodOrderHistory) {
         FoodOrderHistoryCreationResponse f = new FoodOrderHistoryCreationResponse(
                 foodOrderHistory.getMoment().getTime(),
-                foodOrderHistory.getProduct().getId(),
-                foodOrderHistory.getProduct().getName(),
-                foodOrderHistory.getProduct().getDescription()
+                foodOrderHistory.getProduct(),
+                foodOrderHistory.getAmounts()
         );
-
-        switch (foodOrderHistory.getState())
-        {
-            case ORDER:
-                f.setCountOrder(foodOrderHistory.getAmount());
-                break;
-
-            case CANCELORDER:
-                f.setCountCancelOrder(foodOrderHistory.getAmount());
-                break;
-
-            case COOKED:
-                f.setCountCooked(foodOrderHistory.getAmount());
-                break;
-
-            case CANCELCOOKED:
-                f.setCountCancelCooked(foodOrderHistory.getAmount());
-                break;
-
-            default:
-                break;
-        }
-
-        f.calculateTotals();
-
         return f;
     }
 
@@ -79,21 +60,38 @@ public class FoodOrderHistoryCreationResponse {
         for (FoodOrderHistoryCreationResponse foodOrderHistorySeparatedState : listSeparatedStates) {
             isAgrupated = false;
             for (FoodOrderHistoryCreationResponse foodOrderHistoryAgruped : listAgrupated) {
-                if(foodOrderHistorySeparatedState.equals(foodOrderHistoryAgruped))
-                {
+                if (foodOrderHistorySeparatedState.equals(foodOrderHistoryAgruped)) {
                     foodOrderHistoryAgruped.addCounters(foodOrderHistorySeparatedState);
                     isAgrupated = true;
                     break;
                 }
             }
 
-            if (!isAgrupated)
-            {
+            if (!isAgrupated) {
                 listAgrupated.add(foodOrderHistorySeparatedState);
             }
         }
 
         return listAgrupated;
+    }
+
+    private void setCounter(FoodOrderState state, Integer amount) {
+        switch (state) {
+            case ORDER:
+                setCountOrder(amount);
+                break;
+            case CANCELORDER:
+                setCountCancelOrder(amount);
+                break;
+            case COOKED:
+                setCountCooked(amount);
+                break;
+            case CANCELCOOKED:
+                setCountCancelCooked(amount);
+                break;
+            default:
+                break;
+        }
     }
 
     private void addCounters(FoodOrderHistoryCreationResponse foodOrderHistory) {

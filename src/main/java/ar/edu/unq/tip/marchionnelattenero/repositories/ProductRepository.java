@@ -17,16 +17,10 @@ public class ProductRepository extends HibernateGenericDAO<Product> implements G
         return Product.class;
     }
 
-    public Product findByname(String name) {
-        Criteria criteria = getSession().createCriteria(Product.class);
-        Product yourObject = (Product) criteria.add(Restrictions.eq("name", name)).uniqueResult();
-        return yourObject;
-    }
-
-    public Product findByProductName(String name) {
-        Criteria cr = this.getSession().createCriteria(this.getDomainClass());
-        cr.add(Restrictions.eq("name", name));
-        return (Product) cr.uniqueResult();
+    public Product findByName(String name) {
+        Criteria criteria = this.getSession().createCriteria(this.getDomainClass());
+        criteria.add(Restrictions.eq("name", name));
+        return (Product) criteria.uniqueResult();
     }
 
 }

@@ -37,6 +37,9 @@ public class FoodOrderClosureService {
                 this.getFoodOrderRepository().update(foodOrder);
             }
         }
+        else
+            System.err.println("No hay 'foodOrders' para archivar.");
+
         return foodOrders.size();
     }
 

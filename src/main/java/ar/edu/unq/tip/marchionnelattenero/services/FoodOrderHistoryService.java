@@ -19,13 +19,6 @@ public class FoodOrderHistoryService {
     @Autowired
     private FoodOrderHistoryRepository foodOrderHistoryRepository;
 
-    @Transactional
-    public FoodOrderHistory createFoodOrderHistory(Date date, Product product, FoodOrderState state, int amount) {
-        Timestamp moment = new Timestamp(date.getTime());
-        FoodOrderHistory foodOrderHistory = new FoodOrderHistory(moment, product, state, amount);
-        return foodOrderHistory;
-    }
-
     public FoodOrderHistoryRepository getFoodOrderHistoryRepository() {
         return foodOrderHistoryRepository;
     }
@@ -35,23 +28,21 @@ public class FoodOrderHistoryService {
         return this.getFoodOrderHistoryRepository().findAll();
     }
 
+    @Transactional
     public void addToHistory(Date dateClosure, Product product, FoodOrderState state, int amount) {
-        List<FoodOrderHistory> foodOrderHistories = this.getFoodOrderHistoryRepository().findBy(dateClosure, product, state);
+        FoodOrderHistory foodOrderHistory = this.getFoodOrderHistoryRepository().findBy(dateClosure, product);
 
-        if (foodOrderHistories.size()>0)
+        if (foodOrderHistory != null)
         {
-            for (FoodOrderHistory foodOrderHistory : foodOrderHistories)
-            {
-                foodOrderHistory.addAmount(amount);
-                this.getFoodOrderHistoryRepository().update(foodOrderHistory);
-            }
+            foodOrderHistory.addAmount(state, amount);
+            this.getFoodOrderHistoryRepository().update(foodOrderHistory);
         }
         else
         {
-            FoodOrderHistory foodOrderHistory = this.createFoodOrderHistory(dateClosure, product, state, amount);
+            foodOrderHistory = new FoodOrderHistory(dateClosure, product);
+            foodOrderHistory.addAmount(state, amount);
             this.getFoodOrderHistoryRepository().save(foodOrderHistory);
         }
-
     }
 
     public List<FoodOrderHistory> findByDay(long momentClosure) {
