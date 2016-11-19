@@ -16,9 +16,11 @@ public class Product {
     private String description;
     @Column(name = "name")
     private String name;
-    @ManyToOne
-    private FoodOrderHistory foodOrderHistory;
+    @Column(name = "stock")
+    private Boolean hasStock;
 
+    public Product() {
+    }
 
     public Product(String name, String description) {
         this.name = name;
@@ -45,14 +47,11 @@ public class Product {
         this.name = name;
     }
 
-    public Product() {
+    public Boolean getHasStock() {
+        return hasStock;
     }
 
-    public FoodOrderHistory getFoodOrderHistory() {
-        return foodOrderHistory;
-    }
-
-    public void setFoodOrderHistory(FoodOrderHistory foodOrderHistory) {
-        this.foodOrderHistory = foodOrderHistory;
+    public void setHasStock(Boolean hasStock) {
+        this.hasStock = hasStock;
     }
 }

@@ -13,18 +13,20 @@ public class ProductCreationResponse {
     private String description;
     private Integer id;
     private Integer pending;
+    private Boolean hasStock;
 
 
-    public ProductCreationResponse(String name, String description, Integer id) {
+    public ProductCreationResponse(Integer id, String name, String description, Boolean hasStock) {
+        this.setId(id);
         this.setName(name);
         this.setDescription(description);
-        this.setId(id);
+        this.setHasStock(hasStock);
         this.setPending(Cache.getInstance().getPending(this.getId()));
     }
 
 
     public static ProductCreationResponse build(Product product) {
-        return new ProductCreationResponse(product.getName(), product.getDescription(), product.getId());
+        return new ProductCreationResponse(product.getId(), product.getName(), product.getDescription(), product.getHasStock());
     }
 
     public Integer getId() {
@@ -49,6 +51,14 @@ public class ProductCreationResponse {
 
     public String getDescription() {
         return description;
+    }
+
+    public Boolean getHasStock() {
+        return hasStock;
+    }
+
+    public void setHasStock(Boolean hasStock) {
+        this.hasStock = hasStock;
     }
 
     public Integer getPending() { return pending; }
