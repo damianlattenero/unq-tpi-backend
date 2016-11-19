@@ -3,11 +3,12 @@ package ar.edu.unq.tip.marchionnelattenero.controllers.responses;
 
 import ar.edu.unq.tip.marchionnelattenero.models.FoodOrderHistory;
 import ar.edu.unq.tip.marchionnelattenero.models.FoodOrderState;
+import ar.edu.unq.tip.marchionnelattenero.models.MyInteger;
 import ar.edu.unq.tip.marchionnelattenero.models.Product;
 
 import java.util.ArrayList;
-import java.util.EnumMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 public class FoodOrderHistoryCreationResponse {
@@ -24,7 +25,7 @@ public class FoodOrderHistoryCreationResponse {
     private int countTotalCancel;
     private int countTotalStock;
 
-    public FoodOrderHistoryCreationResponse(long moment, Product product, EnumMap<FoodOrderState, Integer> amounts) {
+    public FoodOrderHistoryCreationResponse(long moment, Product product, Map<FoodOrderState, MyInteger> amounts) {
         this.moment = moment;
         this.productId = product.getId();
         this.productName = product.getName();
@@ -75,7 +76,8 @@ public class FoodOrderHistoryCreationResponse {
         return listAgrupated;
     }
 
-    private void setCounter(FoodOrderState state, Integer amount) {
+    private void setCounter(FoodOrderState state, MyInteger amount2) {
+        int amount = amount2.getValue();
         switch (state) {
             case ORDER:
                 setCountOrder(amount);

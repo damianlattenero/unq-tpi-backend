@@ -3,7 +3,7 @@ package ar.edu.unq.tip.marchionnelattenero.models;
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.Date;
-import java.util.EnumMap;
+import java.util.HashMap;
 import java.util.Map;
 
 @Entity
@@ -36,14 +36,16 @@ public class FoodOrderHistory {
     //@OneToMany(mappedBy = "foodOrderHistory", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     //@MapKeyColumn(name = "state", insertable = false, updatable = false)
 
-/*
-    @OneToMany(mappedBy = "foodOrderHistory", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    /*
+        @OneToMany(mappedBy = "foodOrderHistory", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+        @MapKeyEnumerated(EnumType.STRING)
+        @MapKeyColumn(name = "states")
+         */
+    //@OneToMany//(cascade={CascadeType.ALL,CascadeType.PERSIST})
+
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @MapKeyEnumerated(EnumType.STRING)
-    @MapKeyColumn(name = "states")
-     */
-    @OneToMany//(cascade={CascadeType.ALL,CascadeType.PERSIST})
-    @MapKeyEnumerated(EnumType.STRING)
-    private EnumMap<FoodOrderState, Integer> amounts;
+    private Map<FoodOrderState, MyInteger> amounts;
 
     public FoodOrderHistory() {
     }
@@ -55,7 +57,7 @@ public class FoodOrderHistory {
     public FoodOrderHistory(Timestamp moment, Product product) {
         this.moment = moment;
         this.product = product;
-        this.amounts = new EnumMap<>(FoodOrderState.class);
+        this.amounts = new HashMap<FoodOrderState, MyInteger>();
     }
 
     public int getId() {
@@ -70,17 +72,17 @@ public class FoodOrderHistory {
         return moment;
     }
 
-    public EnumMap<FoodOrderState, Integer> getAmounts() {
+    public Map<FoodOrderState, MyInteger> getAmounts() {
         return amounts;
     }
 
     public void addAmount(FoodOrderState state, int amount) {
-        int count = this.getAmount(state);
-        this.amounts.put(state, count + amount);
+        int count = this.getAmount(state).getValue();
+        this.amounts.put(state, new MyInteger(count + amount));
     }
 
-    public Integer getAmount(FoodOrderState state) {
-        return this.amounts.getOrDefault(state, 0);
+    public MyInteger getAmount(FoodOrderState state) {
+        return this.amounts.getOrDefault(state, new MyInteger(0));
     }
 
 }
