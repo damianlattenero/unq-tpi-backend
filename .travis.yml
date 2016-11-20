@@ -7,16 +7,10 @@ dist: xenial
 services:
   - mysql
 install: mvn install -Dmaven.compiler.target=1.8 -Dmaven.compiler.source=1.8
-addons:
-  apt:
-    packages:
-    - mysql-server-5.6
-    - mysql-client-core-5.6
-    - mysql-client-5.6
 before_script:
   - mysql -u root -e 'CREATE DATABASE unqdb;'
-  - mysql -u root -e "CREATE USER 'admin'@'localhost' IDENTIFIED BY 'admin';"
-  - mysql -u root -e "GRANT ALL PRIVILEGES ON unqdb.* TO 'admin'@'localhost' IDENTIFIED BY 'admin' WITH GRANT OPTION;"
+  - mysql -u root -e "CREATE USER 'admin'@'0.0.0.0' IDENTIFIED BY 'admin';"
+  - mysql -u root -e "GRANT ALL PRIVILEGES ON unqdb.* TO 'admin'@'0.0.0.0' IDENTIFIED BY 'admin' WITH GRANT OPTION;"
   - mysql -u root -e "FLUSH PRIVILEGES";
 script: mvn test -Dmaven.compiler.target=1.8 -Dmaven.compiler.source=1.8
 after_script:
