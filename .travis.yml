@@ -2,7 +2,9 @@ language: java
 sudo: required
 jdk:
  - oraclejdk8
-before_install: sudo apt-get update; sudo apt-get install mysql-server
+before_install: sudo apt-get update
+services:
+  - mysql
 install: mvn install -Dmaven.compiler.target=1.8 -Dmaven.compiler.source=1.8
 script: mvn test -Dmaven.compiler.target=1.8 -Dmaven.compiler.source=1.8
 after_script:
