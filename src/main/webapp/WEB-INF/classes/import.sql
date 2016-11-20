@@ -1,1 +1,1 @@
-INSERT INTO Product (name, description) VALUES ('Panchini', 'Con papas');
+INSERT INTO Product (name, description, hasStock) VALUES ('Panchini', 'Con papas', TRUE );
