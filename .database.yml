@@ -1,0 +1,5 @@
+test:
+  adapter: mysql
+  database: unqdb
+  username: travis
+  encoding: utf8
