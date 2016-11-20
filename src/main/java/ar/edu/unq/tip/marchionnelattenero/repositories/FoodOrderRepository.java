@@ -1,6 +1,6 @@
 package ar.edu.unq.tip.marchionnelattenero.repositories;
 
-import ar.edu.unq.tip.marchionnelattenero.models.Cache;
+import ar.edu.unq.tip.marchionnelattenero.models.caches.Cache;
 import ar.edu.unq.tip.marchionnelattenero.models.FoodOrder;
 import ar.edu.unq.tip.marchionnelattenero.models.FoodOrderState;
 import ar.edu.unq.tip.marchionnelattenero.models.Product;

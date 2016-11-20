@@ -1,6 +1,5 @@
 package ar.edu.unq.tip.marchionnelattenero.controllers.responses;
 
-import ar.edu.unq.tip.marchionnelattenero.models.Cache;
 import ar.edu.unq.tip.marchionnelattenero.models.Product;
 
 import java.util.List;

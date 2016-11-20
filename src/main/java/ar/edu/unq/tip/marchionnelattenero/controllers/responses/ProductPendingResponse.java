@@ -1,7 +1,7 @@
 package ar.edu.unq.tip.marchionnelattenero.controllers.responses;
 
 
-import ar.edu.unq.tip.marchionnelattenero.models.Cache;
+import ar.edu.unq.tip.marchionnelattenero.models.caches.Cache;
 import ar.edu.unq.tip.marchionnelattenero.models.Product;
 
 public class ProductPendingResponse {
@@ -14,7 +14,7 @@ public class ProductPendingResponse {
 
     public static ProductPendingResponse build(Product product) {
         return new ProductPendingResponse(
-                Cache.getInstance().getPending(product.getId())
+                Cache.getInstance().getProductPending(product.getId())
         );
     }
 
