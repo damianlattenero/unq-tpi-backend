@@ -2,9 +2,7 @@ language: java
 sudo: required
 jdk:
  - oraclejdk8
-before_install:
-  - sudo apt-get update
-  - mysql -u root -e "create database IF NOT EXISTS unqdb;"
+before_install: -sudo apt-get update; mysql -u root -e "create database unqdb;"
 dist: trusty
 services:
   - mysql
