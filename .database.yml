@@ -1,5 +1,5 @@
 test:
-  adapter: mysql2
+  adapter: mysql12
   database: unqdb
   username: travis
   encoding: utf8
