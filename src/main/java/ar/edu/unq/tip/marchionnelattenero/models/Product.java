@@ -16,7 +16,7 @@ public class Product {
     private String description;
     @Column(name = "name")
     private String name;
-    @Column(name = "stock")
+    @Column(name = "hasStock")
     private Boolean hasStock;
 
     public Product() {
@@ -25,6 +25,7 @@ public class Product {
     public Product(String name, String description) {
         this.name = name;
         this.description = description;
+        this.hasStock = true;
     }
 
     public int getId() {

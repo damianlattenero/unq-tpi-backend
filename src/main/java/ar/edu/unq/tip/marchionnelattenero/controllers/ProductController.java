@@ -2,7 +2,9 @@ package ar.edu.unq.tip.marchionnelattenero.controllers;
 
 
 import ar.edu.unq.tip.marchionnelattenero.controllers.requests.ProductCreationBody;
+import ar.edu.unq.tip.marchionnelattenero.controllers.requests.ProductStockBody;
 import ar.edu.unq.tip.marchionnelattenero.controllers.responses.ProductCreationResponse;
+import ar.edu.unq.tip.marchionnelattenero.controllers.responses.ProductStockResponse;
 import ar.edu.unq.tip.marchionnelattenero.factories.ProductFactory;
 import ar.edu.unq.tip.marchionnelattenero.models.Product;
 import ar.edu.unq.tip.marchionnelattenero.repositories.ProductRepository;
@@ -18,8 +20,12 @@ import java.util.List;
 @Controller("productController")
 public class ProductController {
 
+    @Autowired
     private ProductService productService;
+
+    @Autowired
     private ProductFactory productFactory;
+
     @Autowired
     private ProductRepository productRepository;
 
@@ -28,6 +34,18 @@ public class ProductController {
     @Produces("application/json")
     public List<ProductCreationResponse> getAll() {
         return ProductCreationResponse.buildMany(this.productRepository.findAll());
+    }
+
+    @POST
+    @Path("modifyStock")
+    @Consumes("application/json")
+    @Produces("application/json")
+    public ProductStockResponse create(ProductStockBody body) {
+        Product product = this.productRepository.findById(body.getProductId());
+        product.setHasStock(body.getHasStock());
+        this.productRepository.update(product);
+        product = (this.productRepository.findById(body.getProductId()));
+        return ProductStockResponse.build(product);
     }
 
     @POST
@@ -43,31 +61,13 @@ public class ProductController {
     @Path("{id}")
     @Produces("application/json")
     public ProductCreationResponse findProductsByID(@PathParam("id") Integer id) {
-        Product productFound = this.getProductFactory().getProductByID(id);
+        Product productFound = this.productFactory.getProductByID(id);
         return ProductCreationResponse.build(productFound);
     }
 
     @PostConstruct
     public void loadData() {
-        this.getProductFactory().createBasicProducts();
-    }
-
-    @Autowired
-    public void setProductService(ProductService productService) {
-        this.productService = productService;
-    }
-
-    @Autowired
-    public void setProductFactory(ProductFactory productFactory) {
-        this.productFactory = productFactory;
-    }
-
-    public ProductFactory getProductFactory() {
-        return productFactory;
-    }
-
-    public ProductService getProductService() {
-        return productService;
+        this.productFactory.createBasicProducts();
     }
 
 }
