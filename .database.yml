@@ -1,11 +1,11 @@
 test:
-  adapter: mysql
+  adapter: mysql12
   database: unqdb
-  username: travis
+  username: root
   encoding: utf8
 
 development:
-  adapter: mysql2
+  adapter: mysql12
   database: unqdb
-  username: travis
+  username: root
   encoding: utf8
