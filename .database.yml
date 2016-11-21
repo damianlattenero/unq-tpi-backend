@@ -2,5 +2,5 @@ type: mysql
 host: 127.0.0.1
 port: 3306
 database: unqdb
-user: admin
-password: "admin"
+user: travis
+password: ""
