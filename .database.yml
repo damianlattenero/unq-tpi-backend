@@ -1,6 +1,5 @@
-type: mysql
-host: 127.0.0.1
-port: 3306
-database: unqdb
-user: travis
-password: ""
+test:
+  adapter: mysql2
+  database: unqdb
+  username: travis
+  encoding: utf8
