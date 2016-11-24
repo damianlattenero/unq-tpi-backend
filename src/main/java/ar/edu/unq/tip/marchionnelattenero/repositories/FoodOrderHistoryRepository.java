@@ -12,6 +12,8 @@ import org.springframework.stereotype.Repository;
 import java.util.Date;
 import java.util.List;
 
+import static ar.edu.unq.tip.marchionnelattenero.repositories.utils.CriteriaHelper.addRestrictionForDay;
+
 @Repository("foodOrderHistoryRepository")
 public class FoodOrderHistoryRepository extends HibernateGenericDAO<FoodOrderHistory> implements GenericRepository<FoodOrderHistory> {
 
@@ -24,7 +26,7 @@ public class FoodOrderHistoryRepository extends HibernateGenericDAO<FoodOrderHis
 
     public List<FoodOrderHistory> findBy(Date dateClosure, Product product, FoodOrderState state) {
         Criteria criteria = this.getSession().createCriteria(this.getDomainClass());
-        //addRestrictionForDay(criteria, "moment", dateClosure);
+        addRestrictionForDay(criteria, "moment", dateClosure);
         criteria.add(Restrictions.eq("product", product));
         criteria.add(Restrictions.eq("state", state));
         return (List<FoodOrderHistory>) criteria.list();
@@ -32,14 +34,14 @@ public class FoodOrderHistoryRepository extends HibernateGenericDAO<FoodOrderHis
 
     public List<FoodOrderHistory> findByDay(Date date) {
         Criteria criteria = this.getSession().createCriteria(this.getDomainClass());
-        //addRestrictionForDay(criteria, "moment", date);
+        addRestrictionForDay(criteria, "moment", date);
         return (List<FoodOrderHistory>) criteria.list();
     }
 
     public List<FoodOrderHistory> findByDayFromTo(Date dateFrom, Date dateTo) {
         Criteria criteria = this.getSession().createCriteria(this.getDomainClass());
-//        criteria.add(Restrictions.ge("moment", dateFrom));
-//        criteria.add(Restrictions.le("moment", dateTo));
+        criteria.add(Restrictions.ge("moment", dateFrom));
+        criteria.add(Restrictions.le("moment", dateTo));
         return (List<FoodOrderHistory>) criteria.list();
     }
 }

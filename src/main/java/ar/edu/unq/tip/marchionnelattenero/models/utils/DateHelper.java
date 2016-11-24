@@ -26,4 +26,10 @@ public class DateHelper {
         return cal.getTime();
     }
 
+    public static Date getYesterdayDate(Date date) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        cal.add(Calendar.DATE, -1);
+        return cal.getTime();
+    }
 }

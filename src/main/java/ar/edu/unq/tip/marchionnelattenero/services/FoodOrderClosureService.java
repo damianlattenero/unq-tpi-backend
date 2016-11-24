@@ -59,11 +59,14 @@ public class FoodOrderClosureService {
             System.err.println("DayClosure: '" + dateClosure + "'");
             int cantHistories = this.archiveFoodOrders(dateClosure);
             System.err.println("cantHistories: " + cantHistories + ".");
+
+            FoodOrderClosure foodOrderClosure = new FoodOrderClosure(user, dateClosure);
+            this.getFoodOrderClosureRepository().save(foodOrderClosure);
+
             dateClosure = DateHelper.getTomorrowDate(dateClosure);
         }
 
-        FoodOrderClosure foodOrderClosure = new FoodOrderClosure(user, dateClosure);
-        this.getFoodOrderClosureRepository().save(foodOrderClosure);
+
     }
 
     public FoodOrderClosureRepository getFoodOrderClosureRepository() {

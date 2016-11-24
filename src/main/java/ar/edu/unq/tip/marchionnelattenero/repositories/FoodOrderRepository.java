@@ -76,15 +76,6 @@ public class FoodOrderRepository extends HibernateGenericDAO<FoodOrder> implemen
 
     public List<FoodOrder> findByDayForArchived(Date dateClosure) {
         Criteria criteria = this.getSession().createCriteria(this.getDomainClass());
-/*
-        criteria.setProjection(Projections.projectionList()
-//                .add(Projections.groupProperty("moment"))
-                .add(Projections.groupProperty("product"))
-                .add(Projections.groupProperty("state"))
-                .add(Projections.sum("amount"))
-        );
-*/
-
         criteria.add(Restrictions.eq("archived", false));
         addRestrictionForDay(criteria, "moment", dateClosure);
         return (List<FoodOrder>) criteria.list();

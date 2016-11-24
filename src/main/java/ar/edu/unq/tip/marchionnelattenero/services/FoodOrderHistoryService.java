@@ -3,6 +3,7 @@ package ar.edu.unq.tip.marchionnelattenero.services;
 import ar.edu.unq.tip.marchionnelattenero.models.FoodOrderHistory;
 import ar.edu.unq.tip.marchionnelattenero.models.FoodOrderState;
 import ar.edu.unq.tip.marchionnelattenero.models.Product;
+import ar.edu.unq.tip.marchionnelattenero.models.utils.DateHelper;
 import ar.edu.unq.tip.marchionnelattenero.repositories.FoodOrderHistoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -59,8 +60,8 @@ public class FoodOrderHistoryService {
     }
 
     public List<FoodOrderHistory> findByDayFromTo(long from, long to) {
-        Date dateFrom = new Date(from);
-        Date dateTo = new Date(to);
+        Date dateFrom = DateHelper.getDateWithoutTime(from);
+        Date dateTo = DateHelper.getDateWithoutTime(to);
         return this.getFoodOrderHistoryRepository().findByDayFromTo(dateFrom, dateTo);
     }
 }
