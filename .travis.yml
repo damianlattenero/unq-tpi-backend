@@ -18,8 +18,7 @@ before_script:
   - mysql -u travis -e "CREATE USER 'admin'@'localhost' IDENTIFIED BY 'admin';"
   - mysql -u travis -e "grant all on unqdb.* to admin@localhost identified by 'admin';"
 script:
-  - mvn test -Dmaven.compiler.target=1.8 -Dmaven.compiler.source=1.8
-install: mvn install -Dmaven.compiler.target=1.8 -Dmaven.compiler.source=1.8
+  - mvn clean install compile test -Dmaven.compiler.target=1.8 -Dmaven.compiler.source=1.8
 after_script:
   - cp target/site/jacoco/jacoco.xml .
   - git clone https://github.com/codacy/codacy-coverage-reporter.git
