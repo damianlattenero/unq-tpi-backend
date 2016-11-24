@@ -1,19 +1,18 @@
 language: java
 sudo: required
+dist: trusty
 jdk:
  - oraclejdk8
-before_install: sudo apt-get update;
-dist: trusty
-services:
-  - mysql
 addons:
   apt:
     packages:
     - mysql-server-5.6
     - mysql-client-core-5.6
     - mysql-client-5.6
-before_script:
-  - mysql -e 'create database unqdb;'
+services:
+  - mysql
+before_install:
+  - sudo apt-get update;
   - mysql -u travis -e "create database unqdb;"
   - mysql -u travis -e "CREATE USER 'admin'@'localhost' IDENTIFIED BY 'admin';"
   - mysql -u travis -e "grant all on unqdb.* to admin@localhost identified by 'admin';"
