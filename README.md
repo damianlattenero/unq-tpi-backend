@@ -50,4 +50,4 @@ Sistema donde se gestionan los pedidos entre el Mostrador y la Cocina para un ne
 
 ### [Entrega 1](https://drive.google.com/open?id=1U7aW0AQleWplZhHXCy91HwV-h29_dfC8Bn6xLS8c_t8)
 
-
+### [Entrega 2](https://docs.google.com/document/d/1SOHIeHglybqBAXw31Oo7o9iHgOPF4ZYWiJA_eg_OyrI/edit#heading=h.ngesrlbd9xk4)
