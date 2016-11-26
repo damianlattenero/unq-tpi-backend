@@ -28,9 +28,14 @@ public class LoginController {
     @Consumes("application/json")
     @Produces("application/json")
     public UserTokenResponse loginUser(UserAuthorization userAuthorization) {
-        UserModel user = this.login.getUserByID(userAuthorization.getUserId());
-        UserToken token = this.userTokenRepository.findByUserId(user.getId());
-        return new UserTokenResponse(token.getToken());
+        System.out.println("UserAuthorization: " + userAuthorization.getAuthorizationCode());
+
+        UserModel user = this.userTokenRepository.findByUserToken(userAuthorization.getAuthorizationCode());
+        UserTokenResponse response = (user == null) ? new UserTokenResponse()
+                : new UserTokenResponse(true, user.getName(), user.getNickname(), user.getEmail());
+        return response;
+
+//        return new UserTokenResponse(true, "Cristian", "Cris", "cd@mail");
     }
 
     @GET

@@ -37,6 +37,8 @@
             <ref bean="foodOrderController" />
             <ref bean="foodOrderHistoryController" />
             <ref bean="foodOrderClosureController" />
+            <ref bean="loginController" />
+            <ref bean="oauthGoogleController" />
         </jaxrs:serviceBeans>
 
 
