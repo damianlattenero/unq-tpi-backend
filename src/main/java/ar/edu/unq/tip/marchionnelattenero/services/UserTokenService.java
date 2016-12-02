@@ -16,7 +16,6 @@ public class UserTokenService {
     public UserToken create(UserModel userModel){
         UserToken token = new UserToken();
         token.setUserModel(userModel);
-        token.generateToken();
         this.getUserTokenRepository().save(token);
         return token;
     }

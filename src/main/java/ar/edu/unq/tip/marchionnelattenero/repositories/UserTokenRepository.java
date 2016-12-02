@@ -16,12 +16,6 @@ public class UserTokenRepository extends HibernateGenericDAO<UserToken> implemen
         return UserToken.class;
     }
 
-    public UserToken findByUserId(int id) {
-        Criteria cr = this.getSession().createCriteria(this.getDomainClass());
-        cr.add(Restrictions.eq("userModel.id", id));
-        return (UserToken) cr.uniqueResult();
-    }
-
     public UserModel findByUserToken(String token) {
         Criteria cr = this.getSession().createCriteria(this.getDomainClass());
         cr.add(Restrictions.eq("token", token));

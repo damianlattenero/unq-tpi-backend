@@ -3,6 +3,8 @@ package ar.edu.unq.tip.marchionnelattenero.repositories;
 import ar.edu.unq.tip.marchionnelattenero.models.UserModel;
 import ar.edu.unq.tip.marchionnelattenero.repositories.utils.GenericRepository;
 import ar.edu.unq.tip.marchionnelattenero.repositories.utils.HibernateGenericDAO;
+import org.hibernate.Criteria;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
 
@@ -16,4 +18,9 @@ public class UserModelRepository extends HibernateGenericDAO<UserModel> implemen
         return UserModel.class;
     }
 
+    public UserModel findByUserId(String userId) {
+        Criteria cr = this.getSession().createCriteria(this.getDomainClass());
+        cr.add(Restrictions.eq("user_id", userId));
+        return (UserModel) cr.uniqueResult();
+    }
 }

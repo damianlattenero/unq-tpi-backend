@@ -2,22 +2,22 @@ package ar.edu.unq.tip.marchionnelattenero.controllers.requests;
 
 public class UserAuthorization {
 
-//    private int userId;
-    private String authorizationCode;
-//
-//    public int getUserId() {
-//        return userId;
-//    }
-//
-//    public void setUserId(int userId) {
-//        this.userId = userId;
-//    }
+    private String token;
+    private String userId;
 
-    public String getAuthorizationCode() {
-        return authorizationCode;
+    public String getToken() {
+        return token;
     }
 
-    public void setAuthorizationCode(String authorizationCode) {
-        this.authorizationCode = authorizationCode;
+    public void setToken(String token) {
+        this.token = token;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 }

@@ -3,14 +3,14 @@ package ar.edu.unq.tip.marchionnelattenero.controllers.responses;
 import ar.edu.unq.tip.marchionnelattenero.models.UserModel;
 
 public class UserResponse {
-    private int id;
+    private String userId;
     private String name;
     private String nickname;
     private String email;
     private String place;
 
-    public UserResponse(int id, String name, String nickname, String email, String place) {
-        this.id = id;
+    public UserResponse(String userId, String name, String nickname, String email, String place) {
+        this.userId = userId;
         this.name = name;
         this.nickname = nickname;
         this.email = email;
@@ -19,19 +19,19 @@ public class UserResponse {
 
     public static UserResponse build(UserModel userModel) {
         return new UserResponse(
-                userModel.getId(),
+                String.valueOf(userModel.getId()),
                 userModel.getName(),
                 userModel.getNickname(),
                 userModel.getEmail(),
                 userModel.getPlace().toString());
     }
 
-    public int getId() {
-        return id;
+    public String getUserId() {
+        return userId;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
     public String getName() {

@@ -4,7 +4,7 @@ import ar.edu.unq.tip.marchionnelattenero.controllers.requests.UserAuthorization
 import ar.edu.unq.tip.marchionnelattenero.controllers.responses.UserResponse;
 import ar.edu.unq.tip.marchionnelattenero.controllers.responses.UserTokenResponse;
 import ar.edu.unq.tip.marchionnelattenero.models.UserModel;
-import ar.edu.unq.tip.marchionnelattenero.models.UserToken;
+import ar.edu.unq.tip.marchionnelattenero.repositories.UserModelRepository;
 import ar.edu.unq.tip.marchionnelattenero.repositories.UserTokenRepository;
 import ar.edu.unq.tip.marchionnelattenero.services.Login;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,17 +22,22 @@ public class LoginController {
     private Login login;
     @Autowired
     private UserTokenRepository userTokenRepository;
+    @Autowired
+    private UserModelRepository userModelRepository;
 
     @POST
     @Path("login")
     @Consumes("application/json")
     @Produces("application/json")
     public UserTokenResponse loginUser(UserAuthorization userAuthorization) {
-        System.out.println("UserAuthorization: " + userAuthorization.getAuthorizationCode());
+        System.out.println("UserAuthorization: token: " + userAuthorization.getToken());
+        System.out.println("UserAuthorization: userId : " + userAuthorization.getUserId());
 
-        UserModel user = this.userTokenRepository.findByUserToken(userAuthorization.getAuthorizationCode());
+        UserModel user = this.userTokenRepository.findByUserToken(userAuthorization.getUserId());
+//        UserModel user = this.userModelRepository.findByUserId(userAuthorization.getUserId());
+        System.out.println("User: " + ((user == null) ? "." : user.getName()) );
         UserTokenResponse response = (user == null) ? new UserTokenResponse()
-                : new UserTokenResponse(true, user.getName(), user.getNickname(), user.getEmail());
+                : new UserTokenResponse(userAuthorization.getToken(), true, user.getName(), user.getNickname(), user.getEmail());
         return response;
 
 //        return new UserTokenResponse(true, "Cristian", "Cris", "cd@mail");
