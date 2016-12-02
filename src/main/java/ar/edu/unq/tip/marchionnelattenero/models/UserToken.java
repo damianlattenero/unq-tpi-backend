@@ -19,6 +19,14 @@ public class UserToken {
     @ManyToOne(optional = false)
     private UserModel userModel;
 
+    public UserToken() {
+    }
+
+    public UserToken(String token, UserModel userModel) {
+        this.token = token;
+        this.userModel = userModel;
+    }
+
     public UserModel getUserModel() {
         return userModel;
     }

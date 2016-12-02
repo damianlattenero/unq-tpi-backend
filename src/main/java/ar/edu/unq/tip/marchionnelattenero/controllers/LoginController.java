@@ -1,9 +1,11 @@
 package ar.edu.unq.tip.marchionnelattenero.controllers;
 
 import ar.edu.unq.tip.marchionnelattenero.controllers.requests.UserAuthorization;
+import ar.edu.unq.tip.marchionnelattenero.controllers.responses.LoginResponse;
+import ar.edu.unq.tip.marchionnelattenero.controllers.responses.LogoutResponse;
 import ar.edu.unq.tip.marchionnelattenero.controllers.responses.UserResponse;
-import ar.edu.unq.tip.marchionnelattenero.controllers.responses.UserTokenResponse;
 import ar.edu.unq.tip.marchionnelattenero.models.UserModel;
+import ar.edu.unq.tip.marchionnelattenero.models.UserToken;
 import ar.edu.unq.tip.marchionnelattenero.repositories.UserModelRepository;
 import ar.edu.unq.tip.marchionnelattenero.repositories.UserTokenRepository;
 import ar.edu.unq.tip.marchionnelattenero.services.Login;
@@ -29,18 +31,59 @@ public class LoginController {
     @Path("login")
     @Consumes("application/json")
     @Produces("application/json")
-    public UserTokenResponse loginUser(UserAuthorization userAuthorization) {
+    public LoginResponse loginUser(UserAuthorization userAuthorization) {
+        System.out.println(" - loginUser - ");
         System.out.println("UserAuthorization: token: " + userAuthorization.getToken());
         System.out.println("UserAuthorization: userId : " + userAuthorization.getUserId());
+        LoginResponse response = new LoginResponse();
 
-        UserModel user = this.userTokenRepository.findByUserToken(userAuthorization.getUserId());
-//        UserModel user = this.userModelRepository.findByUserId(userAuthorization.getUserId());
-        System.out.println("User: " + ((user == null) ? "." : user.getName()) );
-        UserTokenResponse response = (user == null) ? new UserTokenResponse()
-                : new UserTokenResponse(userAuthorization.getToken(), true, user.getName(), user.getNickname(), user.getEmail());
+        UserModel user = this.userModelRepository.findByUserId(userAuthorization.getUserId());
+        if (user != null) {
+            System.out.println("User: " + user.getName());
+            UserToken userToken = this.userTokenRepository.findByUser(user);
+
+            //Si aun no esta loggeado, lo registro
+            if (userToken == null) {
+                userToken = new UserToken(userAuthorization.getToken(), user);
+                this.userTokenRepository.save(userToken);
+            }
+            response = new LoginResponse(userToken.getToken(), true, user.getName(), user.getNickname(), user.getEmail());
+        }
         return response;
+    }
 
-//        return new UserTokenResponse(true, "Cristian", "Cris", "cd@mail");
+    @POST
+    @Path("logout")
+    @Consumes("application/json")
+    @Produces("application/json")
+    public LogoutResponse logoutUser(UserAuthorization userAuthorization) {
+        System.out.println(" - logoutUser - ");
+        System.out.println("UserAuthorization: token: " + userAuthorization.getToken());
+        System.out.println("UserAuthorization: userId : " + userAuthorization.getUserId());
+        LogoutResponse response = new LogoutResponse();
+
+        UserToken userToken = this.userTokenRepository.findByUserToken(userAuthorization.getToken());
+
+        //Deberia estar registrado
+        if (userToken != null) {
+            System.out.println("UserToken From: " + userToken.getUserModel().getNickname());
+            this.userTokenRepository.delete(userToken);
+            response = LogoutResponse.LogoutResponseWithToken(userAuthorization.getToken());
+        } else {
+            UserModel user = this.userModelRepository.findByUserId(userAuthorization.getUserId());
+            if (user != null) {
+                System.out.println("UserModel: " + user.getNickname());
+                userToken = this.userTokenRepository.findByUser(user);
+
+                //Deberia estar registrado
+                if (userToken != null) {
+                    System.out.println("UserToken From: " + userToken.getUserModel().getNickname());
+                    this.userTokenRepository.delete(userToken);
+                }
+                response = LogoutResponse.LogoutResponseNoRegister(userToken.getToken());
+            }
+        }
+        return response;
     }
 
     @GET
@@ -65,7 +108,7 @@ public class LoginController {
     @Path("myUserInfo")
     @Produces("application/json")
     public UserResponse findUserLogin(@QueryParam("token") String token) {
-        UserModel user = this.userTokenRepository.findByUserToken(token);
+        UserModel user = (this.userTokenRepository.findByUserToken(token)).getUserModel();
         return UserResponse.build(user);
     }
 

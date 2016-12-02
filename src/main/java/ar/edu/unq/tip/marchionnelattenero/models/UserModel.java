@@ -19,8 +19,8 @@ public class UserModel {
     private int id;
 
 //    @Lob
-//    @Column(name = "user_id")
-//    private String userid;
+    @Column(name = "userId")
+    private String userId;
 
     @Column(name = "name")
     private String name;
@@ -60,13 +60,13 @@ public class UserModel {
         this.id = id;
     }
 
-//    public String getUserid() {
-//        return userid;
-//    }
-//
-//    public void setUserid(String userid) {
-//        this.userid = userid;
-//    }
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
 
     public String getName() {
         return name;

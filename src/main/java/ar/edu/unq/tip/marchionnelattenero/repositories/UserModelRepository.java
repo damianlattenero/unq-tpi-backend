@@ -20,7 +20,7 @@ public class UserModelRepository extends HibernateGenericDAO<UserModel> implemen
 
     public UserModel findByUserId(String userId) {
         Criteria cr = this.getSession().createCriteria(this.getDomainClass());
-        cr.add(Restrictions.eq("user_id", userId));
+        cr.add(Restrictions.eq("userId", userId));
         return (UserModel) cr.uniqueResult();
     }
 }

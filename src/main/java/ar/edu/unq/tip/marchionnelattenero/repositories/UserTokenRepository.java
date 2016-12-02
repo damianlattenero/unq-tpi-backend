@@ -16,10 +16,15 @@ public class UserTokenRepository extends HibernateGenericDAO<UserToken> implemen
         return UserToken.class;
     }
 
-    public UserModel findByUserToken(String token) {
+    public UserToken findByUserToken(String token) {
         Criteria cr = this.getSession().createCriteria(this.getDomainClass());
         cr.add(Restrictions.eq("token", token));
-        UserToken userToken = (UserToken) cr.uniqueResult();
-        return userToken.getUserModel();
+        return (UserToken) cr.uniqueResult();
+    }
+
+    public UserToken findByUser(UserModel userModel) {
+        Criteria cr = this.getSession().createCriteria(this.getDomainClass());
+        cr.add(Restrictions.eq("userModel", userModel));
+        return (UserToken) cr.uniqueResult();
     }
 }

@@ -19,7 +19,7 @@ public class UserResponse {
 
     public static UserResponse build(UserModel userModel) {
         return new UserResponse(
-                String.valueOf(userModel.getId()),
+                userModel.getUserId(),
                 userModel.getName(),
                 userModel.getNickname(),
                 userModel.getEmail(),

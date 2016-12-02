@@ -25,10 +25,12 @@ public class Login {
 
     @Loggable
     @Transactional
-    public UserModel signUp(String name, String nickname, String email) {
+    public UserModel signUp(String userId, String name, String nickname, String email) {
         UserModel user = new UserModel(name, nickname, email);
+        user.setUserId(userId);
         this.userModelRepository.save(user);
-        this.userTokenService.create(user);
+
+//        this.userTokenService.create(user);
 //        this.fake.afterSignUp(user);
         return user;
     }

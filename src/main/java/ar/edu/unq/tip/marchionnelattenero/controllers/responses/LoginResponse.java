@@ -1,6 +1,6 @@
 package ar.edu.unq.tip.marchionnelattenero.controllers.responses;
 
-public class UserTokenResponse {
+public class LoginResponse {
 
     private boolean isAuthenticated = false;
     private String token;
@@ -9,17 +9,10 @@ public class UserTokenResponse {
     private String nickname;
     private String email;
 
-    public UserTokenResponse() {
+    public LoginResponse() {
     }
 
-    public UserTokenResponse(boolean isAuthenticated, String name, String nickname, String email) {
-        this.isAuthenticated = isAuthenticated;
-        this.name = name;
-        this.nickname = nickname;
-        this.email = email;
-    }
-
-    public UserTokenResponse(String token, boolean isAuthenticated, String name, String nickname, String email) {
+    public LoginResponse(String token, boolean isAuthenticated, String name, String nickname, String email) {
         this.token = token;
         this.isAuthenticated = isAuthenticated;
         this.name = name;
