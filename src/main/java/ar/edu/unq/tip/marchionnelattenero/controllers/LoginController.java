@@ -11,6 +11,7 @@ import ar.edu.unq.tip.marchionnelattenero.repositories.UserTokenRepository;
 import ar.edu.unq.tip.marchionnelattenero.services.Login;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.ws.rs.*;
 import java.util.ArrayList;
@@ -40,15 +41,23 @@ public class LoginController {
         UserModel user = this.userModelRepository.findByUserId(userAuthorization.getUserId());
         if (user != null) {
             System.out.println("User: " + user.getName());
+            UserToken newUserToken = new UserToken(userAuthorization.getToken(), user);
             UserToken userToken = this.userTokenRepository.findByUser(user);
 
             //Si aun no esta loggeado, lo registro
-            if (userToken == null) {
-                userToken = new UserToken(userAuthorization.getToken(), user);
-                this.userTokenRepository.save(userToken);
+            if (userToken != null) {
+                response = LoginResponse.userWasSignedBefore(userToken.getToken(), user);
+            } else {
+                this.userTokenRepository.save(newUserToken);
+                newUserToken = this.userTokenRepository.findByUser(user);
+                Boolean isSignedIn = (newUserToken != null);
+                response = LoginResponse.SignIn((!isSignedIn) ? "" : newUserToken.getToken(), user, isSignedIn);
             }
-            response = new LoginResponse(userToken.getToken(), true, user.getName(), user.getNickname(), user.getEmail());
+        } else {
+            response.setMessage("El usuario no existe!");
         }
+
+        System.out.println("response: " + response.getMessage());
         return response;
     }
 
