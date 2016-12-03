@@ -65,8 +65,6 @@ public class FoodOrderClosureService {
 
             dateClosure = DateHelper.getTomorrowDate(dateClosure);
         }
-
-
     }
 
     public FoodOrderClosureRepository getFoodOrderClosureRepository() {

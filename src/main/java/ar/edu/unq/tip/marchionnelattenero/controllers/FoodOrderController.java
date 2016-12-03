@@ -5,7 +5,8 @@ import ar.edu.unq.tip.marchionnelattenero.controllers.requests.FoodOrderCreation
 import ar.edu.unq.tip.marchionnelattenero.controllers.responses.FoodOrderCreationResponse;
 import ar.edu.unq.tip.marchionnelattenero.controllers.responses.ProductPendingResponse;
 import ar.edu.unq.tip.marchionnelattenero.models.FoodOrder;
-import ar.edu.unq.tip.marchionnelattenero.models.FoodOrderState;
+import ar.edu.unq.tip.marchionnelattenero.models.UserModel;
+import ar.edu.unq.tip.marchionnelattenero.repositories.UserTokenRepository;
 import ar.edu.unq.tip.marchionnelattenero.services.FoodOrderService;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormatter;
@@ -23,6 +24,8 @@ public class FoodOrderController {
 
     @Autowired
     private FoodOrderService foodOrderService;
+    @Autowired
+    private UserTokenRepository userTokenRepository;
 
     @GET
     @Path("all")
@@ -35,10 +38,14 @@ public class FoodOrderController {
     @Path("create")
     @Consumes("application/json")
     @Produces("application/json")
-    public ProductPendingResponse create(FoodOrderCreationBody foodOrderBody) {
-        FoodOrder foodOrder = this.foodOrderService.createFoodOrder(foodOrderBody.getProductId(), foodOrderBody.getProductAmount(), foodOrderBody.getUser(), foodOrderBody.getState());
+    public ProductPendingResponse create(@QueryParam("token") String token, FoodOrderCreationBody foodOrderBody) {
+        UserModel user = this.userTokenRepository.findByUserToken(token).getUserModel();
+        System.out.println("User by Token: " + user.getNickname());
+        System.out.println("foodOrderBody.User: " + foodOrderBody.getUser());
+        FoodOrder foodOrder = this.foodOrderService.createFoodOrder(foodOrderBody.getProductId(), foodOrderBody.getProductAmount(), user, foodOrderBody.getState());
         return ProductPendingResponse.build(foodOrder.getProduct());
     }
+/*
 
     @POST
     @Path("order")
@@ -75,6 +82,7 @@ public class FoodOrderController {
         FoodOrder foodOrder = this.foodOrderService.createFoodOrder(foodOrderBody.getProductId(), 1, foodOrderBody.getUser(), FoodOrderState.CANCELCOOKED.toString());
         return ProductPendingResponse.build(foodOrder.getProduct());
     }
+*/
 
 /*
     @GET

@@ -23,8 +23,8 @@ public class FoodOrder {
     @Column(name = "amount")
     private int amount;
 
-    @Column(name = "USER_ID")
-    private String user;
+    @ManyToOne(optional = false)
+    private UserModel user;
 
     @Enumerated(EnumType.STRING)
     private FoodOrderState state;
@@ -40,12 +40,12 @@ public class FoodOrder {
     public FoodOrder() {
     }
 
-    public FoodOrder(Product product, String state, String user) {
+    public FoodOrder(Product product, String state, UserModel user) {
         this(product, state, 1, user);
     }
 
 
-    public FoodOrder(Product product, String state, int amount, String user) {
+    public FoodOrder(Product product, String state, int amount, UserModel user) {
         this.moment = new Timestamp(DateTime.now().getMillis());
         this.product = product;
         this.state = FoodOrderState.valueOf(state);
@@ -74,7 +74,7 @@ public class FoodOrder {
         return moment;
     }
 
-    public String getUser() {
+    public UserModel getUser() {
         return user;
     }
 

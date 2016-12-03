@@ -2,6 +2,7 @@ package ar.edu.unq.tip.marchionnelattenero.services;
 
 import ar.edu.unq.tip.marchionnelattenero.models.FoodOrder;
 import ar.edu.unq.tip.marchionnelattenero.models.Product;
+import ar.edu.unq.tip.marchionnelattenero.models.UserModel;
 import ar.edu.unq.tip.marchionnelattenero.repositories.FoodOrderRepository;
 import ar.edu.unq.tip.marchionnelattenero.repositories.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,9 +26,8 @@ public class FoodOrderService {
     private ProductRepository productRepository;
 
     @Transactional
-    public FoodOrder createFoodOrder(int idProduct, int amount, String user, String state) {
+    public FoodOrder createFoodOrder(int idProduct, int amount, UserModel user, String state) {
         Product p = productRepository.findById(idProduct);
-        //TODO: Ir a buscar el Usuarios a la Base
         FoodOrder foodOrder = new FoodOrder(p, state, amount, user);
         this.getFoodOrderRepository().save(foodOrder);
         return foodOrder;
