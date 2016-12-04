@@ -40,11 +40,6 @@ public class FoodOrder {
     public FoodOrder() {
     }
 
-/*    public FoodOrder(Product product, String state, UserModel user) {
-        this(product, state, 1, user);
-    }*/
-
-
     public FoodOrder(Product product, FoodOrderState state, int amount, UserModel user) {
         this.moment = new Timestamp(DateTime.now().getMillis());
         this.product = product;

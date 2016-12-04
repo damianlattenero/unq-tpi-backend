@@ -95,6 +95,39 @@ public class LoginController {
         return response;
     }
 
+    @POST
+    @Path("changePlace")
+    @Consumes("application/json")
+    @Produces("application/json")
+    public LoginResponse changePlace(UserAuthorization userAuthorization) {
+        System.out.println(" - loginUser - ");
+        System.out.println("UserAuthorization: token: " + userAuthorization.getToken());
+        System.out.println("UserAuthorization: userId : " + userAuthorization.getUserId());
+        LoginResponse response = new LoginResponse();
+
+        UserModel user = this.userModelRepository.findByUserId(userAuthorization.getUserId());
+        if (user != null) {
+            System.out.println("User: " + user.getName());
+            UserToken newUserToken = new UserToken(userAuthorization.getToken(), user);
+            UserToken userToken = this.userTokenRepository.findByUser(user);
+
+            //Si aun no esta loggeado, lo registro
+            if (userToken != null) {
+                response = LoginResponse.userWasSignedBefore(userToken.getToken(), user);
+            } else {
+                this.userTokenRepository.save(newUserToken);
+                newUserToken = this.userTokenRepository.findByUser(user);
+                Boolean isSignedIn = (newUserToken != null);
+                response = LoginResponse.SignIn((!isSignedIn) ? "" : newUserToken.getToken(), user, isSignedIn);
+            }
+        } else {
+            response.setMessage("El usuario no existe!");
+        }
+
+        System.out.println("response: " + response.getMessage());
+        return response;
+    }
+
     @GET
     @Path("all")
     @Produces("application/json")

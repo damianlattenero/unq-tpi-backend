@@ -26,13 +26,6 @@ public class FoodOrderService {
     @Autowired
     private ProductRepository productRepository;
 
-    /*    @Transactional
-        public FoodOrder createFoodOrder(int idProduct, int amount, UserModel user) {
-            Product p = productRepository.findById(idProduct);
-            FoodOrder foodOrder = new FoodOrder(p, FoodOrderState.ORDER, amount, user);
-            this.getFoodOrderRepository().save(foodOrder);
-            return foodOrder;
-        }*/
     @Transactional
 
     private FoodOrder createFoodOrder(int idProduct, UserModel user, int amount, FoodOrderState state) {

@@ -33,19 +33,6 @@ public class FoodOrderController {
     public List<FoodOrderCreationResponse> getAll() {
         return FoodOrderCreationResponse.buildMany(this.foodOrderService.findAll());
     }
-/*
-    @POST
-    @Path("create")
-    @Consumes("application/json")
-    @Produces("application/json")
-    public ProductPendingResponse create(@QueryParam("token") String token, FoodOrderCreationBody foodOrderBody) {
-        UserModel user = this.userTokenRepository.findByUserToken(token).getUserModel();
-        System.out.println("User by Token: " + user.getNickname());
-        System.out.println("foodOrderBody.User: " + foodOrderBody.getUser());
-        FoodOrder foodOrder = this.foodOrderService.createFoodOrder(foodOrderBody.getProductId(), foodOrderBody.getProductAmount(), user, foodOrderBody.getState());
-        return ProductPendingResponse.build(foodOrder.getProduct());
-    }*/
-
 
     @POST
     @Path("order")
