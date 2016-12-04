@@ -120,7 +120,7 @@ public class FoodOrderHistoryCreationResponse {
     }
 
     private int getTotalStock() {
-        return Math.abs(this.countCooked);
+        return Math.abs(this.countCooked + this.countCancelCooked) ;
     }
 
     @Override
