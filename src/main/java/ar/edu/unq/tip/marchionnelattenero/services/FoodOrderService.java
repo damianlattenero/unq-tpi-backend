@@ -1,6 +1,7 @@
 package ar.edu.unq.tip.marchionnelattenero.services;
 
 import ar.edu.unq.tip.marchionnelattenero.models.FoodOrder;
+import ar.edu.unq.tip.marchionnelattenero.models.FoodOrderState;
 import ar.edu.unq.tip.marchionnelattenero.models.Product;
 import ar.edu.unq.tip.marchionnelattenero.models.UserModel;
 import ar.edu.unq.tip.marchionnelattenero.repositories.FoodOrderRepository;
@@ -25,13 +26,38 @@ public class FoodOrderService {
     @Autowired
     private ProductRepository productRepository;
 
+    /*    @Transactional
+        public FoodOrder createFoodOrder(int idProduct, int amount, UserModel user) {
+            Product p = productRepository.findById(idProduct);
+            FoodOrder foodOrder = new FoodOrder(p, FoodOrderState.ORDER, amount, user);
+            this.getFoodOrderRepository().save(foodOrder);
+            return foodOrder;
+        }*/
     @Transactional
-    public FoodOrder createFoodOrder(int idProduct, int amount, UserModel user, String state) {
+
+    private FoodOrder createFoodOrder(int idProduct, UserModel user, int amount, FoodOrderState state) {
         Product p = productRepository.findById(idProduct);
         FoodOrder foodOrder = new FoodOrder(p, state, amount, user);
         this.getFoodOrderRepository().save(foodOrder);
         return foodOrder;
     }
+
+    public FoodOrder order(int idProduct, UserModel user, int amount) {
+        return createFoodOrder(idProduct, user, amount, FoodOrderState.ORDER);
+    }
+
+    public FoodOrder cancelOrder(int idProduct, UserModel user, int amount) {
+        return createFoodOrder(idProduct, user, amount, FoodOrderState.CANCELORDER);
+    }
+
+    public FoodOrder coocked(int idProduct, UserModel user, int amount) {
+        return createFoodOrder(idProduct, user, amount, FoodOrderState.COOKED);
+    }
+
+    public FoodOrder cancelCoocked(int idProduct, UserModel user, int amount) {
+        return createFoodOrder(idProduct, user, amount, FoodOrderState.CANCELCOOKED);
+    }
+
 
     public FoodOrderRepository getFoodOrderRepository() {
         return foodOrderRepository;
@@ -63,4 +89,6 @@ public class FoodOrderService {
     public List<Timestamp> findAllDays(int count) {
         return this.getFoodOrderRepository().findAllDaysNotArchived(count);
     }
+
+
 }
