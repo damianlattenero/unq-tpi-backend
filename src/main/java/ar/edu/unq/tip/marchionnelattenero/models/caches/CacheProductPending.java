@@ -1,6 +1,9 @@
 package ar.edu.unq.tip.marchionnelattenero.models.caches;
 
+import ar.edu.unq.tip.marchionnelattenero.controllers.responses.CachePendingsResponse;
 import ar.edu.unq.tip.marchionnelattenero.models.FoodOrder;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -37,5 +40,18 @@ public class CacheProductPending {
 
     public Integer getProductPending(Integer idProduct) {
         return this.allProductsPending.getOrDefault(idProduct, 0);
+    }
+
+    public String getAsJSON() {
+        String jsonInString = "";
+
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            jsonInString = mapper.writeValueAsString(this.allProductsPending);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+
+        return jsonInString;
     }
 }

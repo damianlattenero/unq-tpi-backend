@@ -12,10 +12,24 @@ public class LoginResponse {
     private String nickname;
     private String email;
     private String message;
+    private String place;
 
     public LoginResponse() {
     }
 
+    public LoginResponse(String token, boolean isAuthenticated, UserModel userModel) {
+        this.token = token;
+        this.isAuthenticated = isAuthenticated;
+        this.setUserData(userModel);
+    }
+
+    public void setUserData(UserModel userModel) {
+        this.name = userModel.getName();
+        this.nickname = userModel.getNickname();
+        this.email = userModel.getEmail();
+        this.place = userModel.getPlace().toString();
+    }
+/*
     public LoginResponse(String token, boolean isAuthenticated, String name, String nickname, String email) {
         this.token = token;
         this.isAuthenticated = isAuthenticated;
@@ -23,16 +37,17 @@ public class LoginResponse {
         this.nickname = nickname;
         this.email = email;
     }
+*/
 
     public static LoginResponse userWasSignedBefore(String token, UserModel user) {
-        LoginResponse response = new LoginResponse(token, true, user.getName(), user.getNickname(), user.getEmail());
+        LoginResponse response = new LoginResponse(token, true, user);
         response.setSignedIn(false);
         response.setMessage("El usuario ya esta registrado con otro dispositivo");
         return response;
     }
 
     public static LoginResponse SignIn(String token, UserModel user, Boolean isSignedIn) {
-        LoginResponse response = new LoginResponse(token, true, user.getName(), user.getNickname(), user.getEmail());
+        LoginResponse response = new LoginResponse(token, true, user);
         response.setSignedIn(isSignedIn);
         response.setMessage(isSignedIn ? "Se registro al usuario" : "No se logro registrar al usuario");
         return response;
@@ -86,6 +101,14 @@ public class LoginResponse {
         this.email = email;
     }
 
+    public String getPlace() {
+        return place;
+    }
+
+    public void setPlace(String place) {
+        this.place = place;
+    }
+
     public String getMessage() {
         return message;
     }
@@ -93,4 +116,5 @@ public class LoginResponse {
     public void setMessage(String message) {
         this.message = message;
     }
+
 }
