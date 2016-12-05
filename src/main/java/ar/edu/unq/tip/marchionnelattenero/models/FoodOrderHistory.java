@@ -2,7 +2,6 @@ package ar.edu.unq.tip.marchionnelattenero.models;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -22,42 +21,29 @@ public class FoodOrderHistory {
     @ManyToOne
     private Product product;
 
-    /*
-    @MapKeyColumn(name = "state")
-    @Column(name="amount")
-     */
-//    @OneToMany(cascade = CascadeType.ALL)
-//    @MapKeyEnumerated(EnumType.STRING)
 /*
-    @MapKey(name = "state")
-    @MapKeyEnumerated(EnumType.STRING)
-    @OneToMany(mappedBy = "FoodOrderHistory", cascade = CascadeType.ALL)
+    @Column(name = "amount")
+    private int amount;
+
+    @Enumerated(EnumType.STRING)
+    private FoodOrderState state;
 */
-    //@OneToMany(mappedBy = "foodOrderHistory", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    //@MapKeyColumn(name = "state", insertable = false, updatable = false)
 
-    /*
-        @OneToMany(mappedBy = "foodOrderHistory", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-        @MapKeyEnumerated(EnumType.STRING)
-        @MapKeyColumn(name = "states")
-         */
-    //@OneToMany//(cascade={CascadeType.ALL,CascadeType.PERSIST})
-
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ElementCollection(fetch = FetchType.LAZY)
+    @CollectionTable(name = "FoodOrderHistory_Amounts", joinColumns = @JoinColumn(name = "FoodOrderHistory_ID"))
     @MapKeyEnumerated(EnumType.STRING)
-    private Map<FoodOrderState, MyInteger> amounts;
+    @MapKeyColumn(name = "state")
+    @Column(name = "amount")
+    private Map<FoodOrderState, Integer> amounts;
 
     public FoodOrderHistory() {
+        this.amounts = new HashMap<FoodOrderState, Integer>();
     }
 
-    public FoodOrderHistory(Date date, Product product) {
-        new FoodOrderHistory(new Timestamp(date.getTime()), product);
-    }
-
-    public FoodOrderHistory(Timestamp moment, Product product) {
+    public FoodOrderHistory(Timestamp moment, Product product, FoodOrderState state, int amount) {
         this.moment = moment;
         this.product = product;
-        this.amounts = new HashMap<FoodOrderState, MyInteger>();
+        this.amounts = new HashMap<FoodOrderState, Integer>();
     }
 
     public int getId() {
@@ -72,17 +58,17 @@ public class FoodOrderHistory {
         return moment;
     }
 
-    public Map<FoodOrderState, MyInteger> getAmounts() {
+    public Map<FoodOrderState, Integer> getAmounts() {
         return amounts;
     }
 
     public void addAmount(FoodOrderState state, int amount) {
-        int count = this.getAmount(state).getValue();
-        this.amounts.put(state, new MyInteger(count + amount));
+        int count = this.getAmount(state);
+        this.amounts.put(state, count + amount);
     }
 
-    public MyInteger getAmount(FoodOrderState state) {
-        return this.amounts.getOrDefault(state, new MyInteger(0));
+    public Integer getAmount(FoodOrderState state) {
+        return this.amounts.getOrDefault(state, 0);
     }
 
 }
