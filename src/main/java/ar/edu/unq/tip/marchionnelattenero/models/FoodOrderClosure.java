@@ -19,8 +19,8 @@ public class FoodOrderClosure {
     @Column(name = "momentClosure")
     private Timestamp momentClosure;
 
-    @Column(name = "USER_ID")
-    private String user;
+    @ManyToOne(optional = false)
+    private UserModel user;
 
     @Column(name = "moment")
     private Timestamp moment;
@@ -28,7 +28,7 @@ public class FoodOrderClosure {
     public FoodOrderClosure() {
     }
 
-    public FoodOrderClosure(String user, Date momentClosure) {
+    public FoodOrderClosure(UserModel user, Date momentClosure) {
         this.moment = new Timestamp(DateTime.now().getMillis());;
         this.momentClosure = new Timestamp(momentClosure.getTime());
         this.user = user;
@@ -46,7 +46,7 @@ public class FoodOrderClosure {
         return momentClosure;
     }
 
-    public String getUser() {
+    public UserModel getUser() {
         return user;
     }
 }

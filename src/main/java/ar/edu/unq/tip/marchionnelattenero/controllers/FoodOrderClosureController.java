@@ -52,7 +52,7 @@ public class FoodOrderClosureController {
     public List<FoodOrderHistoryCreationResponse> generateClosure(@QueryParam("token") String token, FoodOrderClosureBody foodOrderClosureBody) {
         System.err.println("FoodOrderClosureBody: '" + foodOrderClosureBody.toString() + "'");
         UserModel user = this.userTokenRepository.findByUserToken(token).getUserModel();
-        this.foodOrderClosureService.generateFoodOrderClosure(foodOrderClosureBody.getUser(), foodOrderClosureBody.getFrom(),foodOrderClosureBody.getTo());
+        this.foodOrderClosureService.generateFoodOrderClosure(user, foodOrderClosureBody.getFrom(),foodOrderClosureBody.getTo());
         return FoodOrderHistoryCreationResponse.buildMany(this.foodOrderHistoryService.findByDayFromTo(foodOrderClosureBody.getFrom(), foodOrderClosureBody.getTo()));
     }
 
@@ -60,7 +60,8 @@ public class FoodOrderClosureController {
     @Path("generateClosureToday")
     @Consumes("application/json")
     @Produces("application/json")
-    public List<FoodOrderHistoryCreationResponse> generateClosureToday(String user) {
+    public List<FoodOrderHistoryCreationResponse> generateClosureToday(@QueryParam("token") String token) {
+        UserModel user = this.userTokenRepository.findByUserToken(token).getUserModel();
         long dateClosure = this.foodOrderClosureService.generateFoodOrderClosure(user);
         return FoodOrderHistoryCreationResponse.buildMany(this.foodOrderHistoryService.findByDay(dateClosure));
     }

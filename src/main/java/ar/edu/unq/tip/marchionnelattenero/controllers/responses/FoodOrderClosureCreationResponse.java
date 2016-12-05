@@ -25,7 +25,7 @@ public class FoodOrderClosureCreationResponse {
                 foodOrderClosure.getId(),
                 foodOrderClosure.getMoment().getTime(),
                 foodOrderClosure.getMomentClosure().getTime(),
-                foodOrderClosure.getUser()
+                foodOrderClosure.getUser().getNickname()
         );
     }
 

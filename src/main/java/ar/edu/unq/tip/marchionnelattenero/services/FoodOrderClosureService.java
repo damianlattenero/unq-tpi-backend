@@ -2,6 +2,7 @@ package ar.edu.unq.tip.marchionnelattenero.services;
 
 import ar.edu.unq.tip.marchionnelattenero.models.FoodOrder;
 import ar.edu.unq.tip.marchionnelattenero.models.FoodOrderClosure;
+import ar.edu.unq.tip.marchionnelattenero.models.UserModel;
 import ar.edu.unq.tip.marchionnelattenero.repositories.FoodOrderClosureRepository;
 import ar.edu.unq.tip.marchionnelattenero.repositories.FoodOrderRepository;
 import ar.edu.unq.tip.marchionnelattenero.models.utils.DateHelper;
@@ -40,14 +41,14 @@ public class FoodOrderClosureService {
     }
 
     @Transactional
-    public long generateFoodOrderClosure(String user) {
+    public long generateFoodOrderClosure(UserModel user) {
         long dateClosure = DateTime.now().getMillis();
         this.generateFoodOrderClosure(user, dateClosure, dateClosure);
         return dateClosure;
     }
 
     @Transactional
-    public void generateFoodOrderClosure(String user, long from, long to) {
+    public void generateFoodOrderClosure(UserModel user, long from, long to) {
         Date dateFrom = DateHelper.getDateWithoutTime(from);
         Date dateTo = DateHelper.getDateWithoutTime(to);
 
