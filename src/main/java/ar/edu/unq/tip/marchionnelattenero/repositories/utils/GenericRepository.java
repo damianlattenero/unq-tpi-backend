@@ -1,5 +1,7 @@
 package ar.edu.unq.tip.marchionnelattenero.repositories.utils;
 
+import ar.edu.unq.tip.marchionnelattenero.models.FoodOrderHistory;
+
 import java.io.Serializable;
 import java.util.List;
 
@@ -27,4 +29,5 @@ public interface GenericRepository<T> {
 
     List<T> findByExample(T exampleObject);
 
+    void saveorupdate(T entity);
 }
