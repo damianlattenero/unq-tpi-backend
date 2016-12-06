@@ -30,7 +30,7 @@ public class FoodOrderHistory {
     private Map<FoodOrderState, Integer> amounts;
 
     public FoodOrderHistory() {
-        this.amounts = new HashMap<FoodOrderState, Integer>();
+        this.amounts = new HashMap<>();
     }
 
     public FoodOrderHistory(Date date, Product product) {
@@ -40,10 +40,10 @@ public class FoodOrderHistory {
     public FoodOrderHistory(Timestamp moment, Product product) {
         this.moment = moment;
         this.product = product;
-        this.amounts = new HashMap<FoodOrderState, Integer>();
+        this.amounts = new HashMap<>();
         for (FoodOrderState state : FoodOrderState.values()) {
             System.out.println("Agregando estado: " + state.toString());
-            this.amounts.put(state, 0);
+            this.addAmount(state, 0);
         }
     }
 
@@ -60,17 +60,19 @@ public class FoodOrderHistory {
     }
 
     public Map<FoodOrderState, Integer> getAmounts() {
-        return this.amounts;
+        return amounts;
+    }
+
+    public void setAmounts(Map<FoodOrderState, Integer> amounts) {
+        this.amounts = amounts;
     }
 
     public void addAmount(FoodOrderState state, int amount) {
-        System.out.println("Existe Mapa?: " + this.amounts.size());
         int count = this.getAmount(state);
         this.amounts.put(state, count + amount);
     }
 
     public Integer getAmount(FoodOrderState state) {
-        System.out.println("Existe Mapa?: " + this.amounts.size());
         return this.amounts.getOrDefault(state, 0);
     }
 

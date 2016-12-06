@@ -2,8 +2,6 @@ package ar.edu.unq.tip.marchionnelattenero.services;
 
 import ar.edu.unq.tip.marchionnelattenero.models.FoodOrder;
 import ar.edu.unq.tip.marchionnelattenero.models.FoodOrderHistory;
-import ar.edu.unq.tip.marchionnelattenero.models.FoodOrderState;
-import ar.edu.unq.tip.marchionnelattenero.models.Product;
 import ar.edu.unq.tip.marchionnelattenero.models.utils.DateHelper;
 import ar.edu.unq.tip.marchionnelattenero.repositories.FoodOrderHistoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,11 +32,14 @@ public class FoodOrderHistoryService {
         System.out.println("FoodOrder Like " + foodOrder.toString());
         FoodOrderHistory foodOrderHistory = this.getFoodOrderHistoryRepository().findBy(dateClosure, foodOrder.getProduct(), foodOrder.getState());
 
-        if (foodOrderHistory == null)
+        if (foodOrderHistory == null) {
             foodOrderHistory = new FoodOrderHistory(dateClosure, foodOrder.getProduct());
+//            foodOrderHistory.setAmounts();
+        }
         else
             System.out.println("Se encontro FoodOrderHistory.");
-        System.out.println("FoodHistory es null: " + (foodOrderHistory == null));
+        System.out.println("FoodOrderHistory es null: " + (foodOrderHistory == null));
+        //TODO: Revisar porque no se encuentra el mapa???
         System.out.println("Mapa es null: " + (foodOrderHistory.getAmounts() == null));
 
         foodOrderHistory.addAmount(foodOrder.getState(), foodOrder.getAmount());

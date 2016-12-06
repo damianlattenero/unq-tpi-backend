@@ -8,10 +8,13 @@ import ar.edu.unq.tip.marchionnelattenero.repositories.utils.HibernateGenericDAO
 import org.hibernate.Criteria;
 import org.hibernate.SQLQuery;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.transform.Transformers;
 import org.springframework.stereotype.Repository;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static ar.edu.unq.tip.marchionnelattenero.repositories.utils.CriteriaHelper.addRestrictionForDay;
 
@@ -39,7 +42,7 @@ public class FoodOrderHistoryRepository extends HibernateGenericDAO<FoodOrderHis
                 ", AMOUNTS.state, AMOUNTS.amount " +
                 "FROM unqdb.FoodOrderHistory HISTORY \n" +
                 "INNER JOIN unqdb.FoodOrderHistory_Amounts AMOUNTS \n" +
-                "ON (HISTORY." + ID +" = AMOUNTS." + ID + ") \n" +
+                "ON (HISTORY." + ID + " = AMOUNTS." + ID + ") \n" +
                 "WHERE " +
 //                "HISTORY.moment = '' AND \n" +
                 "HISTORY.product_Product_ID = '" + product.getId() + "' AND \n" +
@@ -47,7 +50,26 @@ public class FoodOrderHistoryRepository extends HibernateGenericDAO<FoodOrderHis
                 ";";
         SQLQuery query = this.getSession().createSQLQuery(sql);
         query.addEntity(this.getDomainClass());
-        return (FoodOrderHistory) query.uniqueResult();
+        FoodOrderHistory foodOrderHistory = (FoodOrderHistory) query.uniqueResult();
+
+        System.out.println("Se encontró foodOrderHistory? " + (foodOrderHistory!=null));
+        if (foodOrderHistory!=null) {
+            sql = "SELECT state, amount " +
+                    "FROM unqdb.FoodOrderHistory_Amounts \n" +
+                    "WHERE " + ID + " = " + foodOrderHistory.getId() + ";";
+            List<List<Object>> amounts = this.getSession().createQuery(sql).setResultTransformer(Transformers.TO_LIST).list();
+            System.out.println("Se encontró amounts ? " + (amounts != null));
+
+            //now you just expect two columns
+            Map<FoodOrderState, Integer> map = new HashMap<>();
+            for (List<Object> x : amounts) {
+                map.put((FoodOrderState) x.get(0), (Integer) x.get(1));
+            }
+
+            foodOrderHistory.setAmounts(map);
+        }
+
+        return foodOrderHistory;
     }
 
 //    public FoodOrderHistory findBy(Date dateClosure, Product product, FoodOrderState state) {
