@@ -2,6 +2,7 @@ package ar.edu.unq.tip.marchionnelattenero.models;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -21,14 +22,6 @@ public class FoodOrderHistory {
     @ManyToOne
     private Product product;
 
-/*
-    @Column(name = "amount")
-    private int amount;
-
-    @Enumerated(EnumType.STRING)
-    private FoodOrderState state;
-*/
-
     @ElementCollection(fetch = FetchType.LAZY)
     @CollectionTable(name = "FoodOrderHistory_Amounts", joinColumns = @JoinColumn(name = "FoodOrderHistory_ID"))
     @MapKeyEnumerated(EnumType.STRING)
@@ -40,10 +33,18 @@ public class FoodOrderHistory {
         this.amounts = new HashMap<FoodOrderState, Integer>();
     }
 
-    public FoodOrderHistory(Timestamp moment, Product product, FoodOrderState state, int amount) {
+    public FoodOrderHistory(Date date, Product product) {
+        new FoodOrderHistory(new Timestamp(date.getTime()), product);
+    }
+
+    public FoodOrderHistory(Timestamp moment, Product product) {
         this.moment = moment;
         this.product = product;
         this.amounts = new HashMap<FoodOrderState, Integer>();
+        for (FoodOrderState state : FoodOrderState.values()) {
+            System.out.println("Agregando estado: " + state.toString());
+            this.amounts.put(state, 0);
+        }
     }
 
     public int getId() {
@@ -59,15 +60,17 @@ public class FoodOrderHistory {
     }
 
     public Map<FoodOrderState, Integer> getAmounts() {
-        return amounts;
+        return this.amounts;
     }
 
     public void addAmount(FoodOrderState state, int amount) {
+        System.out.println("Existe Mapa?: " + this.amounts.size());
         int count = this.getAmount(state);
         this.amounts.put(state, count + amount);
     }
 
     public Integer getAmount(FoodOrderState state) {
+        System.out.println("Existe Mapa?: " + this.amounts.size());
         return this.amounts.getOrDefault(state, 0);
     }
 

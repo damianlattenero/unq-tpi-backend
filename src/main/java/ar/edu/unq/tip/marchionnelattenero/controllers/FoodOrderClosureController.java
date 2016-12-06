@@ -4,6 +4,7 @@ package ar.edu.unq.tip.marchionnelattenero.controllers;
 import ar.edu.unq.tip.marchionnelattenero.controllers.requests.FoodOrderClosureBody;
 import ar.edu.unq.tip.marchionnelattenero.controllers.responses.FoodOrderClosureCreationResponse;
 import ar.edu.unq.tip.marchionnelattenero.controllers.responses.FoodOrderHistoryCreationResponse;
+import ar.edu.unq.tip.marchionnelattenero.models.FoodOrderHistory;
 import ar.edu.unq.tip.marchionnelattenero.models.UserModel;
 import ar.edu.unq.tip.marchionnelattenero.repositories.UserTokenRepository;
 import ar.edu.unq.tip.marchionnelattenero.services.FoodOrderClosureService;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Controller;
 
 import javax.ws.rs.*;
 import java.util.List;
+import java.util.Set;
 
 @Path("foodOrdersClosure")
 @Controller("foodOrderClosureController")
@@ -32,18 +34,15 @@ public class FoodOrderClosureController {
         return FoodOrderClosureCreationResponse.buildMany(this.foodOrderClosureService.findAll());
     }
 
-    //TODO: Mostrar los datos que deberia archivar
-/*
     @POST
     @Path("showClosure")
     @Consumes("application/json")
     @Produces("application/json")
     public List<FoodOrderHistoryCreationResponse> showClosure(FoodOrderClosureBody foodOrderClosureBody) {
         System.err.println("FoodOrderClosureBody: '" + foodOrderClosureBody.toString() + "'");
-        this.foodOrderClosureService.generateFoodOrderClosure(foodOrderClosureBody.getUser(), foodOrderClosureBody.getFrom(),foodOrderClosureBody.getTo());
-        return FoodOrderHistoryCreationResponse.buildMany(this.foodOrderHistoryService.findByDayFromTo(foodOrderClosureBody.getFrom(), foodOrderClosureBody.getTo()));
+        Set<FoodOrderHistory> foodOrderHistories = this.foodOrderClosureService.showClosure(foodOrderClosureBody.getFrom(),foodOrderClosureBody.getTo());
+        return FoodOrderHistoryCreationResponse.buildMany2(foodOrderHistories);
     }
-*/
 
     @POST
     @Path("generateClosure")
@@ -52,7 +51,7 @@ public class FoodOrderClosureController {
     public List<FoodOrderHistoryCreationResponse> generateClosure(@QueryParam("token") String token, FoodOrderClosureBody foodOrderClosureBody) {
         System.err.println("FoodOrderClosureBody: '" + foodOrderClosureBody.toString() + "'");
         UserModel user = this.userTokenRepository.findByUserToken(token).getUserModel();
-        this.foodOrderClosureService.generateFoodOrderClosure(user, foodOrderClosureBody.getFrom(),foodOrderClosureBody.getTo());
+        this.foodOrderClosureService.generateClosure(user, foodOrderClosureBody.getFrom(),foodOrderClosureBody.getTo());
         return FoodOrderHistoryCreationResponse.buildMany(this.foodOrderHistoryService.findByDayFromTo(foodOrderClosureBody.getFrom(), foodOrderClosureBody.getTo()));
     }
 
@@ -62,7 +61,7 @@ public class FoodOrderClosureController {
     @Produces("application/json")
     public List<FoodOrderHistoryCreationResponse> generateClosureToday(@QueryParam("token") String token) {
         UserModel user = this.userTokenRepository.findByUserToken(token).getUserModel();
-        long dateClosure = this.foodOrderClosureService.generateFoodOrderClosure(user);
+        long dateClosure = this.foodOrderClosureService.generateClosure(user);
         return FoodOrderHistoryCreationResponse.buildMany(this.foodOrderHistoryService.findByDay(dateClosure));
     }
 

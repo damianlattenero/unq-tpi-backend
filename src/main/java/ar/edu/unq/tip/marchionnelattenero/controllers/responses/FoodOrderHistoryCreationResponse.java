@@ -3,12 +3,12 @@ package ar.edu.unq.tip.marchionnelattenero.controllers.responses;
 
 import ar.edu.unq.tip.marchionnelattenero.models.FoodOrderHistory;
 import ar.edu.unq.tip.marchionnelattenero.models.FoodOrderState;
-import ar.edu.unq.tip.marchionnelattenero.models.MyInteger;
 import ar.edu.unq.tip.marchionnelattenero.models.Product;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 public class FoodOrderHistoryCreationResponse {
@@ -25,7 +25,7 @@ public class FoodOrderHistoryCreationResponse {
     private int countTotalCancel;
     private int countTotalStock;
 
-    public FoodOrderHistoryCreationResponse(long moment, Product product, Map<FoodOrderState, MyInteger> amounts) {
+    public FoodOrderHistoryCreationResponse(long moment, Product product, Map<FoodOrderState, Integer> amounts) {
         this.moment = moment;
         this.productId = product.getId();
         this.productName = product.getName();
@@ -41,6 +41,18 @@ public class FoodOrderHistoryCreationResponse {
         amounts.forEach((k, v) -> setCounter(k, v));
 
         this.calculateTotals();
+    }
+
+    public static FoodOrderHistoryCreationResponse build(FoodOrderHistory foodOrderHistory) {
+        return new FoodOrderHistoryCreationResponse(
+                foodOrderHistory.getMoment().getTime(),
+                foodOrderHistory.getProduct(),
+                foodOrderHistory.getAmounts()
+        );
+    }
+
+    public static List<FoodOrderHistoryCreationResponse> buildMany2(Set<FoodOrderHistory> applicationRequests) {
+        return applicationRequests.stream().map(FoodOrderHistoryCreationResponse::build).collect(Collectors.toList());
     }
 
     public static FoodOrderHistoryCreationResponse separateByState(FoodOrderHistory foodOrderHistory) {
@@ -76,8 +88,7 @@ public class FoodOrderHistoryCreationResponse {
         return listAgrupated;
     }
 
-    private void setCounter(FoodOrderState state, MyInteger amount2) {
-        int amount = amount2.getValue();
+    private void setCounter(FoodOrderState state, Integer amount) {
         switch (state) {
             case ORDER:
                 setCountOrder(amount);

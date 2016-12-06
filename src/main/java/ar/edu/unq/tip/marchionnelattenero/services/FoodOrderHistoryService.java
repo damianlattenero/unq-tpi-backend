@@ -1,5 +1,6 @@
 package ar.edu.unq.tip.marchionnelattenero.services;
 
+import ar.edu.unq.tip.marchionnelattenero.models.FoodOrder;
 import ar.edu.unq.tip.marchionnelattenero.models.FoodOrderHistory;
 import ar.edu.unq.tip.marchionnelattenero.models.FoodOrderState;
 import ar.edu.unq.tip.marchionnelattenero.models.Product;
@@ -9,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 
@@ -29,20 +29,21 @@ public class FoodOrderHistoryService {
     }
 
     @Transactional
-    public void addToHistory(Date dateClosure, Product product, FoodOrderState state, int amount) {
-        FoodOrderHistory foodOrderHistory = this.getFoodOrderHistoryRepository().findBy(dateClosure, product);
+    public FoodOrderHistory addToHistory(Date dateClosure, FoodOrder foodOrder) {
+        System.out.println("Buscando... dia: " + dateClosure.toString());
+        System.out.println("FoodOrder Like " + foodOrder.toString());
+        FoodOrderHistory foodOrderHistory = this.getFoodOrderHistoryRepository().findBy(dateClosure, foodOrder.getProduct(), foodOrder.getState());
 
-        if (foodOrderHistory != null)
-        {
-            foodOrderHistory.addAmount(state, amount);
-            this.getFoodOrderHistoryRepository().update(foodOrderHistory);
-        }
+        if (foodOrderHistory == null)
+            foodOrderHistory = new FoodOrderHistory(dateClosure, foodOrder.getProduct());
         else
-        {
-            foodOrderHistory = new FoodOrderHistory(dateClosure, product);
-            foodOrderHistory.addAmount(state, amount);
-            this.getFoodOrderHistoryRepository().save(foodOrderHistory);
-        }
+            System.out.println("Se encontro FoodOrderHistory.");
+        System.out.println("FoodHistory es null: " + (foodOrderHistory == null));
+        System.out.println("Mapa es null: " + (foodOrderHistory.getAmounts() == null));
+
+        foodOrderHistory.addAmount(foodOrder.getState(), foodOrder.getAmount());
+
+        return foodOrderHistory;
     }
 
     public List<FoodOrderHistory> findByDay(long momentClosure) {
@@ -54,5 +55,9 @@ public class FoodOrderHistoryService {
         Date dateFrom = DateHelper.getDateWithoutTime(from);
         Date dateTo = DateHelper.getDateWithoutTime(to);
         return this.getFoodOrderHistoryRepository().findByDayFromTo(dateFrom, dateTo);
+    }
+
+    public void saveorupdate(FoodOrderHistory foodOrderHistory) {
+        this.getFoodOrderHistoryRepository().saveorupdate(foodOrderHistory);
     }
 }
