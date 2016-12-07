@@ -1,18 +1,16 @@
 package ar.edu.unq.tip.marchionnelattenero.services;
 
-import ar.edu.unq.tip.marchionnelattenero.models.FoodOrder;
-import ar.edu.unq.tip.marchionnelattenero.models.FoodOrderClosure;
-import ar.edu.unq.tip.marchionnelattenero.models.UserModel;
+import ar.edu.unq.tip.marchionnelattenero.models.*;
+import ar.edu.unq.tip.marchionnelattenero.models.utils.DateHelper;
 import ar.edu.unq.tip.marchionnelattenero.repositories.FoodOrderClosureRepository;
 import ar.edu.unq.tip.marchionnelattenero.repositories.FoodOrderRepository;
-import ar.edu.unq.tip.marchionnelattenero.models.utils.DateHelper;
+import javafx.util.Pair;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Service("foodOrderClosureService")
 public class FoodOrderClosureService {
@@ -26,18 +24,64 @@ public class FoodOrderClosureService {
     private FoodOrderRepository foodOrderRepository;
 
     @Transactional
-    private int archiveFoodOrders(Date dateClosure) {
+    private Collection<FoodOrderHistory> archiveFoodOrders(Date dateClosure, boolean generateClosure) {
         List<FoodOrder> foodOrders = this.getFoodOrderRepository().findByDayForArchived(dateClosure);
 
-        System.err.println("foodOrders: " + foodOrders);
+        Map<Pair<Date, Product>, FoodOrderHistory> foodOrderHistories = new HashMap<>();
+        FoodOrderHistory foodOrderHistory;
+
+        System.out.println("foodOrders: " + foodOrders);
         if (foodOrders.size() > 0) {
+
             for (FoodOrder foodOrder : foodOrders) {
-                this.getFoodOrderHistoryService().addToHistory(dateClosure, foodOrder.getProduct(), foodOrder.getState(), foodOrder.getAmount());
-                foodOrder.setArchived();
-                this.getFoodOrderRepository().update(foodOrder);
+                Pair<Date, Product> key = new Pair<>(dateClosure, foodOrder.getProduct());
+
+                if (generateClosure) {
+                    //Repository
+                    foodOrderHistory = this.getFoodOrderHistoryService().findOrCreate(dateClosure, foodOrder.getProduct());
+                }
+                else {
+                    //Memory
+                    foodOrderHistory = foodOrderHistories.getOrDefault(key, new FoodOrderHistory(dateClosure, foodOrder.getProduct()));
+                }
+
+                foodOrderHistory.addAmount(foodOrder.getState(), foodOrder.getAmount());
+
+
+                if (generateClosure) {
+                    //Repository
+                    this.getFoodOrderHistoryService().getFoodOrderHistoryRepository().saveOrUpdate(foodOrderHistory);
+                    foodOrder.setArchived();
+                    this.getFoodOrderRepository().update(foodOrder);
+                }
+                else
+                    //Memory
+                    foodOrderHistories.put(key, foodOrderHistory);
             }
         }
-        return foodOrders.size();
+
+        System.out.println("Cant. FoodOrder: " + foodOrders.size() + " agrupadas en:" + foodOrderHistories.size() + ".");
+        return foodOrderHistories.values();
+    }
+
+    @Transactional
+    public List<FoodOrderHistory> showFoodOrderClosure(long from, long to) {
+        Date dateFrom = DateHelper.getDateWithoutTime(from);
+        Date dateTo = DateHelper.getDateWithoutTime(to);
+
+        System.err.println("DayFrom: '" + dateFrom + "'");
+        System.err.println("DayTo: '" + dateTo + "'");
+
+        List<FoodOrderHistory> foodOrderHistories = new ArrayList<>();
+
+        Date dateClosure = dateFrom;
+        while (dateClosure.compareTo(dateTo) <= 0) {
+            System.err.println("DayClosure: '" + dateClosure + "'");
+            foodOrderHistories.addAll(this.archiveFoodOrders(dateClosure, false));
+            dateClosure = DateHelper.getTomorrowDate(dateClosure);
+        }
+
+        return foodOrderHistories;
     }
 
     @Transactional
@@ -58,8 +102,7 @@ public class FoodOrderClosureService {
         Date dateClosure = dateFrom;
         while (dateClosure.compareTo(dateTo) <= 0) {
             System.err.println("DayClosure: '" + dateClosure + "'");
-            int cantHistories = this.archiveFoodOrders(dateClosure);
-            System.err.println("cantHistories: " + cantHistories + ".");
+            this.archiveFoodOrders(dateClosure, true);
 
             FoodOrderClosure foodOrderClosure = new FoodOrderClosure(user, dateClosure);
             this.getFoodOrderClosureRepository().save(foodOrderClosure);
@@ -83,10 +126,6 @@ public class FoodOrderClosureService {
     @Transactional
     public List<FoodOrderClosure> findAll() {
         return this.getFoodOrderClosureRepository().findAll();
-    }
-
-    public FoodOrderClosure findById(Integer id) {
-        return this.getFoodOrderClosureRepository().findById(id);
     }
 
 }

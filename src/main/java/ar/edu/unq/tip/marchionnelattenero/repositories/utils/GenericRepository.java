@@ -17,6 +17,8 @@ public interface GenericRepository<T> {
 
     void update(T entity);
 
+    void saveOrUpdate(T entity);
+
     T findById(Serializable id);
 
     List<T> findAll();

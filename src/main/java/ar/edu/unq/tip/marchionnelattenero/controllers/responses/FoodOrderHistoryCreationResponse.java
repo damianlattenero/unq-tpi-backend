@@ -35,73 +35,30 @@ public class FoodOrderHistoryCreationResponse {
         this.countTotalStock = 0;
     }
 
-    public static FoodOrderHistoryCreationResponse separateByState(FoodOrderHistory foodOrderHistory) {
-        FoodOrderHistoryCreationResponse f = new FoodOrderHistoryCreationResponse(
+    public FoodOrderHistoryCreationResponse(long moment, int productId, String productName, String productDescription, int countOrder, int countCancelOrder, int countCooked, int countCancelCooked) {
+        this(moment, productId,  productName, productDescription);
+        this.countOrder = countOrder;
+        this.countCancelOrder = countCancelOrder;
+        this.countCooked = countCooked;
+        this.countCancelCooked = countCancelCooked;
+        this.calculateTotals();
+    }
+
+    private static FoodOrderHistoryCreationResponse build(FoodOrderHistory foodOrderHistory) {
+        return new FoodOrderHistoryCreationResponse(
                 foodOrderHistory.getMoment().getTime(),
                 foodOrderHistory.getProduct().getId(),
                 foodOrderHistory.getProduct().getName(),
-                foodOrderHistory.getProduct().getDescription()
+                foodOrderHistory.getProduct().getDescription(),
+                foodOrderHistory.getCountOrder(),
+                foodOrderHistory.getCountCancelOrder(),
+                foodOrderHistory.getCountCooked(),
+                foodOrderHistory.getCountCancelCooked()
         );
-
-        switch (foodOrderHistory.getState())
-        {
-            case ORDER:
-                f.setCountOrder(foodOrderHistory.getAmount());
-                break;
-
-            case CANCELORDER:
-                f.setCountCancelOrder(foodOrderHistory.getAmount());
-                break;
-
-            case COOKED:
-                f.setCountCooked(foodOrderHistory.getAmount());
-                break;
-
-            case CANCELCOOKED:
-                f.setCountCancelCooked(foodOrderHistory.getAmount());
-                break;
-
-            default:
-                break;
-        }
-
-        f.calculateTotals();
-
-        return f;
     }
 
-    public static List<FoodOrderHistoryCreationResponse> buildMany(List<FoodOrderHistory> applicationRequests) {
-        List<FoodOrderHistoryCreationResponse> listSeparatedStates = applicationRequests.stream().map(FoodOrderHistoryCreationResponse::separateByState).collect(Collectors.toList());
-        List<FoodOrderHistoryCreationResponse> listAgrupated = new ArrayList<FoodOrderHistoryCreationResponse>();
-
-        boolean isAgrupated;
-
-        for (FoodOrderHistoryCreationResponse foodOrderHistorySeparatedState : listSeparatedStates) {
-            isAgrupated = false;
-            for (FoodOrderHistoryCreationResponse foodOrderHistoryAgruped : listAgrupated) {
-                if(foodOrderHistorySeparatedState.equals(foodOrderHistoryAgruped))
-                {
-                    foodOrderHistoryAgruped.addCounters(foodOrderHistorySeparatedState);
-                    isAgrupated = true;
-                    break;
-                }
-            }
-
-            if (!isAgrupated)
-            {
-                listAgrupated.add(foodOrderHistorySeparatedState);
-            }
-        }
-
-        return listAgrupated;
-    }
-
-    private void addCounters(FoodOrderHistoryCreationResponse foodOrderHistory) {
-        this.countOrder += foodOrderHistory.getCountOrder();
-        this.countCancelOrder += foodOrderHistory.getCountCancelOrder();
-        this.countCooked += foodOrderHistory.getCountCooked();
-        this.countCancelCooked += foodOrderHistory.getCountCancelCooked();
-        this.calculateTotals();
+    public static List<FoodOrderHistoryCreationResponse> buildMany(List<FoodOrderHistory> all) {
+        return all.stream().map(FoodOrderHistoryCreationResponse::build).collect(Collectors.toList());
     }
 
     //Totals
@@ -140,9 +97,22 @@ public class FoodOrderHistoryCreationResponse {
     }
 
     @Override
-    public boolean equals(Object obj) {
-        FoodOrderHistoryCreationResponse f = (FoodOrderHistoryCreationResponse) obj;
-        return (this.moment == f.getMoment()) && (this.productId == f.getProductId());
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        FoodOrderHistoryCreationResponse that = (FoodOrderHistoryCreationResponse) o;
+
+        if (moment != that.moment) return false;
+        return productId == that.productId;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = (int) (moment ^ (moment >>> 32));
+        result = 31 * result + productId;
+        return result;
     }
 
     public long getMoment() {

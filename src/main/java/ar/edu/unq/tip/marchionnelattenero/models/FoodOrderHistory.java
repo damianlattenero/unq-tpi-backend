@@ -2,6 +2,7 @@ package ar.edu.unq.tip.marchionnelattenero.models;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.Date;
 
 @Entity
 @Table(name = "FoodOrderHistory")
@@ -19,48 +20,118 @@ public class FoodOrderHistory {
     @ManyToOne
     private Product product;
 
-    @Column(name = "amount")
-    private int amount;
+    @Column(name = "countOrder")
+    private int countOrder;
 
-    @Enumerated(EnumType.STRING)
-    private FoodOrderState state;
+    @Column(name = "countCancelOrder")
+    private int countCancelOrder;
+
+    @Column(name = "countCooked")
+    private int countCooked;
+
+    @Column(name = "countCancelCooked")
+    private int countCancelCooked;
 
     public FoodOrderHistory() {
     }
 
-    public FoodOrderHistory(Timestamp moment, Product product, FoodOrderState state, int amount) {
+    public FoodOrderHistory(Date date, Product product) {
+        this(new Timestamp(date.getTime()), product);;
+    }
+
+    public FoodOrderHistory(Timestamp moment, Product product) {
         this.moment = moment;
         this.product = product;
-        this.state = state;
-        this.amount = amount;
+        this.countOrder = 0;
+        this.countCancelOrder= 0;
+        this.countCooked = 0;
+        this.countCancelCooked = 0;
     }
 
     public int getId() {
         return id;
     }
 
-    public Product getProduct() {
-        return product;
-    }
-
-    public FoodOrderState getState() {
-        return state;
-    }
-
-    public int getAmount() {
-        return amount;
-    }
-
-    public void setAmount(int amount) {
-        this.amount = amount;
-    }
-
-    public void addAmount(int amount) {
-        this.setAmount(this.amount + amount);
-    }
-
     public Timestamp getMoment() {
         return moment;
     }
 
+    public Product getProduct() {
+        return product;
+    }
+
+    public void addAmount(FoodOrderState state, int amount) {
+        switch (state)
+        {
+            case ORDER:
+                this.countOrder += amount;
+                break;
+
+            case CANCELORDER:
+                this.countCancelOrder += amount;
+                break;
+
+            case COOKED:
+                this.countCooked += amount;
+                break;
+
+            case CANCELCOOKED:
+                this.countCancelCooked += amount;
+                break;
+
+            default:
+                break;
+        }
+    }
+
+    public int getCountOrder() {
+        return countOrder;
+    }
+
+    public void setCountOrder(int countOrder) {
+        this.countOrder = countOrder;
+    }
+
+    public int getCountCancelOrder() {
+        return countCancelOrder;
+    }
+
+    public void setCountCancelOrder(int countCancelOrder) {
+        this.countCancelOrder = countCancelOrder;
+    }
+
+    public int getCountCooked() {
+        return countCooked;
+    }
+
+    public void setCountCooked(int countCooked) {
+        this.countCooked = countCooked;
+    }
+
+    public int getCountCancelCooked() {
+        return countCancelCooked;
+    }
+
+    public void setCountCancelCooked(int countCancelCooked) {
+        this.countCancelCooked = countCancelCooked;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        FoodOrderHistory that = (FoodOrderHistory) o;
+
+        if (!moment.equals(that.moment)) return false;
+        return product.equals(that.product);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = moment.hashCode();
+        result = 31 * result + product.hashCode();
+        return result;
+    }
 }
