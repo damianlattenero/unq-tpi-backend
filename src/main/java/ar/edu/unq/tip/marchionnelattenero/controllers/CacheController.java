@@ -8,6 +8,7 @@ import ar.edu.unq.tip.marchionnelattenero.controllers.responses.ProductCreationR
 import ar.edu.unq.tip.marchionnelattenero.models.Place;
 import ar.edu.unq.tip.marchionnelattenero.models.Product;
 import ar.edu.unq.tip.marchionnelattenero.models.UserModel;
+import ar.edu.unq.tip.marchionnelattenero.models.UserToken;
 import ar.edu.unq.tip.marchionnelattenero.models.caches.Cache;
 import ar.edu.unq.tip.marchionnelattenero.models.caches.CacheProductPending;
 import ar.edu.unq.tip.marchionnelattenero.repositories.FoodOrderHistoryRepository;
@@ -53,7 +54,7 @@ public class CacheController {
     @Path("users")
     @Produces("application/json")
     public String cacheUsersPending() {
-        Map<UserModel, CacheProductPending> usersPending = Cache.getInstance().getUsersPending();
+        Map<UserToken, CacheProductPending> usersPending = Cache.getInstance().getUsersPending();
         System.out.println("Users");
         return CachePendingsResponse.buildUsers(usersPending);
     }

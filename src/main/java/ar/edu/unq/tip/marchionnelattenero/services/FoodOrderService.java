@@ -1,9 +1,6 @@
 package ar.edu.unq.tip.marchionnelattenero.services;
 
-import ar.edu.unq.tip.marchionnelattenero.models.FoodOrder;
-import ar.edu.unq.tip.marchionnelattenero.models.FoodOrderState;
-import ar.edu.unq.tip.marchionnelattenero.models.Product;
-import ar.edu.unq.tip.marchionnelattenero.models.UserModel;
+import ar.edu.unq.tip.marchionnelattenero.models.*;
 import ar.edu.unq.tip.marchionnelattenero.repositories.FoodOrderRepository;
 import ar.edu.unq.tip.marchionnelattenero.repositories.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,26 +25,26 @@ public class FoodOrderService {
 
     @Transactional
 
-    private FoodOrder createFoodOrder(int idProduct, UserModel user, int amount, FoodOrderState state) {
+    private FoodOrder createFoodOrder(int idProduct, UserToken user, int amount, FoodOrderState state) {
         Product p = productRepository.findById(idProduct);
         FoodOrder foodOrder = new FoodOrder(p, state, amount, user);
         this.getFoodOrderRepository().save(foodOrder);
         return foodOrder;
     }
 
-    public FoodOrder order(int idProduct, UserModel user, int amount) {
+    public FoodOrder order(int idProduct, UserToken user, int amount) {
         return createFoodOrder(idProduct, user, amount, FoodOrderState.ORDER);
     }
 
-    public FoodOrder cancelOrder(int idProduct, UserModel user, int amount) {
+    public FoodOrder cancelOrder(int idProduct, UserToken user, int amount) {
         return createFoodOrder(idProduct, user, amount, FoodOrderState.CANCELORDER);
     }
 
-    public FoodOrder coocked(int idProduct, UserModel user, int amount) {
+    public FoodOrder coocked(int idProduct, UserToken user, int amount) {
         return createFoodOrder(idProduct, user, amount, FoodOrderState.COOKED);
     }
 
-    public FoodOrder cancelCoocked(int idProduct, UserModel user, int amount) {
+    public FoodOrder cancelCoocked(int idProduct, UserToken user, int amount) {
         return createFoodOrder(idProduct, user, amount, FoodOrderState.CANCELCOOKED);
     }
 

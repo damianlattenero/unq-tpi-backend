@@ -23,8 +23,8 @@ public class FoodOrder {
     @Column(name = "amount")
     private int amount;
 
-    @ManyToOne(optional = false)
-    private UserModel user;
+    @ManyToOne
+    private UserToken user;
 
     @Enumerated(EnumType.STRING)
     private FoodOrderState state;
@@ -40,7 +40,7 @@ public class FoodOrder {
     public FoodOrder() {
     }
 
-    public FoodOrder(Product product, FoodOrderState state, int amount, UserModel user) {
+    public FoodOrder(Product product, FoodOrderState state, int amount, UserToken user) {
         this.moment = new Timestamp(DateTime.now().getMillis());
         this.product = product;
         this.state = state;
@@ -69,7 +69,7 @@ public class FoodOrder {
         return moment;
     }
 
-    public UserModel getUser() {
+    public UserToken getUser() {
         return user;
     }
 
