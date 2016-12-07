@@ -3,6 +3,8 @@ package ar.edu.unq.tip.marchionnelattenero.models.caches;
 import ar.edu.unq.tip.marchionnelattenero.models.FoodOrder;
 import ar.edu.unq.tip.marchionnelattenero.models.Place;
 import ar.edu.unq.tip.marchionnelattenero.models.UserModel;
+import ar.edu.unq.tip.marchionnelattenero.repositories.UserTokenRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -25,6 +27,11 @@ public class Cache {
     //Mapa de Productos Pendientes x Ubicacion
     //Map<ProductId, Cant>
     private Map<Place, CacheProductPending> placesPending;
+
+    @Autowired
+    private UserTokenRepository userTokenRepository;
+
+    private UserModel user;
 
     public Cache() {
 
@@ -65,6 +72,13 @@ public class Cache {
 
     public Map<Place, CacheProductPending> getPlacesPending() {
         return placesPending;
+    }
+
+    public UserModel getUserByToken(String token) {
+        if(user == null){
+            user = this.userTokenRepository.findByUserToken(token).getUserModel();
+        }
+        return user;
     }
 }
 
