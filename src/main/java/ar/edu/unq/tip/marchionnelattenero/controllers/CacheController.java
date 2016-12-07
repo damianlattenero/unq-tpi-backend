@@ -46,7 +46,7 @@ public class CacheController {
     public String cachePlacesPending() {
         System.out.println("Places");
         Map<Place, CacheProductPending> placesPending = Cache.getInstance().getPlacesPending();
-        return CachePendingsResponse.build(placesPending);
+        return CachePendingsResponse.buildPlaces(placesPending);
     }
 
     @GET
@@ -55,7 +55,7 @@ public class CacheController {
     public String cacheUsersPending() {
         Map<UserModel, CacheProductPending> usersPending = Cache.getInstance().getUsersPending();
         System.out.println("Users");
-        return CachePendingsResponse.build2(usersPending);
+        return CachePendingsResponse.buildUsers(usersPending);
     }
 
 

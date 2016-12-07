@@ -40,6 +40,11 @@ public class UserModel {
     public UserModel() {
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        return this.getUserId() == ((UserModel) obj).getUserId();
+    }
+
     public UserModel(String name, String nickname, String email) {
         super();
         this.name = name;
@@ -47,6 +52,10 @@ public class UserModel {
         this.email = email;
     }
 
+    @Override
+    public int hashCode() {
+        return this.getUserId().hashCode();
+    }
 
     public static long getSerialVersionUID() {
         return serialVersionUID;

@@ -51,11 +51,9 @@ public class Cache {
     public void addFoodOrder(FoodOrder foodOrder) {
         this.productsPending.addFoodOrder(foodOrder);
 
-        CacheProductPending usersProductsPending = this.usersPending.getOrDefault(foodOrder.getUser(), new CacheProductPending());
-        usersProductsPending.addFoodOrder(foodOrder);
+        this.usersPending.get(foodOrder.getUser()).addFoodOrder(foodOrder);
 
-        CacheProductPending placesProductsPending = this.placesPending.getOrDefault(foodOrder.getUser().getPlace(), new CacheProductPending());
-        placesProductsPending.addFoodOrder(foodOrder);
+        this.placesPending.get(this.user.getPlace()).addFoodOrder(foodOrder);
     }
 
     public Integer getProductPending(Integer productId) {
