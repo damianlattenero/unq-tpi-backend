@@ -1,6 +1,7 @@
 package ar.edu.unq.tip.marchionnelattenero.services;
 
 import ar.edu.unq.tip.marchionnelattenero.models.FoodOrder;
+import ar.edu.unq.tip.marchionnelattenero.models.FoodOrderState;
 import ar.edu.unq.tip.marchionnelattenero.models.Product;
 import ar.edu.unq.tip.marchionnelattenero.models.UserModel;
 import ar.edu.unq.tip.marchionnelattenero.repositories.FoodOrderRepository;
@@ -25,17 +26,37 @@ public class FoodOrderService {
     @Autowired
     private ProductRepository productRepository;
 
+
+
+
     @Transactional
-    public FoodOrder createFoodOrder(int idProduct, int amount, UserModel user, String state) {
+    public FoodOrder order(int idProduct, UserModel user, int amount) {
+        return createFoodOrder(idProduct, user, amount, FoodOrderState.ORDER);
+    }
+
+    @Transactional
+    public FoodOrder cancelOrder(int idProduct, UserModel user, int amount) {
+        return createFoodOrder(idProduct, user, amount, FoodOrderState.CANCELORDER);
+    }
+
+    @Transactional
+    public FoodOrder coocked(int idProduct, UserModel user, int amount) {
+        return createFoodOrder(idProduct, user, amount, FoodOrderState.COOKED);
+    }
+
+    @Transactional
+    public FoodOrder cancelCoocked(int idProduct, UserModel user, int amount) {
+        return this.createFoodOrder(idProduct, user, amount, FoodOrderState.CANCELCOOKED);
+    }
+
+    @Transactional
+    private FoodOrder createFoodOrder(int idProduct, UserModel user, int amount, FoodOrderState state) {
         Product p = productRepository.findById(idProduct);
         FoodOrder foodOrder = new FoodOrder(p, state, amount, user);
-        this.getFoodOrderRepository().save(foodOrder);
+        this.foodOrderRepository.save(foodOrder);
         return foodOrder;
     }
 
-    public FoodOrderRepository getFoodOrderRepository() {
-        return foodOrderRepository;
-    }
 
 /*
     public FoodOrderHistoryRepository getFoodOrderHistoryRepository() {
@@ -45,15 +66,15 @@ public class FoodOrderService {
 
     @Transactional
     public List<FoodOrder> findAll() {
-        return this.getFoodOrderRepository().findAll();
+        return foodOrderRepository.findAll();
     }
 
     public FoodOrder findById(Integer id) {
-        return this.getFoodOrderRepository().findById(id);
+        return foodOrderRepository.findById(id);
     }
 
     public List<FoodOrder> findByDay(Timestamp day) {
-        return this.getFoodOrderRepository().findByDay(day);
+        return foodOrderRepository.findByDay(day);
     }
 
     public List<Timestamp> findAllDays() {
@@ -61,6 +82,8 @@ public class FoodOrderService {
     }
 
     public List<Timestamp> findAllDays(int count) {
-        return this.getFoodOrderRepository().findAllDaysNotArchived(count);
+        return foodOrderRepository.findAllDaysNotArchived(count);
     }
+
+
 }

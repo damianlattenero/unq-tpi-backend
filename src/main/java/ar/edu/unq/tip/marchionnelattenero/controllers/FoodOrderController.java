@@ -6,6 +6,7 @@ import ar.edu.unq.tip.marchionnelattenero.controllers.responses.FoodOrderCreatio
 import ar.edu.unq.tip.marchionnelattenero.controllers.responses.ProductPendingResponse;
 import ar.edu.unq.tip.marchionnelattenero.models.FoodOrder;
 import ar.edu.unq.tip.marchionnelattenero.models.UserModel;
+import ar.edu.unq.tip.marchionnelattenero.models.caches.Cache;
 import ar.edu.unq.tip.marchionnelattenero.repositories.UserTokenRepository;
 import ar.edu.unq.tip.marchionnelattenero.services.FoodOrderService;
 import org.joda.time.DateTime;
@@ -24,8 +25,6 @@ public class FoodOrderController {
 
     @Autowired
     private FoodOrderService foodOrderService;
-    @Autowired
-    private UserTokenRepository userTokenRepository;
 
     @GET
     @Path("all")
@@ -33,7 +32,7 @@ public class FoodOrderController {
     public List<FoodOrderCreationResponse> getAll() {
         return FoodOrderCreationResponse.buildMany(this.foodOrderService.findAll());
     }
-
+/*
     @POST
     @Path("create")
     @Consumes("application/json")
@@ -44,15 +43,16 @@ public class FoodOrderController {
         System.out.println("foodOrderBody.User: " + foodOrderBody.getUser());
         FoodOrder foodOrder = this.foodOrderService.createFoodOrder(foodOrderBody.getProductId(), foodOrderBody.getProductAmount(), user, foodOrderBody.getState());
         return ProductPendingResponse.build(foodOrder.getProduct());
-    }
-/*
+    }*/
 
     @POST
     @Path("order")
     @Consumes("application/json")
     @Produces("application/json")
-    public ProductPendingResponse order(FoodOrderCreationBody foodOrderBody) {
-        FoodOrder foodOrder = this.foodOrderService.createFoodOrder(foodOrderBody.getProductId(), 1, foodOrderBody.getUser(), FoodOrderState.ORDER.toString());
+    public ProductPendingResponse order(@QueryParam("token") String token, FoodOrderCreationBody foodOrderBody) {
+        UserModel user = Cache.getInstance().getUserByToken(token);
+//        UserModel user = this.userTokenRepository.findByUserToken(token).getUserModel();
+        FoodOrder foodOrder = this.foodOrderService.order(foodOrderBody.getProductId(), user, 1);
         return ProductPendingResponse.build(foodOrder.getProduct());
     }
 
@@ -60,8 +60,10 @@ public class FoodOrderController {
     @Path("cancelorder")
     @Consumes("application/json")
     @Produces("application/json")
-    public ProductPendingResponse cancelOrder(FoodOrderCreationBody foodOrderBody) {
-        FoodOrder foodOrder = this.foodOrderService.createFoodOrder(foodOrderBody.getProductId(), -1, foodOrderBody.getUser(), FoodOrderState.CANCELORDER.toString());
+    public ProductPendingResponse cancelOrder(@QueryParam("token") String token, FoodOrderCreationBody foodOrderBody) {
+        UserModel user = Cache.getInstance().getUserByToken(token);
+//        UserModel user = this.userTokenRepository.findByUserToken(token).getUserModel();
+        FoodOrder foodOrder = this.foodOrderService.cancelOrder(foodOrderBody.getProductId(), user, -1);
         return ProductPendingResponse.build(foodOrder.getProduct());
     }
 
@@ -69,8 +71,10 @@ public class FoodOrderController {
     @Path("cooked")
     @Consumes("application/json")
     @Produces("application/json")
-    public ProductPendingResponse cooked(FoodOrderCreationBody foodOrderBody) {
-        FoodOrder foodOrder = this.foodOrderService.createFoodOrder(foodOrderBody.getProductId(), -1, foodOrderBody.getUser(), FoodOrderState.COOKED.toString());
+    public ProductPendingResponse cooked(@QueryParam("token") String token, FoodOrderCreationBody foodOrderBody) {
+        UserModel user = Cache.getInstance().getUserByToken(token);
+//        UserModel user = this.userTokenRepository.findByUserToken(token).getUserModel();
+        FoodOrder foodOrder = this.foodOrderService.coocked(foodOrderBody.getProductId(), user, -1);
         return ProductPendingResponse.build(foodOrder.getProduct());
     }
 
@@ -78,11 +82,12 @@ public class FoodOrderController {
     @Path("cancelcooked")
     @Consumes("application/json")
     @Produces("application/json")
-    public ProductPendingResponse cancelCooked(FoodOrderCreationBody foodOrderBody) {
-        FoodOrder foodOrder = this.foodOrderService.createFoodOrder(foodOrderBody.getProductId(), 1, foodOrderBody.getUser(), FoodOrderState.CANCELCOOKED.toString());
+    public ProductPendingResponse cancelCooked(@QueryParam("token") String token, FoodOrderCreationBody foodOrderBody) {
+        UserModel user = Cache.getInstance().getUserByToken(token);
+//        UserModel user = this.userTokenRepository.findByUserToken(token).getUserModel();
+        FoodOrder foodOrder = this.foodOrderService.cancelCoocked(foodOrderBody.getProductId(), user, 1);
         return ProductPendingResponse.build(foodOrder.getProduct());
     }
-*/
 
 /*
     @GET
