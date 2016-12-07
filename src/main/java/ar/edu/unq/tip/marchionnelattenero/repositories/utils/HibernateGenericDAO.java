@@ -1,5 +1,6 @@
 package ar.edu.unq.tip.marchionnelattenero.repositories.utils;
 
+import ar.edu.unq.tip.marchionnelattenero.models.FoodOrderHistory;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Projections;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -76,5 +77,10 @@ public abstract class HibernateGenericDAO<T> extends HibernateDaoSupport impleme
         this.getHibernateTemplate().update(entity);
     }
 
+    @Override
+    public void saveOrUpdate(final T entity){
+        this.getHibernateTemplate().saveOrUpdate(entity);
+        this.getHibernateTemplate().flush();
+    }
 }
 

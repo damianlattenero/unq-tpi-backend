@@ -1,7 +1,6 @@
 package ar.edu.unq.tip.marchionnelattenero.services;
 
 import ar.edu.unq.tip.marchionnelattenero.models.FoodOrderHistory;
-import ar.edu.unq.tip.marchionnelattenero.models.FoodOrderState;
 import ar.edu.unq.tip.marchionnelattenero.models.Product;
 import ar.edu.unq.tip.marchionnelattenero.models.utils.DateHelper;
 import ar.edu.unq.tip.marchionnelattenero.repositories.FoodOrderHistoryRepository;
@@ -20,9 +19,9 @@ public class FoodOrderHistoryService {
     private FoodOrderHistoryRepository foodOrderHistoryRepository;
 
     @Transactional
-    public FoodOrderHistory createFoodOrderHistory(Date date, Product product, FoodOrderState state, int amount) {
+    public FoodOrderHistory createFoodOrderHistory(Date date, Product product) {
         Timestamp moment = new Timestamp(date.getTime());
-        FoodOrderHistory foodOrderHistory = new FoodOrderHistory(moment, product, state, amount);
+        FoodOrderHistory foodOrderHistory = new FoodOrderHistory(moment, product);
         return foodOrderHistory;
     }
 
@@ -35,25 +34,6 @@ public class FoodOrderHistoryService {
         return this.getFoodOrderHistoryRepository().findAll();
     }
 
-    public void addToHistory(Date dateClosure, Product product, FoodOrderState state, int amount) {
-        List<FoodOrderHistory> foodOrderHistories = this.getFoodOrderHistoryRepository().findBy(dateClosure, product, state);
-
-        if (foodOrderHistories.size()>0)
-        {
-            for (FoodOrderHistory foodOrderHistory : foodOrderHistories)
-            {
-                foodOrderHistory.addAmount(amount);
-                this.getFoodOrderHistoryRepository().update(foodOrderHistory);
-            }
-        }
-        else
-        {
-            FoodOrderHistory foodOrderHistory = this.createFoodOrderHistory(dateClosure, product, state, amount);
-            this.getFoodOrderHistoryRepository().save(foodOrderHistory);
-        }
-
-    }
-
     public List<FoodOrderHistory> findByDay(long momentClosure) {
         Date date = new Date(momentClosure);
         return this.getFoodOrderHistoryRepository().findByDay(date);
@@ -63,5 +43,14 @@ public class FoodOrderHistoryService {
         Date dateFrom = DateHelper.getDateWithoutTime(from);
         Date dateTo = DateHelper.getDateWithoutTime(to);
         return this.getFoodOrderHistoryRepository().findByDayFromTo(dateFrom, dateTo);
+    }
+
+    public FoodOrderHistory findOrCreate(Date dateClosure, Product product) {
+        FoodOrderHistory foodOrderHistory = this.getFoodOrderHistoryRepository().findBy(dateClosure, product);
+
+        if (foodOrderHistory == null)
+            foodOrderHistory = this.createFoodOrderHistory(dateClosure, product);
+
+        return foodOrderHistory;
     }
 }
