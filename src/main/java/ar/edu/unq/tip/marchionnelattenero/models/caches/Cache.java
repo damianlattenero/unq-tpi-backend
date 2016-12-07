@@ -54,12 +54,6 @@ public class Cache {
         this.setUsersByToken(this.usersPending, foodOrder.getToken(), foodOrder);
 
         this.setPlacesByToken(this.placesPending, foodOrder.getUser().getPlace(), foodOrder);
-        /*if (this.placesPending.containsKey(foodOrder.getUser().getToken())) {
-            this.placesPending.get(foodOrder.getUser().getUserModel().getPlace()).addFoodOrder(foodOrder);
-        } else {
-            this.placesPending.put(foodOrder.getUser().getUserModel().getPlace(), new CacheProductPending());
-        }
-*/
     }
 
 
@@ -81,9 +75,8 @@ public class Cache {
     }
 
     public void setUsersByToken(Map<UserToken, CacheProductPending> usersPending, String token, FoodOrder foodOrder) {
-        UserToken userToken = null;
         if (!usersPending.keySet().stream().filter(user -> user.getToken().equals(token)).findAny().isPresent()) {
-            userToken = this.userTokenRepository.findByUserToken(token);
+            UserToken userToken = this.userTokenRepository.findByUserToken(token);
             CacheProductPending cacheProductPending = new CacheProductPending();
             cacheProductPending.addFoodOrder(foodOrder);
             this.getUsersPending().put(userToken, cacheProductPending);
@@ -94,7 +87,6 @@ public class Cache {
     }
 
     private void setPlacesByToken(Map<Place, CacheProductPending> placesPending, Place place, FoodOrder foodOrder) {
-        UserToken userToken = null;
         if (!placesPending.keySet().stream().filter(place1 -> place1 == place).findAny().isPresent()) {
             CacheProductPending cacheProductPending = new CacheProductPending();
             cacheProductPending.addFoodOrder(foodOrder);

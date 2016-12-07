@@ -28,6 +28,11 @@ public class UserToken {
     }
 
     @Override
+    public String toString() {
+        return this.userModel.getNickname();
+    }
+
+    @Override
     public boolean equals(Object obj) {
         return this.getToken().equals(((UserToken) obj).getToken());
     }
