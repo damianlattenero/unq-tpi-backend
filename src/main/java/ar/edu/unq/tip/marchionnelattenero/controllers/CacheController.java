@@ -37,8 +37,7 @@ public class CacheController {
     @Path("products")
     @Produces("application/json")
     public String cacheProductsPending() {
-        CacheProductPending productsPending = Cache.getInstance().getProductsPending();
-        return productsPending.getAsJSON();
+        return CachePendingsResponse.buildProductsPending(Cache.getInstance().getProductsPending());
     }
 
     @GET

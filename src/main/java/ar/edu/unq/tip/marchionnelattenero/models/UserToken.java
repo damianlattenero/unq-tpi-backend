@@ -1,5 +1,8 @@
 package ar.edu.unq.tip.marchionnelattenero.models;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+
 import javax.persistence.*;
 
 
@@ -29,8 +32,10 @@ public class UserToken {
 
     @Override
     public String toString() {
-        return this.userModel.getNickname();
+        return "{'nickname':" + this.getUserModel().getNickname() +", " + "'userId':" + this.getUserModel().getUserId() + "}";
     }
+
+
 
     @Override
     public boolean equals(Object obj) {

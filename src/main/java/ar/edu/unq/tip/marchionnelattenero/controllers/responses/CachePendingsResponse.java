@@ -25,4 +25,10 @@ public class CachePendingsResponse {
     }
 
 
+    public static String buildProductsPending(CacheProductPending productsPending) {
+        Gson gson = new Gson();
+        String jsonInString = gson.toJson(productsPending);
+
+        return jsonInString;
+    }
 }
