@@ -32,7 +32,7 @@ public class FoodOrderCreationResponse {
                 foodOrder.getProduct().getName(),
                 foodOrder.getProduct().getDescription(),
                 foodOrder.getAmount(),
-                foodOrder.getUser().getUserModel().getNickname(),
+                foodOrder.getUser().getNickname(),
                 foodOrder.getState().toString()
         );
     }

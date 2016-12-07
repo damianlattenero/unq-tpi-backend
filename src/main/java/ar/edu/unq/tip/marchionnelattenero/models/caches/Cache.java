@@ -51,9 +51,9 @@ public class Cache {
     public void addFoodOrder(FoodOrder foodOrder) {
         this.productsPending.addFoodOrder(foodOrder);
 
-        this.setUsersByToken(this.usersPending, foodOrder.getUser().getToken(), foodOrder);
+        this.setUsersByToken(this.usersPending, foodOrder.getToken(), foodOrder);
 
-        this.setPlacesByToken(this.placesPending, foodOrder.getUser().getUserModel().getPlace(), foodOrder);
+        this.setPlacesByToken(this.placesPending, foodOrder.getUser().getPlace(), foodOrder);
         /*if (this.placesPending.containsKey(foodOrder.getUser().getToken())) {
             this.placesPending.get(foodOrder.getUser().getUserModel().getPlace()).addFoodOrder(foodOrder);
         } else {
@@ -88,7 +88,7 @@ public class Cache {
             cacheProductPending.addFoodOrder(foodOrder);
             this.getUsersPending().put(userToken, cacheProductPending);
         } else {
-            this.getUsersPending().get(foodOrder.getUser()).addFoodOrder(foodOrder);
+            this.getUsersPending().get(new UserToken(token, foodOrder.getUser())).addFoodOrder(foodOrder);
         }
 
     }

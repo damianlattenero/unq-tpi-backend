@@ -24,7 +24,11 @@ public class FoodOrder {
     private int amount;
 
     @ManyToOne
-    private UserToken user;
+    private UserModel user;
+
+    @Lob
+    @Column(name = "token")
+    private String token;
 
     @Enumerated(EnumType.STRING)
     private FoodOrderState state;
@@ -45,7 +49,8 @@ public class FoodOrder {
         this.product = product;
         this.state = state;
         this.amount = amount;
-        this.user = user;
+        this.user = user.getUserModel();
+        this.token = user.getToken();
         this.archived = false;
     }
 
@@ -69,10 +74,6 @@ public class FoodOrder {
         return moment;
     }
 
-    public UserToken getUser() {
-        return user;
-    }
-
     public Boolean getArchived() {
         return archived;
     }
@@ -83,6 +84,22 @@ public class FoodOrder {
 
     public void setArchived() {
         this.setArchived(true);
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
+    public UserModel getUser() {
+        return user;
+    }
+
+    public void setUser(UserModel user) {
+        this.user = user;
     }
 }
 

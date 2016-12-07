@@ -27,6 +27,16 @@ public class UserToken {
         this.userModel = userModel;
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        return this.getToken().equals(((UserToken) obj).getToken());
+    }
+
+    @Override
+    public int hashCode() {
+        return this.getToken().hashCode();
+    }
+
     public UserModel getUserModel() {
         return userModel;
     }
