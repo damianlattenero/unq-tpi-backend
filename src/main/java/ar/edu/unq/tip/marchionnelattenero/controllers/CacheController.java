@@ -1,14 +1,14 @@
 package ar.edu.unq.tip.marchionnelattenero.controllers;
 
 
+import ar.edu.unq.tip.marchionnelattenero.controllers.requests.CacheCreationBody;
+import ar.edu.unq.tip.marchionnelattenero.controllers.requests.FoodOrderCreationBody;
 import ar.edu.unq.tip.marchionnelattenero.controllers.requests.ProductCreationBody;
 import ar.edu.unq.tip.marchionnelattenero.controllers.responses.CachePendingsResponse;
 import ar.edu.unq.tip.marchionnelattenero.controllers.responses.FoodOrderHistoryCreationResponse;
 import ar.edu.unq.tip.marchionnelattenero.controllers.responses.ProductCreationResponse;
-import ar.edu.unq.tip.marchionnelattenero.models.Place;
-import ar.edu.unq.tip.marchionnelattenero.models.Product;
-import ar.edu.unq.tip.marchionnelattenero.models.UserModel;
-import ar.edu.unq.tip.marchionnelattenero.models.UserToken;
+import ar.edu.unq.tip.marchionnelattenero.controllers.responses.ProductPendingResponse;
+import ar.edu.unq.tip.marchionnelattenero.models.*;
 import ar.edu.unq.tip.marchionnelattenero.models.caches.Cache;
 import ar.edu.unq.tip.marchionnelattenero.models.caches.CacheProductPending;
 import ar.edu.unq.tip.marchionnelattenero.repositories.FoodOrderHistoryRepository;
@@ -56,6 +56,16 @@ public class CacheController {
         Map<UserToken, CacheProductPending> usersPending = Cache.getInstance().getUsersPending();
         System.out.println("Users");
         return CachePendingsResponse.buildUsers(usersPending);
+    }
+
+    @POST
+    @Path("changeUserPlace")
+    @Consumes("application/json")
+    @Produces("application/json")
+    public String changeUserPlace(@QueryParam("token") String token, CacheCreationBody cacheCreationBody) {
+        Cache.getInstance().getUserByToken(token).getUserModel().setPlace(Place.valueOf(cacheCreationBody.getPlace()));
+        System.out.println(cacheCreationBody.getPlace());
+        return CachePendingsResponse.buildUsers(Cache.getInstance().getUsersPending());
     }
 
 
