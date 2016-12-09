@@ -2,7 +2,6 @@ package ar.edu.unq.tip.marchionnelattenero.models.caches;
 
 import ar.edu.unq.tip.marchionnelattenero.models.FoodOrder;
 import ar.edu.unq.tip.marchionnelattenero.models.Place;
-import ar.edu.unq.tip.marchionnelattenero.models.UserModel;
 import ar.edu.unq.tip.marchionnelattenero.models.UserToken;
 import ar.edu.unq.tip.marchionnelattenero.repositories.UserModelRepository;
 import ar.edu.unq.tip.marchionnelattenero.repositories.UserTokenRepository;
@@ -44,6 +43,9 @@ public class Cache {
         productsPending = new CacheProductPending();
         usersPending = new HashMap<UserToken, CacheProductPending>();
         placesPending = new HashMap<Place, CacheProductPending>();
+        for (Place place : Place.values()) {
+            placesPending.put(place, new CacheProductPending());
+        }
 
         final Cache previous = INSTANCE.getAndSet(this);
         if (previous != null)
@@ -59,7 +61,7 @@ public class Cache {
 
         this.setUsersByToken(this.usersPending, foodOrder.getToken(), foodOrder);
 
-        this.setPlacesByToken(this.placesPending, foodOrder.getUser().getPlace(), foodOrder);
+        this.setPlaces(this.placesPending, foodOrder.getUser().getPlace(), foodOrder);
     }
 
 
@@ -92,7 +94,7 @@ public class Cache {
 
     }
 
-    private void setPlacesByToken(Map<Place, CacheProductPending> placesPending, Place place, FoodOrder foodOrder) {
+    private void setPlaces(Map<Place, CacheProductPending> placesPending, Place place, FoodOrder foodOrder) {
         if (!placesPending.keySet().stream().filter(place1 -> place1 == place).findAny().isPresent()) {
             CacheProductPending cacheProductPending = new CacheProductPending();
             cacheProductPending.addFoodOrder(foodOrder);
@@ -114,21 +116,6 @@ public class Cache {
         }
     }
 
-    public void setPlaceFirstTime(String token, String place) {
-        UserToken userToken = this.getUserByToken(token);
-        userToken.getUserModel().setPlace(Place.valueOf(place));
-
-        if (!this.placesPending.keySet().stream().filter(place1 -> place1 == Place.valueOf(place)).findAny().isPresent()) {
-            this.placesPending.put(Place.valueOf(place), new CacheProductPending());
-            this.usersPending.put(userToken, new CacheProductPending());
-        }else{
-            this.getUserByToken(token).getUserModel().setPlace(Place.valueOf(place));
-            UserModel user = this.userModelRepository.findByUserId(userToken.getUserModel().getUserId());
-            user.setPlace(Place.valueOf(place));
-            this.userModelRepository.update(user);
-        }
-
-    }
 }
 
 

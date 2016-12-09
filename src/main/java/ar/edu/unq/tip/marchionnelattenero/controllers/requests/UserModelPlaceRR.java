@@ -1,19 +1,20 @@
 package ar.edu.unq.tip.marchionnelattenero.controllers.requests;
 
+import ar.edu.unq.tip.marchionnelattenero.models.UserModel;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.gson.Gson;
 
 /**
  * Created by damian on 08/12/16.
  */
-public class CacheCreationBody {
+public class UserModelPlaceRR {
     private String place;
 
-    public CacheCreationBody(String place) {
+    public UserModelPlaceRR(String place) {
         this.place = place;
     }
 
-    public CacheCreationBody() {
+    public UserModelPlaceRR() {
     }
 
     public String getPlace() {
@@ -24,4 +25,7 @@ public class CacheCreationBody {
         this.place = place;
     }
 
+    public static UserModelPlaceRR build(UserModel user) {
+        return new UserModelPlaceRR(user.getPlace().toString());
+    }
 }

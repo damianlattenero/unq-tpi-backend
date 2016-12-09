@@ -1,9 +1,11 @@
 package ar.edu.unq.tip.marchionnelattenero.controllers;
 
+import ar.edu.unq.tip.marchionnelattenero.controllers.requests.UserModelPlaceRR;
 import ar.edu.unq.tip.marchionnelattenero.controllers.requests.UserAuthorization;
 import ar.edu.unq.tip.marchionnelattenero.controllers.responses.LoginResponse;
 import ar.edu.unq.tip.marchionnelattenero.controllers.responses.LogoutResponse;
 import ar.edu.unq.tip.marchionnelattenero.controllers.responses.UserResponse;
+import ar.edu.unq.tip.marchionnelattenero.models.Place;
 import ar.edu.unq.tip.marchionnelattenero.models.UserModel;
 import ar.edu.unq.tip.marchionnelattenero.models.UserToken;
 import ar.edu.unq.tip.marchionnelattenero.repositories.UserModelRepository;
@@ -11,7 +13,6 @@ import ar.edu.unq.tip.marchionnelattenero.repositories.UserTokenRepository;
 import ar.edu.unq.tip.marchionnelattenero.services.Login;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.ws.rs.*;
 import java.util.ArrayList;
@@ -27,6 +28,20 @@ public class LoginController {
     private UserTokenRepository userTokenRepository;
     @Autowired
     private UserModelRepository userModelRepository;
+
+    @POST
+    @Path("changeUserPlace")
+    @Consumes("application/json")
+    @Produces("application/json")
+    public UserModelPlaceRR changeUserPlace(@QueryParam("token") String token, UserModelPlaceRR userModelPlaceRR) {
+        UserToken userToken = userTokenRepository.findByUserToken(token);
+        UserModel userModel = userToken.getUserModel();
+        userModel.setPlace(Place.valueOf(userModelPlaceRR.getPlace()));
+        this.userModelRepository.update(userModel);
+        //devuelvo un eco que el front recibira para corroborar que funcionó
+        return UserModelPlaceRR.build(this.userModelRepository.findByUserId(userModel.getUserId()));
+    }
+
 
     @POST
     @Path("login")
