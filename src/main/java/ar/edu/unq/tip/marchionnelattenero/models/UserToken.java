@@ -32,10 +32,7 @@ public class UserToken {
 
     @Override
     public String toString() {
-//        return "{'nickname':" + this.getUserModel().getNickname() +", " + "'userId':" + this.getUserModel().getUserId() + "}";
-        Gson gson = new Gson();
-        String jsonInString = gson.toJson(this);
-        return jsonInString;
+        return this.getToken();
     }
 
 

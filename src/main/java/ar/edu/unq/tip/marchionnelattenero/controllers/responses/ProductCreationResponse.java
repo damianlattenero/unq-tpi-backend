@@ -12,7 +12,7 @@ public class ProductCreationResponse {
     private String name;
     private String description;
     private Integer id;
-    private Integer pending;
+//    private Integer pending;
     private Boolean hasStock;
 
     public ProductCreationResponse(Integer id, String name, String description, Boolean hasStock) {
@@ -20,7 +20,7 @@ public class ProductCreationResponse {
         this.setName(name);
         this.setDescription(description);
         this.setHasStock(hasStock);
-        this.setPending(Cache.getInstance().getProductPending(this.getId()));
+//        this.setPending(Cache.getInstance().getProductPending(this.getId()));
     }
 
     public static ProductCreationResponse build(Product product) {
@@ -63,11 +63,11 @@ public class ProductCreationResponse {
         this.hasStock = hasStock;
     }
 
-    public Integer getPending() {
+/*    public Integer getPending() {
         return pending;
     }
 
     public void setPending(Integer pending) {
         this.pending = pending;
-    }
+    }*/
 }
