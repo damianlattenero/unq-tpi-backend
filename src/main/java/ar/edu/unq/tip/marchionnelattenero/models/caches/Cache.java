@@ -2,7 +2,9 @@ package ar.edu.unq.tip.marchionnelattenero.models.caches;
 
 import ar.edu.unq.tip.marchionnelattenero.models.FoodOrder;
 import ar.edu.unq.tip.marchionnelattenero.models.Place;
+import ar.edu.unq.tip.marchionnelattenero.models.UserModel;
 import ar.edu.unq.tip.marchionnelattenero.models.UserToken;
+import ar.edu.unq.tip.marchionnelattenero.repositories.UserModelRepository;
 import ar.edu.unq.tip.marchionnelattenero.repositories.UserTokenRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,6 +33,10 @@ public class Cache {
 
     @Autowired
     private UserTokenRepository userTokenRepository;
+
+    @Autowired
+    private UserModelRepository userModelRepository;
+
 
 
     public Cache() {
@@ -106,6 +112,22 @@ public class Cache {
         }else{
             return maybe.get();
         }
+    }
+
+    public void setPlaceFirstTime(String token, String place) {
+        UserToken userToken = this.getUserByToken(token);
+        userToken.getUserModel().setPlace(Place.valueOf(place));
+
+        if (!this.placesPending.keySet().stream().filter(place1 -> place1 == Place.valueOf(place)).findAny().isPresent()) {
+            this.placesPending.put(Place.valueOf(place), new CacheProductPending());
+            this.usersPending.put(userToken, new CacheProductPending());
+        }else{
+            this.getUserByToken(token).getUserModel().setPlace(Place.valueOf(place));
+            UserModel user = this.userModelRepository.findByUserId(userToken.getUserModel().getUserId());
+            user.setPlace(Place.valueOf(place));
+            this.userModelRepository.update(user);
+        }
+
     }
 }
 

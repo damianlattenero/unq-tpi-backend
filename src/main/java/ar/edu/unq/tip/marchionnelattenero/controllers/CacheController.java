@@ -63,7 +63,7 @@ public class CacheController {
     @Consumes("application/json")
     @Produces("application/json")
     public String changeUserPlace(@QueryParam("token") String token, CacheCreationBody cacheCreationBody) {
-        Cache.getInstance().getUserByToken(token).getUserModel().setPlace(Place.valueOf(cacheCreationBody.getPlace()));
+        Cache.getInstance().setPlaceFirstTime(token, cacheCreationBody.getPlace());
         System.out.println(cacheCreationBody.getPlace());
         return CachePendingsResponse.buildUsers(Cache.getInstance().getUsersPending());
     }

@@ -44,6 +44,14 @@ public class FoodOrder {
     public FoodOrder() {
     }
 
+    public FoodOrder(int i) {
+        this.amount = 0;
+    }
+
+    public static FoodOrder fakeFood() {
+        return new FoodOrder(0);
+    }
+
     public FoodOrder(Product product, FoodOrderState state, int amount, UserToken user) {
         this.moment = new Timestamp(DateTime.now().getMillis());
         this.product = product;
@@ -101,5 +109,7 @@ public class FoodOrder {
     public void setUser(UserModel user) {
         this.user = user;
     }
+
+
 }
 
