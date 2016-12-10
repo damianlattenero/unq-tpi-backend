@@ -43,6 +43,18 @@ public class FoodOrderRepository extends HibernateGenericDAO<FoodOrder> implemen
         return (List<FoodOrder>) criteria.list();
     }
 
+    public List<FoodOrder> findOrdersToCook(Product product, Timestamp moment) {
+        Criteria criteria = this.getSession().createCriteria(this.getDomainClass());
+        criteria.add(Restrictions.eq("product", product));
+        criteria.add(Restrictions.eq("state", FoodOrderState.ORDER));
+        criteria.add(Restrictions.le("moment", moment));
+        criteria.add(Restrictions.eq("isReadyToDeliver", false));
+        criteria.addOrder(Order.desc("moment"));
+        criteria.setFirstResult(0);
+        criteria.setMaxResults(1);
+        return (List<FoodOrder>) criteria.list();
+    }
+
     @Override
     public void save(FoodOrder foodOrder) {
         super.save(foodOrder);

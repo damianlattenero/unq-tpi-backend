@@ -1,7 +1,7 @@
 package ar.edu.unq.tip.marchionnelattenero.models.caches;
 
-import ar.edu.unq.tip.marchionnelattenero.controllers.responses.CachePendingsResponse;
 import ar.edu.unq.tip.marchionnelattenero.models.FoodOrder;
+import ar.edu.unq.tip.marchionnelattenero.models.FoodOrderState;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -23,15 +23,27 @@ public class CacheProductPending {
     }
 
     public void addFoodOrder(FoodOrder foodOrder) {
-        int idProduct = foodOrder.getProduct().getId();
-        int countCache = getProductPending(idProduct);
-        int totalCount = calculate(countCache, foodOrder);
+        if (foodOrder.getState() != FoodOrderState.COOKED) {
+            int idProduct = foodOrder.getProduct().getId();
+            int countCache = getProductPending(idProduct);
+            int totalCount = calculate(countCache, foodOrder);
 
-        this.allProductsPending.put(idProduct, totalCount);
+            this.allProductsPending.put(idProduct, totalCount);
+        }
     }
 
     private int calculate(int countCache, FoodOrder foodOrder) {
-        return (!foodOrder.getArchived()) ? (countCache + foodOrder.getAmount()) : (countCache - foodOrder.getAmount());
+        int cant = 0;
+
+        if (!foodOrder.getArchived())
+            if (!foodOrder.isReadyToDeliver())
+                cant = (countCache + foodOrder.getAmount());
+            else
+                cant = (countCache - foodOrder.getAmount());
+        else
+            cant = (countCache - foodOrder.getAmount());
+
+        return cant;
     }
 
     public void addNewProduct(int id) {

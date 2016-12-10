@@ -1,7 +1,5 @@
 package ar.edu.unq.tip.marchionnelattenero.models;
 
-import ar.edu.unq.tip.marchionnelattenero.models.oauth.GoogleOauthCredential;
-
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -18,7 +16,6 @@ public class UserModel {
     @Column(name = "USER_MODEL_ID")
     private int id;
 
-//    @Lob
     @Column(name = "userId")
     private String userId;
 
@@ -34,15 +31,7 @@ public class UserModel {
     @Enumerated(EnumType.STRING)
     private Place place;
 
-    @OneToOne(optional = true, fetch = FetchType.EAGER)
-    private GoogleOauthCredential googleOauthCredential;
-
     public UserModel() {
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        return this.getUserId() == ((UserModel) obj).getUserId();
     }
 
     public UserModel(String name, String nickname, String email) {
@@ -52,13 +41,18 @@ public class UserModel {
         this.email = email;
     }
 
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return this.getUserId() == ((UserModel) obj).getUserId();
+    }
+
     @Override
     public int hashCode() {
         return this.getUserId().hashCode();
-    }
-
-    public static long getSerialVersionUID() {
-        return serialVersionUID;
     }
 
     public int getId() {
@@ -107,14 +101,6 @@ public class UserModel {
 
     public void setPicture(String picture) {
         this.picture = picture;
-    }
-
-    public GoogleOauthCredential getGoogleOauthCredential() {
-        return googleOauthCredential;
-    }
-
-    public void setGoogleOauthCredential(GoogleOauthCredential googleOauthCredential) {
-        this.googleOauthCredential = googleOauthCredential;
     }
 
     public Place getPlace() {

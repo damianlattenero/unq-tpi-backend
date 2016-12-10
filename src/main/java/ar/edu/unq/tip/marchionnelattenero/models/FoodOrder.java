@@ -38,18 +38,16 @@ public class FoodOrder {
         private Place place;
     */
 
+    @Column(name = "isReadyToDeliver")
+    private Boolean isReadyToDeliver;
+
+    @Column(name = "momentCooked")
+    private Timestamp momentCooked;
+
     @Column(name = "archived")
     private Boolean archived;
 
     public FoodOrder() {
-    }
-
-    public FoodOrder(int i) {
-        this.amount = 0;
-    }
-
-    public static FoodOrder fakeFood() {
-        return new FoodOrder(0);
     }
 
     public FoodOrder(Product product, FoodOrderState state, int amount, UserToken user) {
@@ -60,6 +58,7 @@ public class FoodOrder {
         this.user = user.getUserModel();
         this.token = user.getToken();
         this.archived = false;
+        this.isReadyToDeliver = false;
     }
 
     public int getId() {
@@ -110,6 +109,21 @@ public class FoodOrder {
         this.user = user;
     }
 
+    public Boolean isReadyToDeliver() {
+        return isReadyToDeliver;
+    }
 
+    public void setReadyToDeliver() {
+        this.isReadyToDeliver = true;
+        this.setMomentCooked(new Timestamp(DateTime.now().getMillis()));
+    }
+
+    public Timestamp getMomentCooked() {
+        return momentCooked;
+    }
+
+    public void setMomentCooked(Timestamp momentCooked) {
+        this.momentCooked = momentCooked;
+    }
 }
 
