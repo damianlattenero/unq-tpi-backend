@@ -2,7 +2,6 @@ package ar.edu.unq.tip.marchionnelattenero.controllers.responses;
 
 import ar.edu.unq.tip.marchionnelattenero.models.Place;
 import ar.edu.unq.tip.marchionnelattenero.models.UserModel;
-import ar.edu.unq.tip.marchionnelattenero.models.UserToken;
 import ar.edu.unq.tip.marchionnelattenero.models.caches.Cache;
 import ar.edu.unq.tip.marchionnelattenero.models.caches.CacheProductPending;
 import com.google.gson.Gson;
@@ -17,7 +16,7 @@ public class CachePendingsResponse {
         cacheResponse.put(Place.COCINA, Cache.getInstance().getProductsPending());
 
         for (Place place : Cache.getInstance().getPlacesPending().keySet()) {
-            if(place != Place.COCINA)
+            if (place != Place.COCINA)
                 cacheResponse.put(place, Cache.getInstance().getPlacesPending().get(place));
         }
 

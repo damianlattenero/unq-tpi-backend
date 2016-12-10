@@ -3,7 +3,6 @@ package ar.edu.unq.tip.marchionnelattenero.models.caches;
 import ar.edu.unq.tip.marchionnelattenero.models.FoodOrder;
 import ar.edu.unq.tip.marchionnelattenero.models.Place;
 import ar.edu.unq.tip.marchionnelattenero.models.UserModel;
-import ar.edu.unq.tip.marchionnelattenero.models.UserToken;
 import ar.edu.unq.tip.marchionnelattenero.repositories.UserModelRepository;
 import ar.edu.unq.tip.marchionnelattenero.repositories.UserTokenRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,7 +37,6 @@ public class Cache {
     private UserModelRepository userModelRepository;
 
 
-
     public Cache() {
 
         productsPending = new CacheProductPending();
@@ -64,7 +62,6 @@ public class Cache {
 
         this.setPlaces(this.placesPending, foodOrder.getUser().getPlace(), foodOrder);
     }
-
 
 
     public Integer getProductPending(Integer productId) {
@@ -110,9 +107,9 @@ public class Cache {
                 .filter(user -> user.getUserId().equals(userId))
                 .findFirst();
 
-        if(!maybe.isPresent()){
+        if (!maybe.isPresent()) {
             return this.userModelRepository.findByUserId(userId);
-        }else{
+        } else {
             return maybe.get();
         }
     }

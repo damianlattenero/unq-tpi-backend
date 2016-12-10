@@ -1,7 +1,7 @@
 package ar.edu.unq.tip.marchionnelattenero.controllers;
 
-import ar.edu.unq.tip.marchionnelattenero.controllers.requests.UserModelPlaceRR;
 import ar.edu.unq.tip.marchionnelattenero.controllers.requests.UserAuthorization;
+import ar.edu.unq.tip.marchionnelattenero.controllers.requests.UserModelPlaceRR;
 import ar.edu.unq.tip.marchionnelattenero.controllers.responses.LoginResponse;
 import ar.edu.unq.tip.marchionnelattenero.controllers.responses.LogoutResponse;
 import ar.edu.unq.tip.marchionnelattenero.controllers.responses.UserResponse;

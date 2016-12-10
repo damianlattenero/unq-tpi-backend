@@ -6,7 +6,6 @@ import ar.edu.unq.tip.marchionnelattenero.controllers.responses.FoodOrderCreatio
 import ar.edu.unq.tip.marchionnelattenero.controllers.responses.ProductPendingResponse;
 import ar.edu.unq.tip.marchionnelattenero.models.FoodOrder;
 import ar.edu.unq.tip.marchionnelattenero.models.UserModel;
-import ar.edu.unq.tip.marchionnelattenero.models.UserToken;
 import ar.edu.unq.tip.marchionnelattenero.models.caches.Cache;
 import ar.edu.unq.tip.marchionnelattenero.services.FoodOrderService;
 import org.joda.time.DateTime;

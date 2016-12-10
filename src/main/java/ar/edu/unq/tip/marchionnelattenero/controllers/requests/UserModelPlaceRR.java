@@ -1,8 +1,6 @@
 package ar.edu.unq.tip.marchionnelattenero.controllers.requests;
 
 import ar.edu.unq.tip.marchionnelattenero.models.UserModel;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.google.gson.Gson;
 
 /**
  * Created by damian on 08/12/16.

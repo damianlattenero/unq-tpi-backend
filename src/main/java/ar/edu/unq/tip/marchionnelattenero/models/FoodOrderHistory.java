@@ -36,14 +36,15 @@ public class FoodOrderHistory {
     }
 
     public FoodOrderHistory(Date date, Product product) {
-        this(new Timestamp(date.getTime()), product);;
+        this(new Timestamp(date.getTime()), product);
+        ;
     }
 
     public FoodOrderHistory(Timestamp moment, Product product) {
         this.moment = moment;
         this.product = product;
         this.countOrder = 0;
-        this.countCancelOrder= 0;
+        this.countCancelOrder = 0;
         this.countCooked = 0;
         this.countCancelCooked = 0;
     }
@@ -61,8 +62,7 @@ public class FoodOrderHistory {
     }
 
     public void addAmount(FoodOrderState state, int amount) {
-        switch (state)
-        {
+        switch (state) {
             case ORDER:
                 this.countOrder += amount;
                 break;

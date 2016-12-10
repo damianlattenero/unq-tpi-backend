@@ -28,7 +28,7 @@ public class FoodOrderClosureService {
     private FoodOrderHistoryRepository foodOrderHistoryRepository;
 
     @Transactional
-    private synchronized Collection<FoodOrderHistory> archiveFoodOrders(Date dateClosure, boolean generateClosure) {
+    private Collection<FoodOrderHistory> archiveFoodOrders(Date dateClosure, boolean generateClosure) {
         List<FoodOrder> foodOrders = this.foodOrderRepository.findByDayForArchived(dateClosure);
 
         Map<Pair<Date, Product>, FoodOrderHistory> foodOrderHistories = new HashMap<>();
@@ -43,8 +43,7 @@ public class FoodOrderClosureService {
                 if (generateClosure) {
                     //Repository
                     foodOrderHistory = this.foodOrderHistoryService.findOrCreate(dateClosure, foodOrder.getProduct());
-                }
-                else {
+                } else {
                     //Memory
                     foodOrderHistory = foodOrderHistories.getOrDefault(key, new FoodOrderHistory(dateClosure, foodOrder.getProduct()));
                 }
@@ -57,8 +56,7 @@ public class FoodOrderClosureService {
                     this.foodOrderHistoryRepository.saveOrUpdate(foodOrderHistory);
                     foodOrder.setArchived();
                     this.foodOrderRepository.update(foodOrder);
-                }
-                else
+                } else
                     //Memory
                     foodOrderHistories.put(key, foodOrderHistory);
             }
@@ -69,7 +67,7 @@ public class FoodOrderClosureService {
     }
 
     @Transactional
-    public synchronized List<FoodOrderHistory> showFoodOrderClosure(long from, long to) {
+    public List<FoodOrderHistory> showFoodOrderClosure(long from, long to) {
         Date dateFrom = DateHelper.getDateWithoutTime(from);
         Date dateTo = DateHelper.getDateWithoutTime(to);
 
@@ -89,14 +87,14 @@ public class FoodOrderClosureService {
     }
 
     @Transactional
-    public synchronized long generateFoodOrderClosure(UserModel user) {
+    public long generateFoodOrderClosure(UserModel user) {
         long dateClosure = DateTime.now().getMillis();
         this.generateFoodOrderClosure(user, dateClosure, dateClosure);
         return dateClosure;
     }
 
     @Transactional
-    public synchronized void generateFoodOrderClosure(UserModel user, long from, long to) {
+    public void generateFoodOrderClosure(UserModel user, long from, long to) {
         Date dateFrom = DateHelper.getDateWithoutTime(from);
         Date dateTo = DateHelper.getDateWithoutTime(to);
 
@@ -116,7 +114,7 @@ public class FoodOrderClosureService {
     }
 
     @Transactional
-    public synchronized List<FoodOrderClosure> findAll() {
+    public List<FoodOrderClosure> findAll() {
         return this.foodOrderClosureRepository.findAll();
     }
 

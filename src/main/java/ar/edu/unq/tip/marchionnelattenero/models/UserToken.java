@@ -1,8 +1,5 @@
 package ar.edu.unq.tip.marchionnelattenero.models;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonElement;
-
 import javax.persistence.*;
 
 
@@ -34,7 +31,6 @@ public class UserToken {
     public String toString() {
         return this.getToken();
     }
-
 
 
     @Override

@@ -3,7 +3,6 @@ package ar.edu.unq.tip.marchionnelattenero.controllers.responses;
 
 import ar.edu.unq.tip.marchionnelattenero.models.FoodOrderHistory;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -27,7 +26,7 @@ public class FoodOrderHistoryCreationResponse {
         this.productName = name;
         this.productDescription = description;
         this.countOrder = 0;
-        this.countCancelOrder= 0;
+        this.countCancelOrder = 0;
         this.countCooked = 0;
         this.countCancelCooked = 0;
         this.countDiff = 0;
@@ -36,7 +35,7 @@ public class FoodOrderHistoryCreationResponse {
     }
 
     public FoodOrderHistoryCreationResponse(long moment, int productId, String productName, String productDescription, int countOrder, int countCancelOrder, int countCooked, int countCancelCooked) {
-        this(moment, productId,  productName, productDescription);
+        this(moment, productId, productName, productDescription);
         this.countOrder = countOrder;
         this.countCancelOrder = countCancelOrder;
         this.countCooked = countCooked;
@@ -44,7 +43,7 @@ public class FoodOrderHistoryCreationResponse {
         this.calculateTotals();
     }
 
-    private synchronized static FoodOrderHistoryCreationResponse build(FoodOrderHistory foodOrderHistory) {
+    private static FoodOrderHistoryCreationResponse build(FoodOrderHistory foodOrderHistory) {
         return new FoodOrderHistoryCreationResponse(
                 foodOrderHistory.getMoment().getTime(),
                 foodOrderHistory.getProduct().getId(),
@@ -57,31 +56,31 @@ public class FoodOrderHistoryCreationResponse {
         );
     }
 
-    public synchronized static List<FoodOrderHistoryCreationResponse> buildMany(List<FoodOrderHistory> all) {
+    public static List<FoodOrderHistoryCreationResponse> buildMany(List<FoodOrderHistory> all) {
         return all.stream().map(FoodOrderHistoryCreationResponse::build).collect(Collectors.toList());
     }
 
     //Totals
-    private synchronized void calculateTotals() {
+    private void calculateTotals() {
         this.countDiff = this.getDiff();
         this.countTotalCancel = this.getTotalCancel();
         this.countTotalStock = this.getTotalStock();
     }
 
-    private synchronized int getDiff() {
+    private int getDiff() {
         return Math.abs(this.countOrder + this.countCancelOrder) - Math.abs(this.countCooked + this.countCancelCooked);
     }
 
-    private synchronized int getTotalCancel() {
+    private int getTotalCancel() {
         return Math.abs(this.countCancelOrder) + Math.abs(this.countCancelOrder);
     }
 
-    private synchronized int getTotalStock() {
-        return Math.abs(this.countCooked + this.countCancelCooked) ;
+    private int getTotalStock() {
+        return Math.abs(this.countCooked + this.countCancelCooked);
     }
 
     @Override
-    public synchronized String toString() {
+    public String toString() {
         return "{\n"
                 + "  Moment: '" + this.getMoment() + "'\n"
                 + ", ProductId: '" + this.getProductId() + "'\n"
@@ -97,7 +96,7 @@ public class FoodOrderHistoryCreationResponse {
     }
 
     @Override
-    public synchronized boolean equals(Object o) {
+    public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
@@ -109,7 +108,7 @@ public class FoodOrderHistoryCreationResponse {
     }
 
     @Override
-    public synchronized int hashCode() {
+    public int hashCode() {
         int result = (int) (moment ^ (moment >>> 32));
         result = 31 * result + productId;
         return result;

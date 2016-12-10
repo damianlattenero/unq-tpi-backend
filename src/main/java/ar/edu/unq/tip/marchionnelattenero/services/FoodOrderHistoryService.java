@@ -19,32 +19,32 @@ public class FoodOrderHistoryService {
     private FoodOrderHistoryRepository foodOrderHistoryRepository;
 
     @Transactional
-    public synchronized FoodOrderHistory createFoodOrderHistory(Date date, Product product) {
+    public FoodOrderHistory createFoodOrderHistory(Date date, Product product) {
         Timestamp moment = new Timestamp(date.getTime());
         FoodOrderHistory foodOrderHistory = new FoodOrderHistory(moment, product);
         return foodOrderHistory;
     }
 
     @Transactional
-    public synchronized List<FoodOrderHistory> findAll() {
+    public List<FoodOrderHistory> findAll() {
         return this.foodOrderHistoryRepository.findAll();
     }
 
     @Transactional
-    public synchronized List<FoodOrderHistory> findByDay(long momentClosure) {
+    public List<FoodOrderHistory> findByDay(long momentClosure) {
         Date date = new Date(momentClosure);
         return this.foodOrderHistoryRepository.findByDay(date);
     }
 
     @Transactional
-    public synchronized List<FoodOrderHistory> findByDayFromTo(long from, long to) {
+    public List<FoodOrderHistory> findByDayFromTo(long from, long to) {
         Date dateFrom = DateHelper.getDateWithoutTime(from);
         Date dateTo = DateHelper.getDateWithoutTime(to);
         return this.foodOrderHistoryRepository.findByDayFromTo(dateFrom, dateTo);
     }
 
     @Transactional
-    public synchronized FoodOrderHistory findOrCreate(Date dateClosure, Product product) {
+    public FoodOrderHistory findOrCreate(Date dateClosure, Product product) {
         FoodOrderHistory foodOrderHistory = this.foodOrderHistoryRepository.findBy(dateClosure, product);
 
         if (foodOrderHistory == null)

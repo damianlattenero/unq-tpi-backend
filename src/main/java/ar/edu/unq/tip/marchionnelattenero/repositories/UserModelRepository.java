@@ -19,7 +19,7 @@ public class UserModelRepository extends HibernateGenericDAO<UserModel> implemen
         return UserModel.class;
     }
 
-    public synchronized UserModel findByUserId(String userId) {
+    public UserModel findByUserId(String userId) {
         Criteria cr = this.getSession().createCriteria(this.getDomainClass());
         cr.add(Restrictions.eq("userId", userId));
         return (UserModel) cr.uniqueResult();

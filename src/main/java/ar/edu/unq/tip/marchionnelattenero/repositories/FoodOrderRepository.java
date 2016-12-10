@@ -1,9 +1,9 @@
 package ar.edu.unq.tip.marchionnelattenero.repositories;
 
-import ar.edu.unq.tip.marchionnelattenero.models.caches.Cache;
 import ar.edu.unq.tip.marchionnelattenero.models.FoodOrder;
 import ar.edu.unq.tip.marchionnelattenero.models.FoodOrderState;
 import ar.edu.unq.tip.marchionnelattenero.models.Product;
+import ar.edu.unq.tip.marchionnelattenero.models.caches.Cache;
 import ar.edu.unq.tip.marchionnelattenero.repositories.utils.GenericRepository;
 import ar.edu.unq.tip.marchionnelattenero.repositories.utils.HibernateGenericDAO;
 import org.hibernate.Criteria;
@@ -32,20 +32,20 @@ public class FoodOrderRepository extends HibernateGenericDAO<FoodOrder> implemen
         return FoodOrder.class;
     }
 
-    public synchronized List<FoodOrder> findAfterMoment(Timestamp moment) {
+    public List<FoodOrder> findAfterMoment(Timestamp moment) {
         Criteria criteria = this.getSession().createCriteria(this.getDomainClass());
         criteria.add(Restrictions.ge("moment", moment));
         return (List<FoodOrder>) criteria.list();
     }
 
-    public synchronized List<FoodOrder> findProductsAfterMoment(Product product, Timestamp moment) {
+    public List<FoodOrder> findProductsAfterMoment(Product product, Timestamp moment) {
         Criteria criteria = this.getSession().createCriteria(this.getDomainClass());
         criteria.add(Restrictions.eq("product", product));
         criteria.add(Restrictions.ge("moment", moment));
         return (List<FoodOrder>) criteria.list();
     }
 
-    public synchronized List<FoodOrder> findOrdersToCook(Product product, Timestamp moment) {
+    public List<FoodOrder> findOrdersToCook(Product product, Timestamp moment) {
         Criteria criteria = this.getSession().createCriteria(this.getDomainClass());
         criteria.add(Restrictions.eq("product", product));
         criteria.add(Restrictions.eq("state", FoodOrderState.ORDER));
@@ -58,24 +58,24 @@ public class FoodOrderRepository extends HibernateGenericDAO<FoodOrder> implemen
     }
 
     @Override
-    public synchronized void save(FoodOrder foodOrder) {
+    public void save(FoodOrder foodOrder) {
         super.save(foodOrder);
         Cache.getInstance().addFoodOrder(foodOrder);
     }
 
     @Override
-    public synchronized void update(FoodOrder foodOrder) {
+    public void update(FoodOrder foodOrder) {
         super.update(foodOrder);
         Cache.getInstance().addFoodOrder(foodOrder);
     }
 
-    public synchronized List<FoodOrder> findByDay(Timestamp moment) {
+    public List<FoodOrder> findByDay(Timestamp moment) {
         Criteria criteria = this.getSession().createCriteria(this.getDomainClass());
         criteria.add(Restrictions.eq("moment", moment));
         return (List<FoodOrder>) criteria.list();
     }
 
-    public synchronized List<Timestamp> findAllDaysNotArchived(int count) {
+    public List<Timestamp> findAllDaysNotArchived(int count) {
         Timestamp moment = new Timestamp(DateTime.now().getMillis());
 
         Criteria criteria = this.getSession().createCriteria(this.getDomainClass());
@@ -88,14 +88,14 @@ public class FoodOrderRepository extends HibernateGenericDAO<FoodOrder> implemen
         return (List<Timestamp>) criteria.list();
     }
 
-    public synchronized List<FoodOrder> findByDayForArchived(Date dateClosure) {
+    public List<FoodOrder> findByDayForArchived(Date dateClosure) {
         Criteria criteria = this.getSession().createCriteria(this.getDomainClass());
         criteria.add(Restrictions.eq("archived", false));
         addRestrictionForDay(criteria, "moment", dateClosure);
         return (List<FoodOrder>) criteria.list();
     }
 
-    public synchronized void setArchived(Date dateClosure, Product product, FoodOrderState state) {
+    public void setArchived(Date dateClosure, Product product, FoodOrderState state) {
         Criteria criteria = this.getSession().createCriteria(this.getDomainClass());
 
         criteria.add(Restrictions.eq("archived", false));

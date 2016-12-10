@@ -2,7 +2,6 @@ package ar.edu.unq.tip.marchionnelattenero.controllers.responses;
 
 
 import ar.edu.unq.tip.marchionnelattenero.models.Product;
-import ar.edu.unq.tip.marchionnelattenero.models.caches.Cache;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -12,7 +11,7 @@ public class ProductCreationResponse {
     private String name;
     private String description;
     private Integer id;
-//    private Integer pending;
+    //    private Integer pending;
     private Boolean hasStock;
 
     public ProductCreationResponse(Integer id, String name, String description, Boolean hasStock) {

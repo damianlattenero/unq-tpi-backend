@@ -29,7 +29,8 @@ public class FoodOrderClosure {
     }
 
     public FoodOrderClosure(UserModel user, Date momentClosure) {
-        this.moment = new Timestamp(DateTime.now().getMillis());;
+        this.moment = new Timestamp(DateTime.now().getMillis());
+        ;
         this.momentClosure = new Timestamp(momentClosure.getTime());
         this.user = user;
     }

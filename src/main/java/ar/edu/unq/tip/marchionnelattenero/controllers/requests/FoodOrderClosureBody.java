@@ -6,13 +6,12 @@ public class FoodOrderClosureBody {
     String userId;
 
 
-
     @Override
     public String toString() {
         return "{ " +
                 "  From: " + this.from +
                 ", To: " + this.to +
-                "}" ;
+                "}";
     }
 
     public long getFrom() {
