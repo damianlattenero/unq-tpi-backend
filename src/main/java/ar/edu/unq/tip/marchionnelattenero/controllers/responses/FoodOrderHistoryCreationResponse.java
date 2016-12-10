@@ -44,7 +44,7 @@ public class FoodOrderHistoryCreationResponse {
         this.calculateTotals();
     }
 
-    private static FoodOrderHistoryCreationResponse build(FoodOrderHistory foodOrderHistory) {
+    private synchronized static FoodOrderHistoryCreationResponse build(FoodOrderHistory foodOrderHistory) {
         return new FoodOrderHistoryCreationResponse(
                 foodOrderHistory.getMoment().getTime(),
                 foodOrderHistory.getProduct().getId(),
@@ -57,31 +57,31 @@ public class FoodOrderHistoryCreationResponse {
         );
     }
 
-    public static List<FoodOrderHistoryCreationResponse> buildMany(List<FoodOrderHistory> all) {
+    public synchronized static List<FoodOrderHistoryCreationResponse> buildMany(List<FoodOrderHistory> all) {
         return all.stream().map(FoodOrderHistoryCreationResponse::build).collect(Collectors.toList());
     }
 
     //Totals
-    private void calculateTotals() {
+    private synchronized void calculateTotals() {
         this.countDiff = this.getDiff();
         this.countTotalCancel = this.getTotalCancel();
         this.countTotalStock = this.getTotalStock();
     }
 
-    private int getDiff() {
+    private synchronized int getDiff() {
         return Math.abs(this.countOrder + this.countCancelOrder) - Math.abs(this.countCooked + this.countCancelCooked);
     }
 
-    private int getTotalCancel() {
+    private synchronized int getTotalCancel() {
         return Math.abs(this.countCancelOrder) + Math.abs(this.countCancelOrder);
     }
 
-    private int getTotalStock() {
+    private synchronized int getTotalStock() {
         return Math.abs(this.countCooked + this.countCancelCooked) ;
     }
 
     @Override
-    public String toString() {
+    public synchronized String toString() {
         return "{\n"
                 + "  Moment: '" + this.getMoment() + "'\n"
                 + ", ProductId: '" + this.getProductId() + "'\n"
@@ -97,7 +97,7 @@ public class FoodOrderHistoryCreationResponse {
     }
 
     @Override
-    public boolean equals(Object o) {
+    public synchronized boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
@@ -109,7 +109,7 @@ public class FoodOrderHistoryCreationResponse {
     }
 
     @Override
-    public int hashCode() {
+    public synchronized int hashCode() {
         int result = (int) (moment ^ (moment >>> 32));
         result = 31 * result + productId;
         return result;

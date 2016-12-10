@@ -5,11 +5,11 @@ import java.util.Date;
 
 public class DateHelper {
 
-    public static Date getDateWithoutTime(long datetime) {
+    public synchronized static Date getDateWithoutTime(long datetime) {
         return getDateWithoutTime(new Date(datetime));
     }
 
-    public static Date getDateWithoutTime(Date date) {
+    public synchronized static Date getDateWithoutTime(Date date) {
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);
         cal.set(Calendar.HOUR_OF_DAY, 0);
@@ -19,14 +19,14 @@ public class DateHelper {
         return cal.getTime();
     }
 
-    public static Date getTomorrowDate(Date date) {
+    public synchronized static Date getTomorrowDate(Date date) {
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);
         cal.add(Calendar.DATE, 1);
         return cal.getTime();
     }
 
-    public static Date getYesterdayDate(Date date) {
+    public synchronized static Date getYesterdayDate(Date date) {
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);
         cal.add(Calendar.DATE, -1);

@@ -27,10 +27,12 @@ public class ProductService {
         productRepository.delete(product);
     }
 
+    @Transactional
     public Product getProduct(String name) {
         return this.productFactory.getProductByName(name);
     }
 
+    @Transactional
     public ProductRepository getProductRepository() {
         return productRepository;
     }

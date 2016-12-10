@@ -7,7 +7,9 @@ import ar.edu.unq.tip.marchionnelattenero.repositories.utils.HibernateGenericDAO
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
+@Transactional
 @Repository("userTokenRepository")
 public class UserTokenRepository extends HibernateGenericDAO<UserToken> implements GenericRepository<UserToken> {
 

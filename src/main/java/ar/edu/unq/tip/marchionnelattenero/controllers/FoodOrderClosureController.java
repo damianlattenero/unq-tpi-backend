@@ -33,7 +33,7 @@ public class FoodOrderClosureController {
     @GET
     @Path("all")
     @Produces("application/json")
-    public List<FoodOrderClosureCreationResponse> getAll() {
+    public synchronized List<FoodOrderClosureCreationResponse> getAll() {
         return FoodOrderClosureCreationResponse.buildMany(this.foodOrderClosureService.findAll());
     }
 
@@ -41,8 +41,8 @@ public class FoodOrderClosureController {
     @Path("showClosure")
     @Consumes("application/json")
     @Produces("application/json")
-    public List<FoodOrderHistoryCreationResponse> showClosure(FoodOrderClosureBody foodOrderClosureBody) {
-        System.err.println("FoodOrderClosureBody: '" + foodOrderClosureBody.toString() + "'");
+    public synchronized List<FoodOrderHistoryCreationResponse> showClosure(FoodOrderClosureBody foodOrderClosureBody) {
+//        System.err.println("FoodOrderClosureBody: '" + foodOrderClosureBody.toString() + "'");
         UserModel user = this.userModelRepository.findByUserId(foodOrderClosureBody.getUserId());
         List<FoodOrderHistory> foodOrderHistories = this.foodOrderClosureService.showFoodOrderClosure(foodOrderClosureBody.getFrom(), foodOrderClosureBody.getTo());
         return FoodOrderHistoryCreationResponse.buildMany(foodOrderHistories);
@@ -52,8 +52,8 @@ public class FoodOrderClosureController {
     @Path("generateClosure")
     @Consumes("application/json")
     @Produces("application/json")
-    public List<FoodOrderHistoryCreationResponse> generateClosure(FoodOrderClosureBody foodOrderClosureBody) {
-        System.err.println("FoodOrderClosureBody: '" + foodOrderClosureBody.toString() + "'");
+    public synchronized List<FoodOrderHistoryCreationResponse> generateClosure(FoodOrderClosureBody foodOrderClosureBody) {
+//        System.err.println("FoodOrderClosureBody: '" + foodOrderClosureBody.toString() + "'");
         UserModel user = this.userModelRepository.findByUserId(foodOrderClosureBody.getUserId());
         this.foodOrderClosureService.generateFoodOrderClosure(user, foodOrderClosureBody.getFrom(), foodOrderClosureBody.getTo());
         return FoodOrderHistoryCreationResponse.buildMany(this.foodOrderHistoryService.findByDayFromTo(foodOrderClosureBody.getFrom(), foodOrderClosureBody.getTo()));
@@ -63,7 +63,7 @@ public class FoodOrderClosureController {
     @Path("generateClosureToday")
     @Consumes("application/json")
     @Produces("application/json")
-    public List<FoodOrderHistoryCreationResponse> generateClosureToday(GenerateClousureTodayBody generateClousureTodayBody) {
+    public synchronized List<FoodOrderHistoryCreationResponse> generateClosureToday(GenerateClousureTodayBody generateClousureTodayBody) {
         UserModel user = this.userModelRepository.findByUserId(generateClousureTodayBody.getUserId());
         long dateClosure = this.foodOrderClosureService.generateFoodOrderClosure(user);
         return FoodOrderHistoryCreationResponse.buildMany(this.foodOrderHistoryService.findByDay(dateClosure));

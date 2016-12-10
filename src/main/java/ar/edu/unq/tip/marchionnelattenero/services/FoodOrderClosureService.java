@@ -3,6 +3,7 @@ package ar.edu.unq.tip.marchionnelattenero.services;
 import ar.edu.unq.tip.marchionnelattenero.models.*;
 import ar.edu.unq.tip.marchionnelattenero.models.utils.DateHelper;
 import ar.edu.unq.tip.marchionnelattenero.repositories.FoodOrderClosureRepository;
+import ar.edu.unq.tip.marchionnelattenero.repositories.FoodOrderHistoryRepository;
 import ar.edu.unq.tip.marchionnelattenero.repositories.FoodOrderRepository;
 import javafx.util.Pair;
 import org.joda.time.DateTime;
@@ -23,14 +24,17 @@ public class FoodOrderClosureService {
     @Autowired
     private FoodOrderRepository foodOrderRepository;
 
+    @Autowired
+    private FoodOrderHistoryRepository foodOrderHistoryRepository;
+
     @Transactional
-    private Collection<FoodOrderHistory> archiveFoodOrders(Date dateClosure, boolean generateClosure) {
-        List<FoodOrder> foodOrders = this.getFoodOrderRepository().findByDayForArchived(dateClosure);
+    private synchronized Collection<FoodOrderHistory> archiveFoodOrders(Date dateClosure, boolean generateClosure) {
+        List<FoodOrder> foodOrders = this.foodOrderRepository.findByDayForArchived(dateClosure);
 
         Map<Pair<Date, Product>, FoodOrderHistory> foodOrderHistories = new HashMap<>();
         FoodOrderHistory foodOrderHistory;
 
-        System.out.println("foodOrders: " + foodOrders);
+//        System.out.println("foodOrders: " + foodOrders);
         if (foodOrders.size() > 0) {
 
             for (FoodOrder foodOrder : foodOrders) {
@@ -38,7 +42,7 @@ public class FoodOrderClosureService {
 
                 if (generateClosure) {
                     //Repository
-                    foodOrderHistory = this.getFoodOrderHistoryService().findOrCreate(dateClosure, foodOrder.getProduct());
+                    foodOrderHistory = this.foodOrderHistoryService.findOrCreate(dateClosure, foodOrder.getProduct());
                 }
                 else {
                     //Memory
@@ -50,9 +54,9 @@ public class FoodOrderClosureService {
 
                 if (generateClosure) {
                     //Repository
-                    this.getFoodOrderHistoryService().getFoodOrderHistoryRepository().saveOrUpdate(foodOrderHistory);
+                    this.foodOrderHistoryRepository.saveOrUpdate(foodOrderHistory);
                     foodOrder.setArchived();
-                    this.getFoodOrderRepository().update(foodOrder);
+                    this.foodOrderRepository.update(foodOrder);
                 }
                 else
                     //Memory
@@ -60,23 +64,23 @@ public class FoodOrderClosureService {
             }
         }
 
-        System.out.println("Cant. FoodOrder: " + foodOrders.size() + " agrupadas en:" + foodOrderHistories.size() + ".");
+//        System.out.println("Cant. FoodOrder: " + foodOrders.size() + " agrupadas en:" + foodOrderHistories.size() + ".");
         return foodOrderHistories.values();
     }
 
     @Transactional
-    public List<FoodOrderHistory> showFoodOrderClosure(long from, long to) {
+    public synchronized List<FoodOrderHistory> showFoodOrderClosure(long from, long to) {
         Date dateFrom = DateHelper.getDateWithoutTime(from);
         Date dateTo = DateHelper.getDateWithoutTime(to);
 
-        System.err.println("DayFrom: '" + dateFrom + "'");
-        System.err.println("DayTo: '" + dateTo + "'");
+//        System.err.println("DayFrom: '" + dateFrom + "'");
+//        System.err.println("DayTo: '" + dateTo + "'");
 
         List<FoodOrderHistory> foodOrderHistories = new ArrayList<>();
 
         Date dateClosure = dateFrom;
         while (dateClosure.compareTo(dateTo) <= 0) {
-            System.err.println("DayClosure: '" + dateClosure + "'");
+//            System.err.println("DayClosure: '" + dateClosure + "'");
             foodOrderHistories.addAll(this.archiveFoodOrders(dateClosure, false));
             dateClosure = DateHelper.getTomorrowDate(dateClosure);
         }
@@ -85,47 +89,35 @@ public class FoodOrderClosureService {
     }
 
     @Transactional
-    public long generateFoodOrderClosure(UserModel user) {
+    public synchronized long generateFoodOrderClosure(UserModel user) {
         long dateClosure = DateTime.now().getMillis();
         this.generateFoodOrderClosure(user, dateClosure, dateClosure);
         return dateClosure;
     }
 
     @Transactional
-    public void generateFoodOrderClosure(UserModel user, long from, long to) {
+    public synchronized void generateFoodOrderClosure(UserModel user, long from, long to) {
         Date dateFrom = DateHelper.getDateWithoutTime(from);
         Date dateTo = DateHelper.getDateWithoutTime(to);
 
-        System.err.println("DayFrom: '" + dateFrom + "'");
-        System.err.println("DayTo: '" + dateTo + "'");
+//        System.err.println("DayFrom: '" + dateFrom + "'");
+//        System.err.println("DayTo: '" + dateTo + "'");
 
         Date dateClosure = dateFrom;
         while (dateClosure.compareTo(dateTo) <= 0) {
-            System.err.println("DayClosure: '" + dateClosure + "'");
+//            System.err.println("DayClosure: '" + dateClosure + "'");
             this.archiveFoodOrders(dateClosure, true);
 
             FoodOrderClosure foodOrderClosure = new FoodOrderClosure(user, dateClosure);
-            this.getFoodOrderClosureRepository().save(foodOrderClosure);
+            this.foodOrderClosureRepository.save(foodOrderClosure);
 
             dateClosure = DateHelper.getTomorrowDate(dateClosure);
         }
     }
 
-    public FoodOrderClosureRepository getFoodOrderClosureRepository() {
-        return foodOrderClosureRepository;
-    }
-
-    public FoodOrderHistoryService getFoodOrderHistoryService() {
-        return foodOrderHistoryService;
-    }
-
-    public FoodOrderRepository getFoodOrderRepository() {
-        return foodOrderRepository;
-    }
-
     @Transactional
-    public List<FoodOrderClosure> findAll() {
-        return this.getFoodOrderClosureRepository().findAll();
+    public synchronized List<FoodOrderClosure> findAll() {
+        return this.foodOrderClosureRepository.findAll();
     }
 
 }

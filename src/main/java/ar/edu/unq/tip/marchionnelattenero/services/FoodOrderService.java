@@ -75,6 +75,7 @@ public class FoodOrderService {
         return this.findAllDays(0);
     }
 
+    @Transactional
     public List<Timestamp> findAllDays(int count) {
         return this.getFoodOrderRepository().findAllDaysNotArchived(count);
     }

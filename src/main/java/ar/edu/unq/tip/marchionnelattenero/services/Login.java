@@ -52,6 +52,7 @@ public class Login {
         return this.userModelRepository.findAll();
     }
 
+    @Transactional
     public UserModel getUserByID(Integer id) {
         return this.userModelRepository.findById(id);
     }

@@ -12,6 +12,7 @@ import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.joda.time.DateTime;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Timestamp;
 import java.util.Date;
@@ -19,6 +20,7 @@ import java.util.List;
 
 import static ar.edu.unq.tip.marchionnelattenero.repositories.utils.CriteriaHelper.addRestrictionForDay;
 
+@Transactional
 @Repository("foodOrderRepository")
 public class FoodOrderRepository extends HibernateGenericDAO<FoodOrder> implements GenericRepository<FoodOrder> {
 
@@ -30,20 +32,20 @@ public class FoodOrderRepository extends HibernateGenericDAO<FoodOrder> implemen
         return FoodOrder.class;
     }
 
-    public List<FoodOrder> findAfterMoment(Timestamp moment) {
+    public synchronized List<FoodOrder> findAfterMoment(Timestamp moment) {
         Criteria criteria = this.getSession().createCriteria(this.getDomainClass());
         criteria.add(Restrictions.ge("moment", moment));
         return (List<FoodOrder>) criteria.list();
     }
 
-    public List<FoodOrder> findProductsAfterMoment(Product product, Timestamp moment) {
+    public synchronized List<FoodOrder> findProductsAfterMoment(Product product, Timestamp moment) {
         Criteria criteria = this.getSession().createCriteria(this.getDomainClass());
         criteria.add(Restrictions.eq("product", product));
         criteria.add(Restrictions.ge("moment", moment));
         return (List<FoodOrder>) criteria.list();
     }
 
-    public List<FoodOrder> findOrdersToCook(Product product, Timestamp moment) {
+    public synchronized List<FoodOrder> findOrdersToCook(Product product, Timestamp moment) {
         Criteria criteria = this.getSession().createCriteria(this.getDomainClass());
         criteria.add(Restrictions.eq("product", product));
         criteria.add(Restrictions.eq("state", FoodOrderState.ORDER));
@@ -56,24 +58,24 @@ public class FoodOrderRepository extends HibernateGenericDAO<FoodOrder> implemen
     }
 
     @Override
-    public void save(FoodOrder foodOrder) {
+    public synchronized void save(FoodOrder foodOrder) {
         super.save(foodOrder);
         Cache.getInstance().addFoodOrder(foodOrder);
     }
 
     @Override
-    public void update(FoodOrder foodOrder) {
+    public synchronized void update(FoodOrder foodOrder) {
         super.update(foodOrder);
         Cache.getInstance().addFoodOrder(foodOrder);
     }
 
-    public List<FoodOrder> findByDay(Timestamp moment) {
+    public synchronized List<FoodOrder> findByDay(Timestamp moment) {
         Criteria criteria = this.getSession().createCriteria(this.getDomainClass());
         criteria.add(Restrictions.eq("moment", moment));
         return (List<FoodOrder>) criteria.list();
     }
 
-    public List<Timestamp> findAllDaysNotArchived(int count) {
+    public synchronized List<Timestamp> findAllDaysNotArchived(int count) {
         Timestamp moment = new Timestamp(DateTime.now().getMillis());
 
         Criteria criteria = this.getSession().createCriteria(this.getDomainClass());
@@ -86,14 +88,14 @@ public class FoodOrderRepository extends HibernateGenericDAO<FoodOrder> implemen
         return (List<Timestamp>) criteria.list();
     }
 
-    public List<FoodOrder> findByDayForArchived(Date dateClosure) {
+    public synchronized List<FoodOrder> findByDayForArchived(Date dateClosure) {
         Criteria criteria = this.getSession().createCriteria(this.getDomainClass());
         criteria.add(Restrictions.eq("archived", false));
         addRestrictionForDay(criteria, "moment", dateClosure);
         return (List<FoodOrder>) criteria.list();
     }
 
-    public void setArchived(Date dateClosure, Product product, FoodOrderState state) {
+    public synchronized void setArchived(Date dateClosure, Product product, FoodOrderState state) {
         Criteria criteria = this.getSession().createCriteria(this.getDomainClass());
 
         criteria.add(Restrictions.eq("archived", false));

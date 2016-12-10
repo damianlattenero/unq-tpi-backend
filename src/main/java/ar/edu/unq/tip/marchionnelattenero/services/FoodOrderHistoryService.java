@@ -19,34 +19,33 @@ public class FoodOrderHistoryService {
     private FoodOrderHistoryRepository foodOrderHistoryRepository;
 
     @Transactional
-    public FoodOrderHistory createFoodOrderHistory(Date date, Product product) {
+    public synchronized FoodOrderHistory createFoodOrderHistory(Date date, Product product) {
         Timestamp moment = new Timestamp(date.getTime());
         FoodOrderHistory foodOrderHistory = new FoodOrderHistory(moment, product);
         return foodOrderHistory;
     }
 
-    public FoodOrderHistoryRepository getFoodOrderHistoryRepository() {
-        return foodOrderHistoryRepository;
+    @Transactional
+    public synchronized List<FoodOrderHistory> findAll() {
+        return this.foodOrderHistoryRepository.findAll();
     }
 
     @Transactional
-    public List<FoodOrderHistory> findAll() {
-        return this.getFoodOrderHistoryRepository().findAll();
-    }
-
-    public List<FoodOrderHistory> findByDay(long momentClosure) {
+    public synchronized List<FoodOrderHistory> findByDay(long momentClosure) {
         Date date = new Date(momentClosure);
-        return this.getFoodOrderHistoryRepository().findByDay(date);
+        return this.foodOrderHistoryRepository.findByDay(date);
     }
 
-    public List<FoodOrderHistory> findByDayFromTo(long from, long to) {
+    @Transactional
+    public synchronized List<FoodOrderHistory> findByDayFromTo(long from, long to) {
         Date dateFrom = DateHelper.getDateWithoutTime(from);
         Date dateTo = DateHelper.getDateWithoutTime(to);
-        return this.getFoodOrderHistoryRepository().findByDayFromTo(dateFrom, dateTo);
+        return this.foodOrderHistoryRepository.findByDayFromTo(dateFrom, dateTo);
     }
 
-    public FoodOrderHistory findOrCreate(Date dateClosure, Product product) {
-        FoodOrderHistory foodOrderHistory = this.getFoodOrderHistoryRepository().findBy(dateClosure, product);
+    @Transactional
+    public synchronized FoodOrderHistory findOrCreate(Date dateClosure, Product product) {
+        FoodOrderHistory foodOrderHistory = this.foodOrderHistoryRepository.findBy(dateClosure, product);
 
         if (foodOrderHistory == null)
             foodOrderHistory = this.createFoodOrderHistory(dateClosure, product);

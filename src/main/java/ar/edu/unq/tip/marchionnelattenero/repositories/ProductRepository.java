@@ -6,7 +6,9 @@ import ar.edu.unq.tip.marchionnelattenero.repositories.utils.HibernateGenericDAO
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
+@Transactional
 @Repository("productRepository")
 public class ProductRepository extends HibernateGenericDAO<Product> implements GenericRepository<Product> {
 
