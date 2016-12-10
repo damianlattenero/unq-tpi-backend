@@ -1,6 +1,7 @@
 package ar.edu.unq.tip.marchionnelattenero.controllers.responses;
 
 import ar.edu.unq.tip.marchionnelattenero.models.Place;
+import ar.edu.unq.tip.marchionnelattenero.models.UserModel;
 import ar.edu.unq.tip.marchionnelattenero.models.UserToken;
 import ar.edu.unq.tip.marchionnelattenero.models.caches.Cache;
 import ar.edu.unq.tip.marchionnelattenero.models.caches.CacheProductPending;
@@ -27,7 +28,7 @@ public class CachePendingsResponse {
     }
 
     public static String buildUsers() {
-        Map<UserToken, CacheProductPending> cacheResponse = Cache.getInstance().getUsersPending();
+        Map<UserModel, CacheProductPending> cacheResponse = Cache.getInstance().getUsersPending();
 
         Gson gson = new Gson();
         String jsonInString = gson.toJson(cacheResponse);

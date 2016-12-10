@@ -12,7 +12,7 @@ public class UserTokenService {
 
     private UserTokenRepository userTokenRepository;
 
-    @Transactional
+    /*@Transactional
     public UserToken create(UserModel userModel){
         UserToken token = new UserToken();
         token.setUserModel(userModel);
@@ -27,5 +27,5 @@ public class UserTokenService {
     @Autowired
     public void setUserTokenRepository(UserTokenRepository userTokenRepository) {
         this.userTokenRepository = userTokenRepository;
-    }
+    }*/
 }

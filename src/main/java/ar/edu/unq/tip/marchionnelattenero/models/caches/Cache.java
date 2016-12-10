@@ -2,6 +2,7 @@ package ar.edu.unq.tip.marchionnelattenero.models.caches;
 
 import ar.edu.unq.tip.marchionnelattenero.models.FoodOrder;
 import ar.edu.unq.tip.marchionnelattenero.models.Place;
+import ar.edu.unq.tip.marchionnelattenero.models.UserModel;
 import ar.edu.unq.tip.marchionnelattenero.models.UserToken;
 import ar.edu.unq.tip.marchionnelattenero.repositories.UserModelRepository;
 import ar.edu.unq.tip.marchionnelattenero.repositories.UserTokenRepository;
@@ -24,7 +25,7 @@ public class Cache {
 
     //Mapa de Productos Pendientes x Usuario
     //Map<ProductId, Cant>
-    private Map<UserToken, CacheProductPending> usersPending;
+    private Map<UserModel, CacheProductPending> usersPending;
 
     //Mapa de Productos Pendientes x Ubicacion
     //Map<ProductId, Cant>
@@ -41,7 +42,7 @@ public class Cache {
     public Cache() {
 
         productsPending = new CacheProductPending();
-        usersPending = new HashMap<UserToken, CacheProductPending>();
+        usersPending = new HashMap<UserModel, CacheProductPending>();
         placesPending = new HashMap<Place, CacheProductPending>();
         for (Place place : Place.values()) {
             placesPending.put(place, new CacheProductPending());
@@ -59,7 +60,7 @@ public class Cache {
     public void addFoodOrder(FoodOrder foodOrder) {
         this.productsPending.addFoodOrder(foodOrder);
 
-        this.setUsersByToken(this.usersPending, foodOrder.getToken(), foodOrder);
+        this.setUsersByUserId(this.usersPending, foodOrder.getUser().getUserId(), foodOrder);
 
         this.setPlaces(this.placesPending, foodOrder.getUser().getPlace(), foodOrder);
     }
@@ -74,7 +75,7 @@ public class Cache {
         return productsPending;
     }
 
-    public Map<UserToken, CacheProductPending> getUsersPending() {
+    public Map<UserModel, CacheProductPending> getUsersPending() {
         return usersPending;
     }
 
@@ -82,14 +83,14 @@ public class Cache {
         return placesPending;
     }
 
-    public void setUsersByToken(Map<UserToken, CacheProductPending> usersPending, String token, FoodOrder foodOrder) {
-        if (!usersPending.keySet().stream().filter(user -> user.getToken().equals(token)).findAny().isPresent()) {
-            UserToken userToken = this.userTokenRepository.findByUserToken(token);
+    public void setUsersByUserId(Map<UserModel, CacheProductPending> usersPending, String userId, FoodOrder foodOrder) {
+        UserModel userModel = this.userModelRepository.findByUserId(userId);
+        if (!usersPending.keySet().stream().filter(user -> user.getUserId().equals(userId)).findAny().isPresent()) {
             CacheProductPending cacheProductPending = new CacheProductPending();
             cacheProductPending.addFoodOrder(foodOrder);
-            this.getUsersPending().put(userToken, cacheProductPending);
+            this.getUsersPending().put(userModel, cacheProductPending);
         } else {
-            this.getUsersPending().get(new UserToken(token, foodOrder.getUser())).addFoodOrder(foodOrder);
+            this.getUsersPending().get(userModel).addFoodOrder(foodOrder);
         }
 
     }
@@ -104,13 +105,13 @@ public class Cache {
         }
     }
 
-    public UserToken getUserByToken(String token) {
-        Optional<UserToken> maybe = this.usersPending.keySet().stream()
-                .filter(userToken -> userToken.getToken().equals(token))
+    public UserModel getUserByUserId(String userId) {
+        Optional<UserModel> maybe = this.usersPending.keySet().stream()
+                .filter(user -> user.getUserId().equals(userId))
                 .findFirst();
 
         if(!maybe.isPresent()){
-            return this.userTokenRepository.findByUserToken(token);
+            return this.userModelRepository.findByUserId(userId);
         }else{
             return maybe.get();
         }

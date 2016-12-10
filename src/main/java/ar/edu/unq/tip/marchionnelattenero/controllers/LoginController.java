@@ -33,9 +33,8 @@ public class LoginController {
     @Path("changeUserPlace")
     @Consumes("application/json")
     @Produces("application/json")
-    public UserModelPlaceRR changeUserPlace(@QueryParam("token") String token, UserModelPlaceRR userModelPlaceRR) {
-        UserToken userToken = userTokenRepository.findByUserToken(token);
-        UserModel userModel = userToken.getUserModel();
+    public UserModelPlaceRR changeUserPlace(UserModelPlaceRR userModelPlaceRR) {
+        UserModel userModel = this.userModelRepository.findByUserId(userModelPlaceRR.getUserId());
         userModel.setPlace(Place.valueOf(userModelPlaceRR.getPlace()));
         this.userModelRepository.update(userModel);
         //devuelvo un eco que el front recibira para corroborar que funcionó

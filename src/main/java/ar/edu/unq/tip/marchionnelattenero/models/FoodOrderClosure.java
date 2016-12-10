@@ -19,7 +19,7 @@ public class FoodOrderClosure {
     @Column(name = "momentClosure")
     private Timestamp momentClosure;
 
-    @ManyToOne(optional = false)
+    @ManyToOne()
     private UserModel user;
 
     @Column(name = "moment")

@@ -20,27 +20,26 @@ public class FoodOrderService {
     private ProductRepository productRepository;
 
     @Transactional
-
-    private FoodOrder createFoodOrder(int idProduct, UserToken user, int amount, FoodOrderState state) {
+    private FoodOrder createFoodOrder(int idProduct, UserModel user, int amount, FoodOrderState state) {
         Product p = productRepository.findById(idProduct);
         FoodOrder foodOrder = new FoodOrder(p, state, amount, user);
         this.getFoodOrderRepository().save(foodOrder);
         return foodOrder;
     }
-
-    public FoodOrder order(int idProduct, UserToken user, int amount) {
+    @Transactional
+    public FoodOrder order(int idProduct, UserModel user, int amount) {
         return createFoodOrder(idProduct, user, amount, FoodOrderState.ORDER);
     }
-
-    public FoodOrder cancelOrder(int idProduct, UserToken user, int amount) {
+    @Transactional
+    public FoodOrder cancelOrder(int idProduct, UserModel user, int amount) {
         return createFoodOrder(idProduct, user, amount, FoodOrderState.CANCELORDER);
     }
-
-    public FoodOrder coocked(int idProduct, UserToken user, int amount) {
+    @Transactional
+    public FoodOrder coocked(int idProduct, UserModel user, int amount) {
         Product p = productRepository.findById(idProduct);
         List<FoodOrder> foodOrdersToCook = this.getFoodOrderRepository().findOrdersToCook(p, new Timestamp(DateTime.now().getMillis()));
         for (FoodOrder order : foodOrdersToCook) {
-            System.out.println("Ordenes para cocinar: " + order.getId() + " - Prod: " + order.getProduct().getName());
+            System.out.println("OrdenID : " + order.getId() + " - Prod: " + order.getProduct().getName());
         }
         if (foodOrdersToCook.size()>0)
         {
@@ -50,11 +49,10 @@ public class FoodOrderService {
         }
         return createFoodOrder(idProduct, user, amount, FoodOrderState.COOKED);
     }
-
-    public FoodOrder cancelCoocked(int idProduct, UserToken user, int amount) {
+    @Transactional
+    public FoodOrder cancelCoocked(int idProduct, UserModel user, int amount) {
         return createFoodOrder(idProduct, user, amount, FoodOrderState.CANCELCOOKED);
     }
-
 
     public FoodOrderRepository getFoodOrderRepository() {
         return foodOrderRepository;
@@ -64,15 +62,15 @@ public class FoodOrderService {
     public List<FoodOrder> findAll() {
         return this.getFoodOrderRepository().findAll();
     }
-
+    @Transactional
     public FoodOrder findById(Integer id) {
         return this.getFoodOrderRepository().findById(id);
     }
-
+    @Transactional
     public List<FoodOrder> findByDay(Timestamp day) {
         return this.getFoodOrderRepository().findByDay(day);
     }
-
+    @Transactional
     public List<Timestamp> findAllDays() {
         return this.findAllDays(0);
     }

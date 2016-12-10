@@ -41,13 +41,18 @@ public class UserModel {
         this.email = email;
     }
 
+    @Override
+    public String toString() {
+        return this.getUserId();
+    }
+
     public static long getSerialVersionUID() {
         return serialVersionUID;
     }
 
     @Override
     public boolean equals(Object obj) {
-        return this.getUserId() == ((UserModel) obj).getUserId();
+        return this.getUserId().equals(((UserModel) obj).getUserId());
     }
 
     @Override

@@ -9,6 +9,7 @@ import com.google.gson.Gson;
  */
 public class UserModelPlaceRR {
     private String place;
+    private String userId;
 
     public UserModelPlaceRR(String place) {
         this.place = place;
@@ -27,5 +28,13 @@ public class UserModelPlaceRR {
 
     public static UserModelPlaceRR build(UserModel user) {
         return new UserModelPlaceRR(user.getPlace().toString());
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 }

@@ -3,6 +3,9 @@ package ar.edu.unq.tip.marchionnelattenero.controllers.requests;
 public class FoodOrderClosureBody {
     private long from;
     private long to;
+    String userId;
+
+
 
     @Override
     public String toString() {
@@ -27,5 +30,14 @@ public class FoodOrderClosureBody {
     public void setTo(long to) {
         this.to = to;
     }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
 
 }
