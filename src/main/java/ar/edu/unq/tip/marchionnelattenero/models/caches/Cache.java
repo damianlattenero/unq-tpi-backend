@@ -2,6 +2,7 @@ package ar.edu.unq.tip.marchionnelattenero.models.caches;
 
 import ar.edu.unq.tip.marchionnelattenero.models.FoodOrder;
 import ar.edu.unq.tip.marchionnelattenero.models.Place;
+import ar.edu.unq.tip.marchionnelattenero.models.Product;
 import ar.edu.unq.tip.marchionnelattenero.models.UserModel;
 import ar.edu.unq.tip.marchionnelattenero.repositories.UserModelRepository;
 import ar.edu.unq.tip.marchionnelattenero.repositories.UserTokenRepository;
@@ -114,6 +115,23 @@ public class Cache {
         }
     }
 
+    public void cleanAll() {
+        for (Integer productId :
+                this.productsPending.getAllProductsPending().keySet()){
+            this.productsPending.getAllProductsPending().put(productId, 0);
+        }
+
+        for (Place p :
+                Place.values()) {
+            this.placesPending.put(p, new CacheProductPending());
+        }
+
+        for (UserModel user :
+                userModelRepository.findAll()) {
+            this.usersPending.put(user, new CacheProductPending());
+        }
+
+    }
 }
 
 

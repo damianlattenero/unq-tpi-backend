@@ -33,4 +33,12 @@ public class CacheController {
         return CachePendingsResponse.buildUsers();
     }
 
+    @GET
+    @Path("cleanAll")
+    @Produces("application/json")
+    public String cleanAll() {
+        Cache.getInstance().cleanAll();
+        return "All cleaned";
+    }
+
 }

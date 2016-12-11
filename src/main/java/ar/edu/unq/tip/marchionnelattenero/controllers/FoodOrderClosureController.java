@@ -7,6 +7,7 @@ import ar.edu.unq.tip.marchionnelattenero.controllers.responses.FoodOrderClosure
 import ar.edu.unq.tip.marchionnelattenero.controllers.responses.FoodOrderHistoryCreationResponse;
 import ar.edu.unq.tip.marchionnelattenero.models.FoodOrderHistory;
 import ar.edu.unq.tip.marchionnelattenero.models.UserModel;
+import ar.edu.unq.tip.marchionnelattenero.models.caches.Cache;
 import ar.edu.unq.tip.marchionnelattenero.repositories.UserModelRepository;
 import ar.edu.unq.tip.marchionnelattenero.repositories.UserTokenRepository;
 import ar.edu.unq.tip.marchionnelattenero.services.FoodOrderClosureService;
@@ -56,6 +57,7 @@ public class FoodOrderClosureController {
 //        System.err.println("FoodOrderClosureBody: '" + foodOrderClosureBody.toString() + "'");
         UserModel user = this.userModelRepository.findByUserId(foodOrderClosureBody.getUserId());
         this.foodOrderClosureService.generateFoodOrderClosure(user, foodOrderClosureBody.getFrom(), foodOrderClosureBody.getTo());
+        Cache.getInstance().cleanAll();
         return FoodOrderHistoryCreationResponse.buildMany(this.foodOrderHistoryService.findByDayFromTo(foodOrderClosureBody.getFrom(), foodOrderClosureBody.getTo()));
     }
 
@@ -66,6 +68,7 @@ public class FoodOrderClosureController {
     public List<FoodOrderHistoryCreationResponse> generateClosureToday(GenerateClousureTodayBody generateClousureTodayBody) {
         UserModel user = this.userModelRepository.findByUserId(generateClousureTodayBody.getUserId());
         long dateClosure = this.foodOrderClosureService.generateFoodOrderClosure(user);
+        Cache.getInstance().cleanAll();
         return FoodOrderHistoryCreationResponse.buildMany(this.foodOrderHistoryService.findByDay(dateClosure));
     }
 
