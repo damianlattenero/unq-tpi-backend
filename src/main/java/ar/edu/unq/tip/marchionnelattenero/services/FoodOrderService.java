@@ -70,6 +70,16 @@ public class FoodOrderService {
     }
 
     @Transactional
+    public List<FoodOrder> findAllNotArchived() {
+        return this.getFoodOrderRepository().findAllNotArchived();
+    }
+
+    @Transactional
+    public List<FoodOrder> findAllNotArchived(Timestamp moment) {
+        return this.getFoodOrderRepository().findAllNotArchived(moment);
+    }
+
+    @Transactional
     public FoodOrder findById(Integer id) {
         return this.getFoodOrderRepository().findById(id);
     }

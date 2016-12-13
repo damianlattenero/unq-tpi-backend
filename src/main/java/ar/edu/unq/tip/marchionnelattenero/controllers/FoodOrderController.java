@@ -31,6 +31,13 @@ public class FoodOrderController {
     public List<FoodOrderCreationResponse> getAll() {
         return FoodOrderCreationResponse.buildMany(this.foodOrderService.findAll());
     }
+
+    @GET
+    @Path("allNotArchived")
+    @Produces("application/json")
+    public List<FoodOrderCreationResponse> getAllNotArchived() {
+        return FoodOrderCreationResponse.buildMany(this.foodOrderService.findAllNotArchived());
+    }
 /*
     @POST
     @Path("create")

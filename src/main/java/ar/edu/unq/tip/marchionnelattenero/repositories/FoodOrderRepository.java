@@ -4,6 +4,7 @@ import ar.edu.unq.tip.marchionnelattenero.models.FoodOrder;
 import ar.edu.unq.tip.marchionnelattenero.models.FoodOrderState;
 import ar.edu.unq.tip.marchionnelattenero.models.Product;
 import ar.edu.unq.tip.marchionnelattenero.models.caches.Cache;
+import ar.edu.unq.tip.marchionnelattenero.models.utils.DateHelper;
 import ar.edu.unq.tip.marchionnelattenero.repositories.utils.GenericRepository;
 import ar.edu.unq.tip.marchionnelattenero.repositories.utils.HibernateGenericDAO;
 import org.hibernate.Criteria;
@@ -72,6 +73,19 @@ public class FoodOrderRepository extends HibernateGenericDAO<FoodOrder> implemen
     public List<FoodOrder> findByDay(Timestamp moment) {
         Criteria criteria = this.getSession().createCriteria(this.getDomainClass());
         criteria.add(Restrictions.eq("moment", moment));
+        return (List<FoodOrder>) criteria.list();
+    }
+
+    public List<FoodOrder> findAllNotArchived() {
+        Criteria criteria = this.getSession().createCriteria(this.getDomainClass());
+        criteria.add(Restrictions.eq("archived", false));
+        return (List<FoodOrder>) criteria.list();
+    }
+
+    public List<FoodOrder> findAllNotArchived(Timestamp moment) {
+        Criteria criteria = this.getSession().createCriteria(this.getDomainClass());
+        addRestrictionForDay(criteria, "moment", DateHelper.getDateWithoutTime(moment));
+        criteria.add(Restrictions.eq("archived", false));
         return (List<FoodOrder>) criteria.list();
     }
 
