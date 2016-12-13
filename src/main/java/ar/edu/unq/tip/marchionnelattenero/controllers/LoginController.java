@@ -8,6 +8,7 @@ import ar.edu.unq.tip.marchionnelattenero.controllers.responses.UserResponse;
 import ar.edu.unq.tip.marchionnelattenero.models.Place;
 import ar.edu.unq.tip.marchionnelattenero.models.UserModel;
 import ar.edu.unq.tip.marchionnelattenero.models.UserToken;
+import ar.edu.unq.tip.marchionnelattenero.models.caches.Cache;
 import ar.edu.unq.tip.marchionnelattenero.repositories.UserModelRepository;
 import ar.edu.unq.tip.marchionnelattenero.repositories.UserTokenRepository;
 import ar.edu.unq.tip.marchionnelattenero.services.Login;
@@ -51,20 +52,23 @@ public class LoginController {
         System.out.println("UserAuthorization: userId : " + userAuthorization.getUserId());
         LoginResponse response = new LoginResponse();
 
+        //Reviso si Existe el Usuario en la Base
         UserModel user = this.userModelRepository.findByUserId(userAuthorization.getUserId());
         if (user != null) {
             System.out.println("User: " + user.getName());
-            UserToken newUserToken = new UserToken(userAuthorization.getToken(), user);
             UserToken userToken = this.userTokenRepository.findByUser(user);
 
-            //Si aun no esta loggeado, lo registro
+            //Compruebo si ya está loggeado
             if (userToken != null) {
                 response = LoginResponse.userWasSignedBefore(userToken.getToken(), user);
             } else {
+                //Si aun no esta loggeado, lo registro
+                UserToken newUserToken = new UserToken(userAuthorization.getToken(), user);
                 this.userTokenRepository.save(newUserToken);
                 newUserToken = this.userTokenRepository.findByUser(user);
                 Boolean isSignedIn = (newUserToken != null);
                 response = LoginResponse.SignIn((!isSignedIn) ? "" : newUserToken.getToken(), user, isSignedIn);
+                Cache.getInstance().createCacheForUser(user);
             }
         } else {
             response.setMessage("El usuario no existe!");
@@ -85,16 +89,21 @@ public class LoginController {
         LogoutResponse response = new LogoutResponse();
 
         UserToken userToken = this.userTokenRepository.findByUserToken(userAuthorization.getToken());
+        UserModel user = this.userModelRepository.findByUserId(userAuthorization.getUserId());
+
+        if (user != null) {
+            System.out.println("UserModel: " + user.getNickname());
+//            Cache.getInstance().deleteCacheForUser(user);
+        }
 
         //Deberia estar registrado
         if (userToken != null) {
             System.out.println("UserToken From: " + userToken.getUserModel().getNickname());
             this.userTokenRepository.delete(userToken);
             response = LogoutResponse.LogoutResponseWithToken(userAuthorization.getToken());
+
         } else {
-            UserModel user = this.userModelRepository.findByUserId(userAuthorization.getUserId());
             if (user != null) {
-                System.out.println("UserModel: " + user.getNickname());
                 userToken = this.userTokenRepository.findByUser(user);
 
                 //Deberia estar registrado

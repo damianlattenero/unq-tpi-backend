@@ -2,7 +2,6 @@ package ar.edu.unq.tip.marchionnelattenero.models.caches;
 
 import ar.edu.unq.tip.marchionnelattenero.models.FoodOrder;
 import ar.edu.unq.tip.marchionnelattenero.models.Place;
-import ar.edu.unq.tip.marchionnelattenero.models.Product;
 import ar.edu.unq.tip.marchionnelattenero.models.UserModel;
 import ar.edu.unq.tip.marchionnelattenero.repositories.UserModelRepository;
 import ar.edu.unq.tip.marchionnelattenero.repositories.UserTokenRepository;
@@ -59,11 +58,9 @@ public class Cache {
     public void addFoodOrder(FoodOrder foodOrder) {
         this.productsPending.addFoodOrder(foodOrder);
 
-        this.setUsersByUserId(this.usersPending, foodOrder.getUser().getUserId(), foodOrder);
-
-        this.setPlaces(this.placesPending, foodOrder.getUser().getPlace(), foodOrder);
+        this.addFoodOrderInUsers(foodOrder);
+        this.addFoodOrderInPlaces(foodOrder);
     }
-
 
     public Integer getProductPending(Integer productId) {
         return this.productsPending.getProductPending(productId);
@@ -81,9 +78,24 @@ public class Cache {
         return placesPending;
     }
 
-    public void setUsersByUserId(Map<UserModel, CacheProductPending> usersPending, String userId, FoodOrder foodOrder) {
+    public void createCacheForUser(UserModel userModel) {
+        if (!this.usersPending.keySet().stream().filter(user -> user.getUserId().equals(userModel.getUserId())).findAny().isPresent()) {
+            CacheProductPending cacheProductPending = new CacheProductPending();
+            this.getUsersPending().put(userModel, cacheProductPending);
+        }
+    }
+
+/*
+    public void deleteCacheForUser(UserModel userModel) {
+        this.getUsersPending().remove(userModel);
+    }
+*/
+
+    private void addFoodOrderInUsers(FoodOrder foodOrder) {
+        String userId = foodOrder.getUser().getUserId();
         UserModel userModel = this.userModelRepository.findByUserId(userId);
-        if (!usersPending.keySet().stream().filter(user -> user.getUserId().equals(userId)).findAny().isPresent()) {
+
+        if (!this.usersPending.keySet().stream().filter(user -> user.getUserId().equals(userId)).findAny().isPresent()) {
             CacheProductPending cacheProductPending = new CacheProductPending();
             cacheProductPending.addFoodOrder(foodOrder);
             this.getUsersPending().put(userModel, cacheProductPending);
@@ -93,8 +105,10 @@ public class Cache {
 
     }
 
-    private void setPlaces(Map<Place, CacheProductPending> placesPending, Place place, FoodOrder foodOrder) {
-        if (!placesPending.keySet().stream().filter(place1 -> place1 == place).findAny().isPresent()) {
+    private void addFoodOrderInPlaces(FoodOrder foodOrder) {
+        Place place = foodOrder.getUser().getPlace();
+
+        if (!this.placesPending.keySet().stream().filter(place1 -> place1 == place).findAny().isPresent()) {
             CacheProductPending cacheProductPending = new CacheProductPending();
             cacheProductPending.addFoodOrder(foodOrder);
             this.placesPending.put(place, cacheProductPending);
