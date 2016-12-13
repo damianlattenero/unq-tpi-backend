@@ -51,7 +51,7 @@ public class FoodOrderRepository extends HibernateGenericDAO<FoodOrder> implemen
         criteria.add(Restrictions.eq("state", FoodOrderState.ORDER));
         criteria.add(Restrictions.le("moment", moment));
         criteria.add(Restrictions.eq("isReadyToDeliver", false));
-        criteria.addOrder(Order.desc("moment"));
+        criteria.addOrder(Order.asc("moment"));
         criteria.setFirstResult(0);
         criteria.setMaxResults(1);
         return (List<FoodOrder>) criteria.list();
