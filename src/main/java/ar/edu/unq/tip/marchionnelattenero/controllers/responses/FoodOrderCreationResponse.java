@@ -2,6 +2,7 @@ package ar.edu.unq.tip.marchionnelattenero.controllers.responses;
 
 
 import ar.edu.unq.tip.marchionnelattenero.models.FoodOrder;
+import ar.edu.unq.tip.marchionnelattenero.models.FoodOrderState;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -33,8 +34,34 @@ public class FoodOrderCreationResponse {
                 foodOrder.getProduct().getDescription(),
                 foodOrder.getAmount(),
                 foodOrder.getUser().getNickname(),
-                foodOrder.getState().toString()
+                ConvertStateToString(foodOrder.getState())
         );
+    }
+
+    private static String ConvertStateToString(FoodOrderState state) {
+        String message = "";
+        switch (state) {
+            case ORDER:
+                message = "Producto Ordenado";
+                break;
+
+            case CANCELORDER:
+                message = "Cancelación de Prod. Ordenado";
+                break;
+
+            case COOKED:
+                message = "Cocción de Producto";
+                break;
+
+            case CANCELCOOKED:
+                message = "Cancelación de Cocción";
+                break;
+
+            default:
+                message = state.toString();
+                break;
+        }
+        return message;
     }
 
     public static List<FoodOrderCreationResponse> buildMany(List<FoodOrder> applicationRequests) {
