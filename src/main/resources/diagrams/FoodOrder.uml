@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>ar.edu.unq.tip.marchionnelattenero.models.FoodOrder</OriginalElement>
+  <nodes>
+    <node x="-170.68965517241372" y="547.3448275862069">ar.edu.unq.tip.marchionnelattenero.models.caches.CacheProductPending</node>
+    <node x="830.8965517241381" y="20.17241379310346">ar.edu.unq.tip.marchionnelattenero.models.FoodOrderHistory</node>
+    <node x="528.9310344827585" y="581.4827586206895">ar.edu.unq.tip.marchionnelattenero.models.UserToken</node>
+    <node x="823.9655172413792" y="346.4137931034484">ar.edu.unq.tip.marchionnelattenero.models.FoodOrderClosure</node>
+    <node x="-209.4827586206896" y="4.65517241379311">ar.edu.unq.tip.marchionnelattenero.models.FoodOrder</node>
+    <node x="321.20689655172396" y="442.68965517241395">ar.edu.unq.tip.marchionnelattenero.models.Place</node>
+    <node x="479.34482758620675" y="54.689655172413865">ar.edu.unq.tip.marchionnelattenero.models.Product</node>
+    <node x="263.75862068965534" y="19.758620689655118">ar.edu.unq.tip.marchionnelattenero.models.FoodOrderState</node>
+    <node x="-204.41379310344826" y="351.0">ar.edu.unq.tip.marchionnelattenero.models.caches.Cache</node>
+    <node x="-21.258620689655118" y="310.89655172413796">org.springframework.stereotype.Service</node>
+    <node x="477.9310344827586" y="310.8965517241379">ar.edu.unq.tip.marchionnelattenero.models.UserModel</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="ar.edu.unq.tip.marchionnelattenero.models.caches.Cache" target="ar.edu.unq.tip.marchionnelattenero.models.caches.CacheProductPending">
+      <point x="0.0" y="0.0" />
+      <point x="0.0" y="0.0" />
+    </edge>
+    <edge source="ar.edu.unq.tip.marchionnelattenero.models.FoodOrderClosure" target="ar.edu.unq.tip.marchionnelattenero.models.UserModel">
+      <point x="0.0" y="0.0" />
+      <point x="0.0" y="0.0" />
+    </edge>
+    <edge source="ar.edu.unq.tip.marchionnelattenero.models.FoodOrderHistory" target="ar.edu.unq.tip.marchionnelattenero.models.Product">
+      <point x="0.0" y="0.0" />
+      <point x="0.0" y="0.0" />
+    </edge>
+    <edge source="ar.edu.unq.tip.marchionnelattenero.models.FoodOrder" target="ar.edu.unq.tip.marchionnelattenero.models.FoodOrderState">
+      <point x="0.0" y="0.0" />
+      <point x="0.0" y="0.0" />
+    </edge>
+    <edge source="ar.edu.unq.tip.marchionnelattenero.models.UserToken" target="ar.edu.unq.tip.marchionnelattenero.models.UserModel">
+      <point x="0.0" y="0.0" />
+      <point x="0.0" y="0.0" />
+    </edge>
+    <edge source="ar.edu.unq.tip.marchionnelattenero.models.caches.Cache" target="ar.edu.unq.tip.marchionnelattenero.models.Place">
+      <point x="0.0" y="0.0" />
+      <point x="0.0" y="0.0" />
+    </edge>
+    <edge source="ar.edu.unq.tip.marchionnelattenero.models.FoodOrder" target="ar.edu.unq.tip.marchionnelattenero.models.Product">
+      <point x="0.0" y="0.0" />
+      <point x="0.0" y="0.0" />
+    </edge>
+    <edge source="ar.edu.unq.tip.marchionnelattenero.models.caches.Cache" target="org.springframework.stereotype.Service">
+      <point x="0.0" y="-52.0" />
+      <point x="0.0" y="16.0" />
+    </edge>
+    <edge source="ar.edu.unq.tip.marchionnelattenero.models.UserModel" target="ar.edu.unq.tip.marchionnelattenero.models.Place">
+      <point x="0.0" y="0.0" />
+      <point x="0.0" y="0.0" />
+    </edge>
+    <edge source="ar.edu.unq.tip.marchionnelattenero.models.FoodOrder" target="ar.edu.unq.tip.marchionnelattenero.models.UserModel">
+      <point x="0.0" y="0.0" />
+      <point x="0.0" y="0.0" />
+    </edge>
+    <edge source="ar.edu.unq.tip.marchionnelattenero.models.caches.Cache" target="ar.edu.unq.tip.marchionnelattenero.models.UserModel">
+      <point x="0.0" y="0.0" />
+      <point x="0.0" y="0.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="0.6444444444444445" x="666.1379310344828" y="307.2586206896551" />
+  <SelectedNodes>
+    <node>ar.edu.unq.tip.marchionnelattenero.models.FoodOrderState</node>
+    <node>ar.edu.unq.tip.marchionnelattenero.models.caches.CacheProductPending</node>
+    <node>ar.edu.unq.tip.marchionnelattenero.models.FoodOrderHistory</node>
+    <node>ar.edu.unq.tip.marchionnelattenero.models.UserToken</node>
+    <node>ar.edu.unq.tip.marchionnelattenero.models.caches.Cache</node>
+    <node>org.springframework.stereotype.Service</node>
+    <node>ar.edu.unq.tip.marchionnelattenero.models.FoodOrderClosure</node>
+    <node>ar.edu.unq.tip.marchionnelattenero.models.FoodOrder</node>
+    <node>ar.edu.unq.tip.marchionnelattenero.models.Place</node>
+    <node>ar.edu.unq.tip.marchionnelattenero.models.UserModel</node>
+    <node>ar.edu.unq.tip.marchionnelattenero.models.Product</node>
+  </SelectedNodes>
+  <Categories>
+    <Category>Properties</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+
