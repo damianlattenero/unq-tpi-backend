@@ -9,9 +9,9 @@
 
 ### [Entrega 1](https://drive.google.com/open?id=1U7aW0AQleWplZhHXCy91HwV-h29_dfC8Bn6xLS8c_t8)
 
-### [Entrega 2](https://docs.google.com/document/d/1SOHIeHglybqBAXw31Oo7o9iHgOPF4ZYWiJA_eg_OyrI/edit#heading=h.ngesrlbd9xk4)
+### [Entrega 2](https://docs.google.com/open?id=1SOHIeHglybqBAXw31Oo7o9iHgOPF4ZYWiJA_eg_OyrI)
 
-### [Entrega 3](https://docs.google.com/document/d/1wpdhHAbT6lVTmFr4atPICFJ-3eNhjJjDIUce0bb9a0U/edit?usp=sharing)
+### [Entrega 3](https://docs.google.com/open?id=1dsI8j4lWVvw-I-T4IyCCy3gAhgnVQSSKgfDG7copFL0)
 
 [![Build Status](https://travis-ci.org/marchionne-lattenero/unq-tpi-backend.svg?branch=master)]
 (https://travis-ci.org/marchionne-lattenero/unq-tpi-backend)
