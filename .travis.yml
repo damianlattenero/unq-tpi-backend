@@ -18,10 +18,3 @@ before_install:
   - mysql -u root -e "grant all on unqdb.* to admin@localhost identified by 'admin';"
 script:
   - mvn clean install compile test -Dmaven.compiler.target=1.8 -Dmaven.compiler.source=1.8
-after_script:
-  - cp target/site/jacoco/jacoco.xml .
-  - git clone https://github.com/codacy/codacy-coverage-reporter.git
-  - cd codacy-coverage-reporter/
-  - sbt assembly
-  - cd ..
-  - java -cp codacy-coverage-reporter/target/codacy-coverage-reporter-assembly-1.0.5.jar com.codacy.CodacyCoverageReporter -l Java -r jacoco.xml
