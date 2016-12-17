@@ -1,5 +1,7 @@
 package ar.edu.unq.tip.marchionnelattenero.repositories.utils;
 
+import org.springframework.transaction.annotation.Transactional;
+
 import java.io.Serializable;
 import java.util.List;
 
@@ -9,6 +11,7 @@ import java.util.List;
  *
  * @param <T>
  */
+@Transactional
 public interface GenericRepository<T> {
 
     void save(T entity);

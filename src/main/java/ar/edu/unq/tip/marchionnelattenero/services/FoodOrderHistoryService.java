@@ -12,6 +12,7 @@ import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 
+@Transactional
 @Service("foodOrderHistoryService")
 public class FoodOrderHistoryService {
 

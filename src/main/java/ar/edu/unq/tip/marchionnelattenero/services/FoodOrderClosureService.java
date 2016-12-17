@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 
+@Transactional
 @Service("foodOrderClosureService")
 public class FoodOrderClosureService {
     @Autowired

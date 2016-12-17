@@ -9,7 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-//@Loggable
+@Transactional
 @Service("loginService")
 public class Login {
 

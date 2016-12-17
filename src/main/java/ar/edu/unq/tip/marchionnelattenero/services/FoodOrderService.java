@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.sql.Timestamp;
 import java.util.List;
 
+@Transactional
 @Service("foodOrderService")
 public class FoodOrderService {
     @Autowired
