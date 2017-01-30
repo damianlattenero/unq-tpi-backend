@@ -21,4 +21,4 @@ script:
 deploy:
   provider: heroku
   api_key: 10d234b8-0cb8-4838-9b3c-dbfa9f8dab08
-  app: my-app-123
+  app: virtual-kiosk-argentina
