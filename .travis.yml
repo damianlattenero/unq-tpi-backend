@@ -18,7 +18,3 @@ before_install:
   - mysql -u root -e "grant all on unqdb.* to admin@localhost identified by 'admin';"
 script:
   - mvn clean install compile test -Dmaven.compiler.target=1.8 -Dmaven.compiler.source=1.8
-deploy:
-  provider: heroku
-  api_key: 10d234b8-0cb8-4838-9b3c-dbfa9f8dab08
-  app: virtual-kiosk-argentina
