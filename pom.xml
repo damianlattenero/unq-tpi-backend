@@ -10,7 +10,7 @@
 
 
     <properties>
-        <jetty.version>9.2.10.v20150310</jetty.version>
+        <jetty.version>9.4.2-SNAPSHOT</jetty.version>
         <spring.version>3.2.16.RELEASE</spring.version>
         <spring.security.version>3.2.9.RELEASE</spring.security.version>
         <hibernate.version>3.6.7.Final</hibernate.version>
